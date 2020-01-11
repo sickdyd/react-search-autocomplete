@@ -1,0 +1,12 @@
+language: node_js
+
+node_js: 
+  - stable
+  
+  
+install:
+  - travis_wait npm install
+
+  
+script:
+  - npm run test

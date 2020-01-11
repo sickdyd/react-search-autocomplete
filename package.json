@@ -1,0 +1,57 @@
+{
+  "name": "react-search-autocomplete",
+  "author": "Reale Roberto Josef Antonio",
+  "license": "MIT",
+  "version": "1.0.1",
+  "description": "A search box for React",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "prepublishOnly": "babel ./src --out-dir ./dist -s inline --ignore **/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sickdyd/react-search-autocomplete.git"
+  },
+  "keywords": [
+    "search",
+    "searchbox",
+    "autocomplete",
+    "suggestion",
+    "suggestions",
+    "google"
+  ],
+  "jest": {
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/sickdyd/react-search-autocomplete/issues"
+  },
+  "homepage": "https://github.com/sickdyd/react-search-autocomplete#readme",
+  "dependencies": {
+    "fuse.js": "^3.4.6",
+    "styled-components": "^4.4.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "jest": "^24.9.0",
+    "jest-localstorage-mock": "^2.4.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.12.0",
+    "react-test-renderer": "^16.12.0"
+  },
+  "files": [
+    "dist/*"
+  ]
+}
