@@ -3,6 +3,7 @@
 A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results.
 
 [Click here to see a demo](https://sickdyd.github.io/react-search-autocomplete-demo/).
+[Demo source](https://github.com/sickdyd/react-search-autocomplete-demo).
 
 ### Installing
 
