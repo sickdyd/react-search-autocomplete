@@ -5,6 +5,7 @@
 A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results.
 
 [Click here to see a demo](https://sickdyd.github.io/react-search-autocomplete-demo/).
+
 [Demo source](https://github.com/sickdyd/react-search-autocomplete-demo).
 
 ### Installing
@@ -97,99 +98,99 @@ export default App;
 // Props:
 //
 {
-// The list of items that can be filtered, it can be an array of
-// any type of object. By default the search will be done on the
-// property "name", to change this behaviour, change the fuseOptions
-// prop.
-items,
+  // The list of items that can be filtered, it can be an array of
+  // any type of object. By default the search will be done on the
+  // property "name", to change this behaviour, change the fuseOptions
+  // prop.
+  items,
 
-// By default set to:
-// {
-//   shouldSort: true,
-//   threshold: 0.6,
-//   location: 0,
-//   distance: 100,
-//   maxPatternLength: 32,
-//   minMatchCharLength: 1,
-//   keys: [
-//     "name",
-//   ]
-// }
-//
-// If you want to change what properties has to be searched in
-// you can pass a different key, for example:
-//
-// fuseOptions={
-//  {
-//     keys: [
-//       "name",
-//       "anotherField"
-//     ]
-//   }
-// }
-// Doing so, fuse.js will search for the string also in the
-// provided property.
-// To know more about fuse params, visit https://fusejs.io/
-fuseOptions,
+  // By default set to:
+  // {
+  //   shouldSort: true,
+  //   threshold: 0.6,
+  //   location: 0,
+  //   distance: 100,
+  //   maxPatternLength: 32,
+  //   minMatchCharLength: 1,
+  //   keys: [
+  //     "name",
+  //   ]
+  // }
+  //
+  // If you want to change what properties has to be searched in
+  // you can pass a different key, for example:
+  //
+  // fuseOptions={
+  //  {
+  //     keys: [
+  //       "name",
+  //       "anotherField"
+  //     ]
+  //   }
+  // }
+  // Doing so, fuse.js will search for the string also in the
+  // provided property.
+  // To know more about fuse params, visit https://fusejs.io/
+  fuseOptions,
 
-// Default value: true. If set to false, the items will
-// not be stored in sessionStorage, and each time onSearch
-// is called, cached will be false.
-useCaching,
+  // Default value: true. If set to false, the items will
+  // not be stored in sessionStorage, and each time onSearch
+  // is called, cached will be false.
+  useCaching,
 
-// Default value: 200. When the user is typing, before
-// calling onSearch wait this amount of ms.
-inputDebounce,
+  // Default value: 200. When the user is typing, before
+  // calling onSearch wait this amount of ms.
+  inputDebounce,
 
-// The callback function called when the user is searching.
-onSearch,
+  // The callback function called when the user is searching.
+  onSearch,
 
-// The callback function called when the user selects an item
-// from the filtered list.
-onSelect,
+  // The callback function called when the user selects an item
+  // from the filtered list.
+  onSelect,
 
-// The callback function called when the user focuses the input.
-onFocus,
+  // The callback function called when the user focuses the input.
+  onFocus,
 
-// Default value: true. If set to false, the icon is hidden.
-showIcon,
+  // Default value: true. If set to false, the icon is hidden.
+  showIcon,
 
-// Default value: 10. The max number of results to show at once.
-maxResults,
+  // Default value: 10. The max number of results to show at once.
+  maxResults,
 
-// Default value: "". The placeholder of the search box.
-placeholder,
+  // Default value: "". The placeholder of the search box.
+  placeholder,
 
-// Default value: false. If set to true, automatically
-// set focus on the input.
-autoFocus,
+  // Default value: false. If set to true, automatically
+  // set focus on the input.
+  autoFocus,
 
-// The styling prop allows you to customize the
-// look of the searchbox
-// Default values:
-// {
-//   height: "44px",
-//   border: "1px solid #dfe1e5",
-//   borderRadius: "24px",
-//   backgroundColor: "white",
-//   boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
-//   hoverBackgroundColor: "#eee",
-//   color: "#212121",
-//   fontSize: "16px",
-//   fontFamily: "Arial",
-//   iconColor: "grey",
-//   lineColor: "rgb(232, 234, 237)",
-//   placeholderColor: "grey",
-// };
-//
-// For example, if you want to change the background
-// color you can pass it in the props:
-// styling={
-//   {
-//     backgroundColor: "black"
-//   }
-// }
-styling
+  // The styling prop allows you to customize the
+  // look of the searchbox
+  // Default values:
+  // {
+  //   height: "44px",
+  //   border: "1px solid #dfe1e5",
+  //   borderRadius: "24px",
+  //   backgroundColor: "white",
+  //   boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
+  //   hoverBackgroundColor: "#eee",
+  //   color: "#212121",
+  //   fontSize: "16px",
+  //   fontFamily: "Arial",
+  //   iconColor: "grey",
+  //   lineColor: "rgb(232, 234, 237)",
+  //   placeholderColor: "grey",
+  // };
+  //
+  // For example, if you want to change the background
+  // color you can pass it in the props:
+  // styling={
+  //   {
+  //     backgroundColor: "black"
+  //   }
+  // }
+  styling
 }
 ```
 ----

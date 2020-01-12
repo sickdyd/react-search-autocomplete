@@ -2,7 +2,7 @@
   "name": "react-search-autocomplete",
   "author": "Reale Roberto Josef Antonio",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,15 @@
     "autocomplete",
     "suggestion",
     "suggestions",
-    "google"
+    "google",
+    "autosuggest",
+    "autocomplete",
+    "auto suggest",
+    "auto complete",
+    "react autosuggest",
+    "react autocomplete",
+    "react auto suggest",
+    "react auto complete"
   ],
   "jest": {
     "setupFiles": [
