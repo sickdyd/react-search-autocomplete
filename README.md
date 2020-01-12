@@ -1,3 +1,5 @@
+![travis](https://travis-ci.com/sickdyd/react-search-autocomplete.svg?branch=master)
+
 ## `<ReactSearchAutocomplete>`
 
 A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results.
