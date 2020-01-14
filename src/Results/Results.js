@@ -8,9 +8,15 @@ export default function Results(props) {
   const {
     results,
     onClick,
+    setSearchString,
     showIcon,
     maxResults,
   } = props;
+
+  const handleClick = result => {
+    onClick(result);
+    setSearchString(result.name);
+  }
 
   return (
     results.length > 0 ?
@@ -19,7 +25,11 @@ export default function Results(props) {
         <ul>
           {
             results.slice(0, maxResults).map( result => 
-              <li key={result.id} onMouseDown={()=>onClick(result)}>
+              <li
+                key={result.id}
+                onMouseDown={()=>handleClick(result)}
+                onClick={()=>handleClick(result)}
+              >
                 {showIcon && <div className="icon"><SearchIcon /></div>}
                 <div className="ellipsis" title={result.name}>
                   {result.name}
@@ -35,11 +45,13 @@ export default function Results(props) {
 
 Results.defaultProps = {
   results: [],
+  setSearchString: ()=>{},
 }
 
 Results.propTypes = {
   results: PropTypes.array,
   onClick: PropTypes.func,
+  setSearchString: PropTypes.func,
   showIcon: PropTypes.bool,
   maxResults: PropTypes.number,
 }

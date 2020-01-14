@@ -12,7 +12,7 @@ const StyledReactSearchAutocomplete = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 200px;
 
     border: ${props => props.theme.border};
     border-radius: ${props => props.theme.borderRadius};

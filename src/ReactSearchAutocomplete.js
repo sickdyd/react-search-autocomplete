@@ -91,6 +91,7 @@ export default function ReactSearchAutocomplete(props) {
           <Results
             results={results}
             onClick={onSelect}
+            setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
           />
