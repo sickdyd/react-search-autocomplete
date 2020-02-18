@@ -5,14 +5,13 @@ const StyledReactSearchAutocomplete = styled.div`
   position: relative;
 
   height: ${props => parseInt(props.theme.height) + 2 + "px"};
-  width: 100%;
 
   > .wrapper {
 
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 100%;
 
     border: ${props => props.theme.border};
     border-radius: ${props => props.theme.borderRadius};
