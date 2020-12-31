@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/sickdyd/react-search-autocomplete#readme",
   "dependencies": {
-    "fuse.js": "^3.6.1",
+    "fuse.js": "^6.4.4",
     "styled-components": "^4.4.1"
   },
   "peerDependencies": {
