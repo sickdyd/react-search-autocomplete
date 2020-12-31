@@ -40,19 +40,6 @@ const defaultProps = {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-/* items,
-fuseOptions,
-useCaching,
-inputDebounce,
-onSearch,
-onSelect,
-onFocus,
-showIcon,
-maxResults,
-placeholder,
-autoFocus,
-styling, */
-
 describe('<ReactSearchAutocomplete>', () => {
   test('Renders the search box', () => {
     const { queryByPlaceholderText, container } = render(

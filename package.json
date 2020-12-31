@@ -6,7 +6,7 @@
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --runInBand",
     "prepublishOnly": "babel ./src --out-dir ./dist -s inline --ignore **/*.test.js"
   },
   "repository": {

@@ -35,11 +35,14 @@ export default function ReactSearchAutocomplete(props) {
   }, [items])
 
   React.useEffect(() => {
-    const keyword = searchString.toLowerCase()
+    const keyword = searchString?.toLowerCase()
 
-    if (keyword.length > 0) {
+    if (keyword?.length > 0) {
       const fuse = new Fuse(items, options)
-      const newResults = fuse.search(searchString)
+      const newResults = fuse
+        .search(searchString)
+        .map((result) => ({ id: result.item.id, name: result.item.name }))
+
       if (useCaching) {
         if (keyword in sessionStorage) {
           setResults(JSON.parse(sessionStorage.getItem(keyword)))

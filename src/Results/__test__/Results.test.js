@@ -3,7 +3,7 @@ import { fireEvent, cleanup, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import Results from '../Results'
 
-const items = [
+const results = [
   {
     id: 0,
     name: 'value0'
@@ -23,7 +23,7 @@ const items = [
 ]
 
 const defaultProps = {
-  results: items,
+  results,
   onClick: () => {},
   showIcon: true,
   maxResults: 10,
