@@ -1,9 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const StyledResults = styled.div`
-
   > div.line {
-    border-top-color: ${props => props.theme.lineColor};
+    border-top-color: ${(props) => props.theme.lineColor};
     border-top-style: solid;
     border-top-width: 1px;
 
@@ -19,26 +18,26 @@ const StyledResults = styled.div`
     list-style-type: none;
     margin: 0;
     padding: 0px 0 16px 0;
-    max-height: ${props => props.theme.maxHeight};
-    
+    max-height: ${(props) => props.theme.maxHeight};
+
     > li {
       display: flex;
       align-items: center;
       padding: 4px 0 4px 0;
 
       &:hover {
-        background-color: ${props => props.theme.hoverBackgroundColor};
+        background-color: ${(props) => props.theme.hoverBackgroundColor};
         cursor: default;
       }
 
       > .icon {
-        margin-left: 16px;  
+        margin-left: 16px;
 
         > svg {
-          fill: ${props => props.theme.iconColor};
+          fill: ${(props) => props.theme.iconColor};
         }
       }
-      
+
       > div {
         margin-left: 13px;
       }
@@ -49,6 +48,6 @@ const StyledResults = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`;
+`
 
-export { StyledResults };
+export { StyledResults }

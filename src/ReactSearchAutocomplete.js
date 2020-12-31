@@ -1,15 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Fuse from "fuse.js";
-import { defaultTheme, GlobalStyle, defaultFuseOptions } from "./defaults/defaults";
-import Results from "./Results/Results";
-import { StyledReactSearchAutocomplete } from "./StyledReactSearchAutocomplete";
-import SearchInput from "./SearchInput/SearchInput";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Fuse from 'fuse.js'
+import { defaultTheme, GlobalStyle, defaultFuseOptions } from './defaults/defaults'
+import Results from './Results/Results'
+import { StyledReactSearchAutocomplete } from './StyledReactSearchAutocomplete'
+import SearchInput from './SearchInput/SearchInput'
 import { ThemeProvider } from 'styled-components'
-import { debounce, isCached } from "./utils/utils";
+import { debounce, isCached } from './utils/utils'
 
 export default function ReactSearchAutocomplete(props) {
-
   const {
     items,
     fuseOptions,
@@ -22,55 +21,55 @@ export default function ReactSearchAutocomplete(props) {
     maxResults,
     placeholder,
     autoFocus,
-    styling,
-  } = props;
+    styling
+  } = props
 
-  const theme = {...defaultTheme, ...styling};
-  const options = {...defaultFuseOptions, ...fuseOptions};
+  const theme = { ...defaultTheme, ...styling }
+  const options = { ...defaultFuseOptions, ...fuseOptions }
 
-  const [searchString, setSearchString] = React.useState("");
-  const [results, setResults] = React.useState();
-
-  React.useEffect(() => {
-    if (useCaching) sessionStorage.clear();
-  }, [items]);
+  const [searchString, setSearchString] = React.useState('')
+  const [results, setResults] = React.useState()
 
   React.useEffect(() => {
+    if (useCaching) sessionStorage.clear()
+  }, [items])
 
-    const keyword = searchString.toLowerCase();
+  React.useEffect(() => {
+    const keyword = searchString.toLowerCase()
 
     if (keyword.length > 0) {
-      const fuse = new Fuse(items, options);
-      const newResults = fuse.search(searchString);
+      const fuse = new Fuse(items, options)
+      const newResults = fuse.search(searchString)
       if (useCaching) {
-        if (keyword in sessionStorage) { 
-          setResults(JSON.parse(sessionStorage.getItem(keyword)));
+        if (keyword in sessionStorage) {
+          setResults(JSON.parse(sessionStorage.getItem(keyword)))
         } else {
-          sessionStorage.setItem(keyword, JSON.stringify(newResults));
-          setResults(newResults);
+          sessionStorage.setItem(keyword, JSON.stringify(newResults))
+          setResults(newResults)
         }
       } else {
-        setResults(newResults);
+        setResults(newResults)
       }
     } else {
-      setResults([]);
+      setResults([])
     }
   }, [searchString, items, useCaching])
 
   // This is used to debounce the onSearch props function
   const debounceOnSearch = React.useCallback(
-    inputDebounce > 0 ?
-      debounce((keyword, cached) => onSearch(keyword, cached), inputDebounce)
-    :
-      (keyword, cached) => onSearch(keyword, cached), []);
+    inputDebounce > 0
+      ? debounce((keyword, cached) => onSearch(keyword, cached), inputDebounce)
+      : (keyword, cached) => onSearch(keyword, cached),
+    []
+  )
 
-  const handleSetSearchString = event => {
-    setSearchString(event.target.value);
-    const keyword = event.target.value.toLowerCase();
+  const handleSetSearchString = (event) => {
+    setSearchString(event.target.value)
+    const keyword = event.target.value.toLowerCase()
     if (useCaching) {
-      onSearch && debounceOnSearch(event.target.value, isCached(keyword));
+      onSearch && debounceOnSearch(event.target.value, isCached(keyword))
     } else {
-      onSearch && debounceOnSearch(event.target.value, false);
+      onSearch && debounceOnSearch(event.target.value, false)
     }
   }
 
@@ -108,9 +107,9 @@ ReactSearchAutocomplete.defaultProps = {
   inputDebounce: 200,
   showIcon: true,
   maxResults: 10,
-  placeholder: "",
+  placeholder: '',
   autoFocus: false,
-  styling: {},
+  styling: {}
 }
 
 ReactSearchAutocomplete.propTypes = {
@@ -125,5 +124,5 @@ ReactSearchAutocomplete.propTypes = {
   maxResults: PropTypes.number,
   placeholder: PropTypes.string,
   autoFocus: PropTypes.bool,
-  styling: PropTypes.object,
+  styling: PropTypes.object
 }

@@ -1,19 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { StyledSearchInput } from "./StyledSearchInput";
-import { SearchIcon } from "./../icons/SearchIcon";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { StyledSearchInput } from './StyledSearchInput'
+import { SearchIcon } from './../icons/SearchIcon'
 
 export default function SearchInput(props) {
-
-  const {
-    searchString,
-    setSearchString,
-    autoFocus,
-    onBlur,
-    onFocus,
-    placeholder,
-    showIcon,
-  } = props;
+  const { searchString, setSearchString, autoFocus, onBlur, onFocus, placeholder, showIcon } = props
 
   return (
     <StyledSearchInput>
@@ -32,7 +23,7 @@ export default function SearchInput(props) {
 }
 
 SearchInput.defaultProps = {
-  showIcon: true,
+  showIcon: true
 }
 
 SearchInput.propTypes = {
@@ -42,5 +33,5 @@ SearchInput.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
   placeholder: PropTypes.string,
-  showIcon: PropTypes.bool,
+  showIcon: PropTypes.bool
 }
