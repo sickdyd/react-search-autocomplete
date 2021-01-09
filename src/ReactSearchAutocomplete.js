@@ -106,7 +106,7 @@ export default function ReactSearchAutocomplete(props) {
 ReactSearchAutocomplete.defaultProps = {
   items: [],
   fuseOptions: defaultFuseOptions,
-  useCaching: true,
+  useCaching: false,
   inputDebounce: 200,
   showIcon: true,
   maxResults: 10,

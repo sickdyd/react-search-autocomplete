@@ -4,6 +4,10 @@
 
 A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results. It relies on [Fuse.js v6.4.4](https://fusejs.io/) for the fuzzy search. Check out their website to see the options (you can pass them to this component).
 
+## Multiple search boxes on the same website
+
+If you are using multiple search boxes set `useCaching` to `false` (default is `false`); the implementation for multiple cached search boxes is work in progress.
+
 [Click here to see a demo](https://sickdyd.github.io/react-search-autocomplete-demo/).
 
 [Demo source](https://github.com/sickdyd/react-search-autocomplete-demo).
@@ -151,9 +155,9 @@ export default App
   // The key in `items` that contains the string to display in the
   // results
   useCaching,
-  // Default value: true. If set to false, the items will
-  // not be stored in sessionStorage, and each time onSearch
-  // is called, cached will be false.
+  // Default value: false. If set to true, the items will
+  // be stored in sessionStorage, and each time onSearch
+  // is called, cached will be true.
   inputDebounce,
   // Default value: 200. When the user is typing, before
   // calling onSearch wait this amount of ms.

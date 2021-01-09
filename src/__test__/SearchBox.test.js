@@ -65,7 +65,9 @@ describe('<ReactSearchAutocomplete>', () => {
   })
 
   test('Use sessionStorage if useCaching is true', () => {
-    const { queryByPlaceholderText } = render(<ReactSearchAutocomplete {...defaultProps} />)
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete {...defaultProps} useCaching={true} />
+    )
     const inputElement = queryByPlaceholderText(/search/i)
     fireEvent.change(inputElement, { target: { value: 'cachingEnabled' } })
     expect(sessionStorage.getItem).toHaveBeenCalled()
@@ -75,7 +77,7 @@ describe('<ReactSearchAutocomplete>', () => {
   test('Retrieve cached values', async () => {
     const onSearch = jest.fn()
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
+      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} useCaching={true} />
     )
     const inputElement = queryByPlaceholderText(/search/i)
     fireEvent.change(inputElement, { target: { value: 'cachingEnabled' } })
