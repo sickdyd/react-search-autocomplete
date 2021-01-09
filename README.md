@@ -97,11 +97,11 @@ export default App
   items,
   // The list of items that can be filtered, it can be an array of
   // any type of object. By default the search will be done on the
-  // property "name", to change this behaviour, change the fuseOptions
+  // property "name", to change this behaviour, change the `fuseOptions`
   // prop. Remember that the component uses the key "name" in your
   // items list to display the result. If your list of items does not
-  // have a "name" key, use `resultStringKeyName` to tell what string
-  // to display in the results.
+  // have a "name" key, use `resultStringKeyName` to tell what key (string)
+  // to use to display in the results.
   fuseOptions,
   // To know more about fuse params, visit https://fusejs.io/
   //
@@ -140,7 +140,7 @@ export default App
   //
   //   <ReactSearchAutocomplete
   //     items={items}
-  //     fuseOptions={keys: ["title", "description"]}
+  //     fuseOptions={{ keys: ["title", "description"] }}
   //     resultStringKeyName="title" // necessary, otherwise the results will be blank
   //   />
   //
