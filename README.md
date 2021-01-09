@@ -4,6 +4,11 @@
 
 A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results. It relies on [Fuse.js v6.4.4](https://fusejs.io/) for the fuzzy search. Check out their website to see the options (you can pass them to this component).
 
+## Latest changes
+
+- Support for different `items` structure is now properly working
+- `useCaching` is now by default set to `false`
+
 ## Multiple search boxes on the same website
 
 If you are using multiple search boxes set `useCaching` to `false` (default is `false`); the implementation for multiple cached search boxes is work in progress.
