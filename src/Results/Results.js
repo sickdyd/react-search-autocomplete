@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { SearchIcon } from '../icons/SearchIcon'
 import { StyledResults } from './StyledResults'
 export default function Results(props) {
-  const { results, onClick, setSearchString, showIcon, maxResults } = props
+  const { results, onClick, setSearchString, showIcon, maxResults, resultStringKeyName } = props
 
   const handleClick = (result) => {
     onClick(result)
-    setSearchString(result.name)
+    setSearchString(result[resultStringKeyName])
   }
 
   if (results.length <= 0) {
@@ -30,8 +30,8 @@ export default function Results(props) {
                   <SearchIcon />
                 </div>
               )}
-              <div className="ellipsis" title={result.name}>
-                {result.name}
+              <div className="ellipsis" title={result[resultStringKeyName]}>
+                {result[resultStringKeyName]}
               </div>
             </li>
           )
@@ -43,7 +43,8 @@ export default function Results(props) {
 
 Results.defaultProps = {
   results: [],
-  setSearchString: () => {}
+  setSearchString: () => {},
+  resultStringKeyName: 'name'
 }
 
 Results.propTypes = {
@@ -51,5 +52,6 @@ Results.propTypes = {
   onClick: PropTypes.func,
   setSearchString: PropTypes.func,
   showIcon: PropTypes.bool,
-  maxResults: PropTypes.number
+  maxResults: PropTypes.number,
+  resultStringKeyName: PropTypes.string
 }

@@ -93,16 +93,18 @@ export default App
 #### `<ReactSearchAutocomplete>` Props:
 
 ```js
-//
-// Props:
-//
 {
   items,
   // The list of items that can be filtered, it can be an array of
   // any type of object. By default the search will be done on the
   // property "name", to change this behaviour, change the fuseOptions
-  // prop.
+  // prop. Remember that the component uses the key "name" in your
+  // items list to display the result. If your list of items does not
+  // have a "name" key, use `resultStringKeyName` to tell what string
+  // to display in the results.
   fuseOptions,
+  // To know more about fuse params, visit https://fusejs.io/
+  //
   // By default set to:
   // {
   //   shouldSort: true,
@@ -116,7 +118,34 @@ export default App
   //   ]
   // }
   //
-  // To know more about fuse params, visit https://fusejs.io/
+  // `keys` represent the keys in `items` where the search will be performed.
+  //
+  // Imagine for example that I want to search in `items` by `title` and `description`
+  // in the following items, and display the `title`; this is how to do it:
+  //
+  //   const items = [
+  //     {
+  //       id: 0,
+  //       title: 'Titanic',
+  //       description: 'A movie about love'
+  //     },
+  //     {
+  //       id: 1,
+  //       title: 'Dead Poets Society',
+  //       description: 'A movie about poetry and the meaning of life'
+  //     }
+  //   ]
+  //
+  // I can pass the fuseOptions prop as follows:
+  //
+  //   <ReactSearchAutocomplete
+  //     items={items}
+  //     fuseOptions={keys: ["title", "description"]}
+  //     resultStringKeyName="title" // necessary, otherwise the results will be blank
+  //   />
+  //
+  resultStringKeyName,
+  // The key in `items` that contains the string to display in the results
   useCaching,
   // Default value: true. If set to false, the items will
   // not be stored in sessionStorage, and each time onSearch
@@ -168,6 +197,7 @@ export default App
   // }
 }
 ```
+
 ### License
 
 MIT

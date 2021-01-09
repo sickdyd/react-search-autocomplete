@@ -21,7 +21,8 @@ export default function ReactSearchAutocomplete(props) {
     maxResults,
     placeholder,
     autoFocus,
-    styling
+    styling,
+    resultStringKeyName
   } = props
 
   const theme = { ...defaultTheme, ...styling }
@@ -39,9 +40,7 @@ export default function ReactSearchAutocomplete(props) {
 
     if (keyword?.length > 0) {
       const fuse = new Fuse(items, options)
-      const newResults = fuse
-        .search(searchString)
-        .map((result) => ({ id: result.item.id, name: result.item.name }))
+      const newResults = fuse.search(searchString).map((result) => ({ ...result.item }))
 
       if (useCaching) {
         if (keyword in sessionStorage) {
@@ -96,6 +95,7 @@ export default function ReactSearchAutocomplete(props) {
             setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
+            resultStringKeyName={resultStringKeyName}
           />
         </div>
       </StyledReactSearchAutocomplete>
@@ -112,7 +112,8 @@ ReactSearchAutocomplete.defaultProps = {
   maxResults: 10,
   placeholder: '',
   autoFocus: false,
-  styling: {}
+  styling: {},
+  resultStringKeyName: 'name'
 }
 
 ReactSearchAutocomplete.propTypes = {
@@ -127,5 +128,6 @@ ReactSearchAutocomplete.propTypes = {
   maxResults: PropTypes.number,
   placeholder: PropTypes.string,
   autoFocus: PropTypes.bool,
-  styling: PropTypes.object
+  styling: PropTypes.object,
+  resultStringKeyName: PropTypes.string
 }
