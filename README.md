@@ -100,8 +100,8 @@ export default App
   // property "name", to change this behaviour, change the `fuseOptions`
   // prop. Remember that the component uses the key "name" in your
   // items list to display the result. If your list of items does not
-  // have a "name" key, use `resultStringKeyName` to tell what key (string)
-  // to use to display in the results.
+  // have a "name" key, use `resultStringKeyName` to tell what key
+  // (string) to use to display in the results.
   fuseOptions,
   // To know more about fuse params, visit https://fusejs.io/
   //
@@ -118,10 +118,12 @@ export default App
   //   ]
   // }
   //
-  // `keys` represent the keys in `items` where the search will be performed.
+  // `keys` represent the keys in `items` where the search will be
+  // performed.
   //
-  // Imagine for example that I want to search in `items` by `title` and `description`
-  // in the following items, and display the `title`; this is how to do it:
+  // Imagine for example that I want to search in `items` by `title`
+  // and `description` in the following items, and display the `title`;
+  // this is how to do it:
   //
   //   const items = [
   //     {
@@ -141,11 +143,13 @@ export default App
   //   <ReactSearchAutocomplete
   //     items={items}
   //     fuseOptions={{ keys: ["title", "description"] }}
-  //     resultStringKeyName="title" // necessary, otherwise the results will be blank
+  //     // necessary, otherwise the results will be blank
+  //     resultStringKeyName="title"
   //   />
   //
   resultStringKeyName,
-  // The key in `items` that contains the string to display in the results
+  // The key in `items` that contains the string to display in the
+  // results
   useCaching,
   // Default value: true. If set to false, the items will
   // not be stored in sessionStorage, and each time onSearch
