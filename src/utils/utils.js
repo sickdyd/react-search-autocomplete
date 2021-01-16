@@ -22,6 +22,7 @@ export function debounce(func, wait, immediate) {
 export const isCached = (keyword) => {
   keyword = keyword.toLowerCase()
   const cachedValues = JSON.parse(sessionStorage.getItem(keyword.toLowerCase()))
+
   if (cachedValues) return cachedValues
-  return false
+  return []
 }

@@ -1,12 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Fuse from 'fuse.js'
-import { defaultTheme, GlobalStyle, defaultFuseOptions } from './defaults/defaults'
-import Results from './Results/Results'
-import { StyledReactSearchAutocomplete } from './StyledReactSearchAutocomplete'
-import SearchInput from './SearchInput/SearchInput'
+import { defaultTheme, GlobalStyle, defaultFuseOptions } from '../config/config'
+import Results from './Results'
+import SearchInput from './SearchInput'
 import { ThemeProvider } from 'styled-components'
-import { debounce, isCached } from './utils/utils'
+import { debounce, isCached } from '../utils/utils'
+import styled from 'styled-components'
+
+const StyledReactSearchAutocomplete = styled.div`
+  position: relative;
+
+  height: ${(props) => parseInt(props.theme.height) + 2 + 'px'};
+
+  > .wrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    border: ${(props) => props.theme.border};
+    border-radius: ${(props) => props.theme.borderRadius};
+
+    background-color: ${(props) => props.theme.backgroundColor};
+    color: ${(props) => props.theme.color};
+
+    font-size: ${(props) => props.theme.fontSize};
+
+    z-index: ${(props) => props.theme.zIndex};
+
+    &:hover {
+      box-shadow: ${(props) => props.theme.boxShadow};
+    }
+    &:active {
+      box-shadow: ${(props) => props.theme.boxShadow};
+    }
+    &:focus-within {
+      box-shadow: ${(props) => props.theme.boxShadow};
+    }
+  }
+`
 
 export default function ReactSearchAutocomplete(props) {
   const {
@@ -40,7 +73,14 @@ export default function ReactSearchAutocomplete(props) {
 
     if (keyword?.length > 0) {
       const fuse = new Fuse(items, options)
-      const newResults = fuse.search(searchString).map((result) => ({ ...result.item }))
+      const newResults = fuse
+        .search(searchString)
+        .map((result) => ({ ...result.item }))
+        .slice(0, maxResults)
+
+      useCaching
+        ? debounceOnSearch(searchString, isCached(keyword), newResults)
+        : debounceOnSearch(searchString, [], newResults)
 
       if (useCaching) {
         if (keyword in sessionStorage) {
@@ -60,19 +100,13 @@ export default function ReactSearchAutocomplete(props) {
   // This is used to debounce the onSearch props function
   const debounceOnSearch = React.useCallback(
     inputDebounce > 0
-      ? debounce((keyword, cached) => onSearch(keyword, cached), inputDebounce)
-      : (keyword, cached) => onSearch(keyword, cached),
+      ? debounce((keyword, cached, results) => onSearch(keyword, cached, results), inputDebounce)
+      : (keyword, cached, results) => onSearch(keyword, cached, results),
     []
   )
 
   const handleSetSearchString = (event) => {
     setSearchString(event.target.value)
-    const keyword = event.target.value.toLowerCase()
-    if (useCaching) {
-      onSearch && debounceOnSearch(event.target.value, isCached(keyword))
-    } else {
-      onSearch && debounceOnSearch(event.target.value, false)
-    }
   }
 
   return (
@@ -106,6 +140,7 @@ export default function ReactSearchAutocomplete(props) {
 ReactSearchAutocomplete.defaultProps = {
   items: [],
   fuseOptions: defaultFuseOptions,
+  onSearch: () => {},
   useCaching: false,
   inputDebounce: 200,
   showIcon: true,

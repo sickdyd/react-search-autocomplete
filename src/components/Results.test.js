@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, cleanup, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import Results from '../Results'
+import Results from './Results'
 
 const results = [
   {
@@ -33,7 +33,7 @@ const defaultProps = {
 afterEach(cleanup)
 
 describe('<Results>', () => {
-  test('Renders results', () => {
+  it('renders results', () => {
     const { container } = render(<Results {...defaultProps} />)
     expect(container.getElementsByClassName('line').length).toBe(1)
     expect(container.getElementsByTagName('li').length).toBe(4)
@@ -42,12 +42,12 @@ describe('<Results>', () => {
     expect(container.getElementsByTagName('svg').length).toBe(4)
   })
 
-  test('Shows no results', () => {
+  it('shows no results', () => {
     const { container } = render(<Results {...defaultProps} results={[]} />)
     expect(container.querySelector('.line')).toBe(null)
   })
 
-  test('onClick is called when <li> element clicked', () => {
+  it('calls onClick when result is clicked', () => {
     const onClick = jest.fn()
     const { container } = render(<Results {...defaultProps} onClick={onClick} />)
     const liTag = container.getElementsByTagName('li')[0]
@@ -55,12 +55,12 @@ describe('<Results>', () => {
     expect(onClick).toHaveBeenCalled()
   })
 
-  test('The icon is not visible when showIcon is false', () => {
+  it('hides the icon if showIcon is false', () => {
     const { container } = render(<Results {...defaultProps} showIcon={false} />)
     expect(container.querySelector('.icon')).toBe(null)
   })
 
-  test('Renders only 2 result', () => {
+  it('renders only 2 result', () => {
     const { container } = render(<Results {...defaultProps} maxResults={2} />)
     expect(container.getElementsByClassName('line').length).toBe(1)
     expect(container.getElementsByClassName('icon').length).toBe(2)

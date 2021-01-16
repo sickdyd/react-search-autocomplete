@@ -12,7 +12,8 @@ const defaultTheme = {
   fontFamily: 'Arial',
   iconColor: 'grey',
   lineColor: 'rgb(232, 234, 237)',
-  placeholderColor: 'grey'
+  placeholderColor: 'grey',
+  zIndex: 0
 }
 
 const GlobalStyle = createGlobalStyle`
