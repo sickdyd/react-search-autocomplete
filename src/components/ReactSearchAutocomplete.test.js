@@ -1,10 +1,8 @@
 import React from 'react'
 import '@babel/polyfill'
-import { fireEvent, cleanup, render } from '@testing-library/react'
+import { fireEvent, cleanup, render, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import ReactSearchAutocomplete from './ReactSearchAutocomplete'
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+import ReactSearchAutocomplete, { DEFAULT_INPUT_DEBOUNCE } from './ReactSearchAutocomplete'
 
 beforeEach(() => {
   localStorage.clear()
@@ -40,6 +38,14 @@ describe('<ReactSearchAutocomplete>', () => {
     placeholder: 'Search'
   }
 
+  let onSearch = jest.fn()
+
+  beforeEach(() => jest.useFakeTimers())
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders the search box', () => {
     const { queryByPlaceholderText, container } = render(
       <ReactSearchAutocomplete {...defaultProps} />
@@ -52,76 +58,122 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(container.getElementsByClassName('wrapper').length).toBe(1)
   })
 
-  it('returns an array of results', async () => {
-    const onSearch = jest.fn()
-
-    const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} useCaching={false} />
+  it('updates results if items change', async () => {
+    const { queryByPlaceholderText, container } = render(
+      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
 
     fireEvent.change(inputElement, { target: { value: 'value' } })
-    await delay(300)
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenCalledWith('value', items)
+
+    const newItems = [
+      {
+        id: 0,
+        name: 'another0'
+      },
+      {
+        id: 1,
+        name: 'another1'
+      },
+      {
+        id: 2,
+        name: 'another2'
+      },
+      {
+        id: 3,
+        name: 'another3'
+      }
+    ]
+
+    render(<ReactSearchAutocomplete {...defaultProps} items={newItems} onSearch={onSearch} />, {
+      container
+    })
+
+    fireEvent.change(inputElement, { target: { value: 'another' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenCalledWith('another', newItems)
+  })
+
+  it('returns an array of results', async () => {
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'value' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
     expect(sessionStorage.getItem).not.toHaveBeenCalled()
     expect(sessionStorage.setItem).not.toHaveBeenCalled()
-    expect(onSearch).toHaveBeenCalledWith('value', [], items)
+    expect(onSearch).toHaveBeenCalledWith('value', items)
   })
 
   it('returns an array of one result', async () => {
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} useCaching={false} />
+      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
 
     fireEvent.change(inputElement, { target: { value: '0' } })
-    await delay(300)
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
     expect(sessionStorage.getItem).not.toHaveBeenCalled()
     expect(sessionStorage.setItem).not.toHaveBeenCalled()
-    expect(onSearch).toHaveBeenCalledWith('0', [], [{ id: 0, name: 'value0' }])
+    expect(onSearch).toHaveBeenCalledWith('0', [{ id: 0, name: 'value0' }])
   })
 
   it("doesn't use sessionStorage if useCaching is false", async () => {
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} useCaching={false} />
+      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
 
     fireEvent.change(inputElement, { target: { value: 'some string' } })
-    await delay(300)
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
     expect(sessionStorage.getItem).not.toHaveBeenCalled()
     expect(sessionStorage.setItem).not.toHaveBeenCalled()
-    expect(onSearch).toHaveBeenCalledWith('some string', [], [])
+    expect(onSearch).toHaveBeenCalledWith('some string', [])
   })
 
   it('uses sessionStorage if useCaching is true', async () => {
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
       <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} useCaching={true} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
+
     fireEvent.change(inputElement, { target: { value: 'some string' } })
-    await delay(300)
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.change(inputElement, { target: { value: 'some string 1' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.change(inputElement, { target: { value: 'some string' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
     expect(sessionStorage.getItem).toHaveBeenCalled()
     expect(sessionStorage.setItem).toHaveBeenCalled()
-    expect(onSearch).toHaveBeenCalledWith('some string', [], [])
+    expect(onSearch).toHaveBeenCalledWith('some string', [])
   })
 
   it('retrieves cached values', async () => {
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
       <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} useCaching={true} />
     )
@@ -130,24 +182,24 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement, { target: { value: 'some string' } })
 
-    await delay(300)
-    expect(onSearch).toHaveBeenCalledWith('some string', [], [])
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenCalledWith('some string', [])
 
     fireEvent.change(inputElement, { target: { value: 'another string' } })
 
-    await delay(300)
-    expect(onSearch).toHaveBeenCalledWith('another string', [], [])
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenCalledWith('another string', [])
 
     fireEvent.change(inputElement, { target: { value: 'some string' } })
 
-    await delay(300)
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
     // the first parameter is the string searched, the second is the array of results or cached results
-    expect(onSearch).toHaveBeenCalledWith('some string', [], [])
+    expect(onSearch).toHaveBeenCalledWith('some string', [])
   })
 
   it('calls onSearch on change', async () => {
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
       <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
     )
@@ -156,8 +208,9 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement, { target: { value: 'v' } })
 
-    await delay(300)
-    expect(onSearch).toHaveBeenCalledWith('v', [], items)
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenCalledWith('v', items)
   })
 
   it('calls onSelect on item selection', () => {
@@ -170,6 +223,8 @@ describe('<ReactSearchAutocomplete>', () => {
     const inputElement = queryByPlaceholderText(/search/i)
 
     fireEvent.change(inputElement, { target: { value: 'v' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
     const liNode = queryAllByTitle('value0')[0]
 
@@ -203,9 +258,6 @@ describe('<ReactSearchAutocomplete>', () => {
   })
 
   it('uses debounce on search', () => {
-    jest.useFakeTimers()
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
       <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
     )
@@ -216,15 +268,12 @@ describe('<ReactSearchAutocomplete>', () => {
       fireEvent.change(inputElement, { target: { value: Math.random() } })
     }
 
-    jest.runAllTimers()
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
     expect(onSearch).toBeCalledTimes(1)
   })
 
   it("doesn't use debounce if inputDebounce is 0", () => {
-    jest.useFakeTimers()
-    const onSearch = jest.fn()
-
     const { queryByPlaceholderText } = render(
       <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} inputDebounce={0} />
     )
@@ -236,8 +285,6 @@ describe('<ReactSearchAutocomplete>', () => {
     for (let i = 0; i < 10; i++) {
       fireEvent.change(inputElement, { target: { value: Math.random() } })
     }
-
-    jest.runAllTimers()
 
     expect(onSearch).toBeCalledTimes(10)
   })
@@ -265,6 +312,8 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement, { target: { value: 'v' } })
 
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(4)
       expect(ul.getElementsByTagName('svg').length).toBe(4)
@@ -279,6 +328,8 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement, { target: { value: '0' } })
 
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
       expect(queryAllByTitle('value0').length).toBe(1)
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(1)
@@ -292,7 +343,9 @@ describe('<ReactSearchAutocomplete>', () => {
 
       const inputElement = queryByPlaceholderText(/search/i)
 
-      fireEvent.change(inputElement, { target: { value: 'despair' } })
+      fireEvent.change(inputElement, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
       expect(container.getElementsByTagName('ul').length).toBe(0)
     })
@@ -339,6 +392,8 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement, { target: { value: 'a' } })
 
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(4)
       expect(ul.getElementsByTagName('svg').length).toBe(4)
@@ -352,6 +407,8 @@ describe('<ReactSearchAutocomplete>', () => {
       const inputElement = queryByPlaceholderText(/search/i)
 
       fireEvent.change(inputElement, { target: { value: 'dead' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
       expect(queryAllByTitle('Dead Poets Society').length).toBe(1)
       const ul = container.getElementsByTagName('ul')[0]
@@ -367,6 +424,8 @@ describe('<ReactSearchAutocomplete>', () => {
       const inputElement = queryByPlaceholderText(/search/i)
 
       fireEvent.change(inputElement, { target: { value: 'despaira' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
       expect(container.getElementsByTagName('ul').length).toBe(0)
     })
@@ -398,6 +457,8 @@ describe('<ReactSearchAutocomplete>', () => {
       const inputElement = queryByPlaceholderText(/search/i)
 
       fireEvent.change(inputElement, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(10)
