@@ -7,7 +7,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --verbose --runInBand",
-    "prepublishOnly": "babel ./src --out-dir ./dist -s inline --ignore **/*.test.js"
+    "prepublishOnly": "rm -rf ./dist/*.* && babel ./src --out-dir ./dist --ignore **/*.test.js && minify ./dist/ --out-dir ./dist/"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,19 @@
     "react auto suggest",
     "react auto complete"
   ],
+  "browserslist": {
+    "production": [
+      "> 0.2%",
+      "not dead",
+      "not op_mini all",
+      "not ie <= 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "jest": {
     "setupFiles": [
       "jest-localstorage-mock"
@@ -53,6 +66,7 @@
     "@babel/preset-react": "^7.12.10",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
+    "babel-minify": "^0.5.1",
     "jest": "^26.6.3",
     "jest-localstorage-mock": "^2.4.6",
     "react": "^16.14.0",
