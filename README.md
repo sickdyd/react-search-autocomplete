@@ -6,8 +6,14 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Latest changes
 
-- Improved performance with large amount of items
-- `onSearch` now returns they `keyword` searched and `[]` instead of `false` if there are no cached results or results
+`3.0.0`
+
+- `onSearch` will have as the first argument of the callback the `keyword` searched and for the second the `results`
+- `onSearch` `results` now will be `[]` instead of `false` if there are no cached results or results
+- Greatly improved performance with large amount of items
+
+`2.0.4`
+
 - Support for different `items` structure is now properly working
 - `useCaching` is now by default set to `false`
 
@@ -66,7 +72,8 @@ function App() {
   ]
 
   const handleOnSearch = (string, results) => {
-    // onSearch returns the string searched and the results.
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
     // If useCached is true and results are are cached it
     // returns cached results
     console.log(string, results)
