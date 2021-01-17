@@ -6,6 +6,10 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Latest changes
 
+`3.0.1`
+
+- Reduced bundle size
+
 `3.0.0`
 
 - `onSearch` will have as the first argument of the callback the `keyword` searched and for the second the `results`
