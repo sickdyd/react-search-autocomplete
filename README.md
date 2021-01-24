@@ -10,6 +10,11 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Latest changes
 
+`5.0.0`
+
+- Dropped support of useCaching
+- Fixed issue when setting state onSearch callback
+
 `4.0.0`
 
 - Removed global styles for font-size, font-family and border-box (now applied only to the component)
@@ -82,8 +87,6 @@ function App() {
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
-    // If useCached is true and results are are cached it
-    // returns cached results
     console.log(string, results)
   }
 
@@ -176,10 +179,6 @@ export default App
   resultStringKeyName,
   // The key in `items` that contains the string to display in the
   // results
-  useCaching,
-  // Default value: false. If set to true, the items will
-  // be stored in sessionStorage, and each time onSearch
-  // is called, cached will be true.
   inputDebounce,
   // Default value: 200. When the user is typing, before
   // calling onSearch wait this amount of ms.
