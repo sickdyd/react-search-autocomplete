@@ -101,6 +101,7 @@ ReactSearchAutocomplete.defaultProps = {
   items: [],
   fuseOptions: defaultFuseOptions,
   onSearch: () => {},
+  onSelect: () => {},
   inputDebounce: DEFAULT_INPUT_DEBOUNCE,
   showIcon: true,
   maxResults: MAX_RESULTS,

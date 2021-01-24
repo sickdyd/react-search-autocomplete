@@ -10,6 +10,10 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Latest changes
 
+`5.0.2`
+
+- Fixed error when not passing `onSelect` callback
+
 `5.0.1`
 
 - Fixed but that would not set the input text to the item selected
