@@ -10,6 +10,11 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Latest changes
 
+`5.0.1`
+
+- Fixed but that would not set the input text to the item selected
+- Fixed a bug that would trigger a search when selecting
+
 `5.0.0`
 
 - Dropped support of useCaching

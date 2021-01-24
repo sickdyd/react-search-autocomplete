@@ -4,11 +4,11 @@ import { SearchIcon } from './SearchIcon'
 import styled from 'styled-components'
 
 export default function Results(props) {
-  const { results, onClick, setSearchString, showIcon, maxResults, resultStringKeyName } = props
+  const { results, onClick, setDisplayString, showIcon, maxResults, resultStringKeyName } = props
 
   const handleClick = (result) => {
     onClick(result)
-    setSearchString(result[resultStringKeyName])
+    setDisplayString(result[resultStringKeyName])
   }
 
   if (results.length <= 0) {
@@ -44,7 +44,7 @@ export default function Results(props) {
 
 Results.defaultProps = {
   results: [],
-  setSearchString: () => {},
+  setDisplayString: () => {},
   resultStringKeyName: 'name'
 }
 

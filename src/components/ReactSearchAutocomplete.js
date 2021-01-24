@@ -48,6 +48,8 @@ export default function ReactSearchAutocomplete(props) {
     } else {
       setResults(newResults)
     }
+
+    setDisplayString(searchString)
   }, [searchString])
 
   const fuseResults = (keyword) =>
@@ -84,7 +86,7 @@ export default function ReactSearchAutocomplete(props) {
           <Results
             results={results}
             onClick={onSelect}
-            setSearchString={setSearchString}
+            setDisplayString={setDisplayString}
             showIcon={showIcon}
             maxResults={maxResults}
             resultStringKeyName={resultStringKeyName}
