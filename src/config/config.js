@@ -1,5 +1,3 @@
-import { createGlobalStyle } from 'styled-components'
-
 const defaultTheme = {
   height: '44px',
   border: '1px solid #dfe1e5',
@@ -16,14 +14,6 @@ const defaultTheme = {
   zIndex: 0
 }
 
-const GlobalStyle = createGlobalStyle`
-  * {
-    box-sizing: border-box;
-    font-family: ${(props) => props.theme.fontFamily};
-    font-size: ${(props) => props.theme.fontSize};
-  }
-`
-
 const defaultFuseOptions = {
   shouldSort: true,
   threshold: 0.6,
@@ -34,4 +24,4 @@ const defaultFuseOptions = {
   keys: ['name']
 }
 
-export { defaultTheme, GlobalStyle, defaultFuseOptions }
+export { defaultTheme, defaultFuseOptions }

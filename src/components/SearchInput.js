@@ -52,6 +52,8 @@ const StyledSearchInput = styled.div`
     outline: none;
 
     background-color: rgba(0, 0, 0, 0);
+    font-size: inherit;
+    font-family: inherit;
 
     color: ${(props) => props.theme.color};
   }

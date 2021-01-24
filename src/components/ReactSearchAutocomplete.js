@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Fuse from 'fuse.js'
-import { defaultTheme, GlobalStyle, defaultFuseOptions } from '../config/config'
+import { defaultTheme, defaultFuseOptions } from '../config/config'
 import Results from './Results'
 import SearchInput from './SearchInput'
 import { ThemeProvider } from 'styled-components'
@@ -76,7 +76,6 @@ export default function ReactSearchAutocomplete(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
       <StyledReactSearchAutocomplete>
         <div className="wrapper">
           <SearchInput
@@ -150,6 +149,7 @@ const StyledReactSearchAutocomplete = styled.div`
     color: ${(props) => props.theme.color};
 
     font-size: ${(props) => props.theme.fontSize};
+    font-family: ${(props) => props.theme.fontFamily};
 
     z-index: ${(props) => props.theme.zIndex};
 
