@@ -6,6 +6,10 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Latest changes
 
+`4.0.0`
+
+- Removed global styles for font-size, font-family and border-box (now applied only to the component)
+
 `3.0.1`
 
 - Reduced bundle size
