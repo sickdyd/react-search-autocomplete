@@ -4,6 +4,10 @@
 
 A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results. It relies on [Fuse.js v6.4.4](https://fusejs.io/) for the fuzzy search. Check out their website to see the options (you can pass them to this component).
 
+[Click here to see a demo](https://sickdyd.github.io/react-search-autocomplete-demo/).
+
+[Demo source](https://github.com/sickdyd/react-search-autocomplete-demo).
+
 ## Latest changes
 
 `4.0.0`
@@ -28,10 +32,6 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 ## Multiple search boxes on the same website
 
 If you are using multiple search boxes set `useCaching` to `false` (default is `false`); the implementation for multiple cached search boxes is work in progress.
-
-[Click here to see a demo](https://sickdyd.github.io/react-search-autocomplete-demo/).
-
-[Demo source](https://github.com/sickdyd/react-search-autocomplete-demo).
 
 ### Installing
 
@@ -121,85 +121,85 @@ export default App
 ```js
 {
   items,
-    // The list of items that can be filtered, it can be an array of
-    // any type of object. By default the search will be done on the
-    // property "name", to change this behaviour, change the `fuseOptions`
-    // prop. Remember that the component uses the key "name" in your
-    // items list to display the result. If your list of items does not
-    // have a "name" key, use `resultStringKeyName` to tell what key
-    // (string) to use to display in the results.
-    fuseOptions,
-    // To know more about fuse params, visit https://fusejs.io/
-    //
-    // By default set to:
-    // {
-    //   shouldSort: true,
-    //   threshold: 0.6,
-    //   location: 0,
-    //   distance: 100,
-    //   maxPatternLength: 32,
-    //   minMatchCharLength: 1,
-    //   keys: [
-    //     "name",
-    //   ]
-    // }
-    //
-    // `keys` represent the keys in `items` where the search will be
-    // performed.
-    //
-    // Imagine for example that I want to search in `items` by `title`
-    // and `description` in the following items, and display the `title`;
-    // this is how to do it:
-    //
-    //   const items = [
-    //     {
-    //       id: 0,
-    //       title: 'Titanic',
-    //       description: 'A movie about love'
-    //     },
-    //     {
-    //       id: 1,
-    //       title: 'Dead Poets Society',
-    //       description: 'A movie about poetry and the meaning of life'
-    //     }
-    //   ]
-    //
-    // I can pass the fuseOptions prop as follows:
-    //
-    //   <ReactSearchAutocomplete
-    //     items={items}
-    //     fuseOptions={{ keys: ["title", "description"] }}
-    //     // necessary, otherwise the results will be blank
-    //     resultStringKeyName="title"
-    //   />
-    //
-    resultStringKeyName,
-    // The key in `items` that contains the string to display in the
-    // results
-    useCaching,
-    // Default value: false. If set to true, the items will
-    // be stored in sessionStorage, and each time onSearch
-    // is called, cached will be true.
-    inputDebounce,
-    // Default value: 200. When the user is typing, before
-    // calling onSearch wait this amount of ms.
-    onSearch,
-    // The callback function called when the user is searching
-    onSelect,
-    // The callback function called when the user selects an item
-    // from the filtered list.
-    onFocus,
-    // The callback function called when the user focuses the input.
-    showIcon,
-    // Default value: true. If set to false, the icon is hidden.
-    maxResults,
-    // Default value: 10. The max number of results to show at once.
-    placeholder,
-    // Default value: "". The placeholder of the search box.
-    autoFocus,
-    // Default value: false. If set to true, automatically
-    // set focus on the input.
-    styling
+  // The list of items that can be filtered, it can be an array of
+  // any type of object. By default the search will be done on the
+  // property "name", to change this behaviour, change the `fuseOptions`
+  // prop. Remember that the component uses the key "name" in your
+  // items list to display the result. If your list of items does not
+  // have a "name" key, use `resultStringKeyName` to tell what key
+  // (string) to use to display in the results.
+  fuseOptions,
+  // To know more about fuse params, visit https://fusejs.io/
+  //
+  // By default set to:
+  // {
+  //   shouldSort: true,
+  //   threshold: 0.6,
+  //   location: 0,
+  //   distance: 100,
+  //   maxPatternLength: 32,
+  //   minMatchCharLength: 1,
+  //   keys: [
+  //     "name",
+  //   ]
+  // }
+  //
+  // `keys` represent the keys in `items` where the search will be
+  // performed.
+  //
+  // Imagine for example that I want to search in `items` by `title`
+  // and `description` in the following items, and display the `title`;
+  // this is how to do it:
+  //
+  //   const items = [
+  //     {
+  //       id: 0,
+  //       title: 'Titanic',
+  //       description: 'A movie about love'
+  //     },
+  //     {
+  //       id: 1,
+  //       title: 'Dead Poets Society',
+  //       description: 'A movie about poetry and the meaning of life'
+  //     }
+  //   ]
+  //
+  // I can pass the fuseOptions prop as follows:
+  //
+  //   <ReactSearchAutocomplete
+  //     items={items}
+  //     fuseOptions={{ keys: ["title", "description"] }}
+  //     // necessary, otherwise the results will be blank
+  //     resultStringKeyName="title"
+  //   />
+  //
+  resultStringKeyName,
+  // The key in `items` that contains the string to display in the
+  // results
+  useCaching,
+  // Default value: false. If set to true, the items will
+  // be stored in sessionStorage, and each time onSearch
+  // is called, cached will be true.
+  inputDebounce,
+  // Default value: 200. When the user is typing, before
+  // calling onSearch wait this amount of ms.
+  onSearch,
+  // The callback function called when the user is searching
+  onSelect,
+  // The callback function called when the user selects an item
+  // from the filtered list.
+  onFocus,
+  // The callback function called when the user focuses the input.
+  showIcon,
+  // Default value: true. If set to false, the icon is hidden.
+  maxResults,
+  // Default value: 10. The max number of results to show at once.
+  placeholder,
+  // Default value: "". The placeholder of the search box.
+  autoFocus,
+  // Default value: false. If set to true, automatically
+  // set focus on the input.
+  styling
   // The styling prop allows you to customize the
   // look of the searchbox
   // Default values:
