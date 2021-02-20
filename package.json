@@ -2,7 +2,7 @@
   "name": "react-search-autocomplete",
   "author": "Reale Roberto Josef Antonio",
   "license": "MIT",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {

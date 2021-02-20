@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useEffectSkipFirstRender } from '../hooks/useEffectSkipFirstRender'
 import PropTypes from 'prop-types'
 import Fuse from 'fuse.js'
@@ -51,6 +51,10 @@ export default function ReactSearchAutocomplete(props) {
 
     setDisplayString(searchString)
   }, [searchString])
+
+  useEffect(() => {
+    searchString.length > 0 && setResults(fuseResults(searchString))
+  }, [items])
 
   const fuseResults = (keyword) =>
     fuse
