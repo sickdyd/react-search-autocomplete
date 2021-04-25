@@ -34,7 +34,7 @@ describe('<ReactSearchAutocomplete>', () => {
   ]
 
   let defaultProps = {
-    items: items,
+    items,
     placeholder: 'Search'
   }
 
@@ -165,6 +165,55 @@ describe('<ReactSearchAutocomplete>', () => {
     fireEvent.mouseDown(liNode)
 
     expect(onSelect).toHaveBeenCalled()
+  })
+
+  it('does not display results again after selection if items changes', () => {
+    const onSelect = jest.fn()
+
+    const { queryByPlaceholderText, queryAllByTitle, container } = render(
+      <ReactSearchAutocomplete {...defaultProps} onSelect={onSelect} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    let liNode = queryAllByTitle('value0')[0]
+
+    fireEvent.mouseDown(liNode)
+
+    expect(onSelect).toHaveBeenCalled()
+
+    const newItems = [
+      {
+        id: 0,
+        name: 'another0'
+      },
+      {
+        id: 1,
+        name: 'another1'
+      },
+      {
+        id: 2,
+        name: 'another2'
+      },
+      {
+        id: 3,
+        name: 'another3'
+      }
+    ]
+
+    render(<ReactSearchAutocomplete {...defaultProps} items={newItems} onSelect={onSelect} />, {
+      container
+    })
+
+    liNode = container.querySelectorAll('[data-test="result"]')
+    expect(liNode.length).toBe(0)
+
+    // expect(container.querySelector('li')).toBe(null)
+    // expect(container.querySelector('div')).not.toBe(null)
   })
 
   it('calls onFocus on input focus', () => {

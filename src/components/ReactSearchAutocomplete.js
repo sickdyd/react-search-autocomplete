@@ -56,6 +56,11 @@ export default function ReactSearchAutocomplete(props) {
     searchString.length > 0 && results.length > 0 && setResults(fuseResults(searchString))
   }, [items])
 
+  const handleOnClick = (result) => {
+    setResults([])
+    onSelect(result)
+  }
+
   const fuseResults = (keyword) =>
     fuse
       .search(keyword, { limit: maxResults })
@@ -89,7 +94,7 @@ export default function ReactSearchAutocomplete(props) {
           />
           <Results
             results={results}
-            onClick={onSelect}
+            onClick={handleOnClick}
             setDisplayString={setDisplayString}
             showIcon={showIcon}
             maxResults={maxResults}

@@ -22,6 +22,7 @@ export default function Results(props) {
         {results.slice(0, maxResults).map((result) => {
           return (
             <li
+              data-test="result"
               key={`rsa-result-${result.id}`}
               onMouseDown={() => handleClick(result)}
               onClick={() => handleClick(result)}
