@@ -8,44 +8,6 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 [Demo source](https://github.com/sickdyd/react-search-autocomplete-demo).
 
-## Latest changes
-
-`5.0.3`
-
-- Fixed bug that would not upate results if items changed.
-
-`5.0.2`
-
-- Fixed error when not passing `onSelect` callback
-
-`5.0.1`
-
-- Fixed but that would not set the input text to the item selected
-- Fixed a bug that would trigger a search when selecting
-
-`5.0.0`
-
-- Dropped support of useCaching
-- Fixed issue when setting state onSearch callback
-
-`4.0.0`
-
-- Removed global styles for font-size, font-family and border-box (now applied only to the component)
-
-`3.0.1`
-
-- Reduced bundle size
-
-`3.0.0`
-
-- `onSearch` will have as the first argument of the callback the `keyword` searched and for the second the `results`
-- `onSearch` `results` now will be `[]` instead of `false` if there are no cached results or results
-- Greatly improved performance with large amount of items
-
-`2.0.4`
-
-- Support for different `items` structure is now properly working
-- `useCaching` is now by default set to `false`
 
 ## Multiple search boxes on the same website
 
@@ -55,6 +17,12 @@ If you are using multiple search boxes set `useCaching` to `false` (default is `
 
 ```bash
 $ npm install react-search-autocomplete
+```
+
+### With React 17
+
+```bash
+$ npm install react-search-autocomplete --legacy-peer-deps
 ```
 
 ### Exports
