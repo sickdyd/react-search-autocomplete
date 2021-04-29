@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useEffectSkipFirstRender } from '../hooks/useEffectSkipFirstRender'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Fuse from 'fuse.js'
 import { defaultTheme, defaultFuseOptions } from '../config/config'
@@ -34,26 +33,29 @@ export default function ReactSearchAutocomplete(props) {
   const fuse = new Fuse(items, options)
   fuse.setCollection(items)
 
-  const [searchString, setSearchString] = React.useState('')
-  const [displayString, setDisplayString] = React.useState('')
-  const [results, setResults] = React.useState()
+  const [searchString, setSearchString] = useState('')
+  const [results, setResults] = useState()
 
-  useEffectSkipFirstRender(() => {
+  const callOnSearch = (keyword) => {
     let newResults = []
-
-    if (searchString.length > 0) {
-      newResults = fuseResults(searchString)
+    if (keyword?.length > 0) {
+      newResults = fuseResults(keyword)
       setResults(newResults)
-      onSearch(searchString, newResults)
+      onSearch(keyword, newResults)
     } else {
       setResults(newResults)
     }
+  }
 
-    setDisplayString(searchString)
-  }, [searchString])
+  const handleOnSearch = React.useCallback(
+    inputDebounce > 0
+      ? debounce((keyword) => callOnSearch(keyword), inputDebounce)
+      : (keyword) => callOnSearch(keyword),
+    [items]
+  )
 
   useEffect(() => {
-    searchString.length > 0 && results.length > 0 && setResults(fuseResults(searchString))
+    searchString?.length > 0 && results?.length > 0 && setResults(fuseResults(searchString))
   }, [items])
 
   const handleOnClick = (result) => {
@@ -67,16 +69,10 @@ export default function ReactSearchAutocomplete(props) {
       .map((result) => ({ ...result.item }))
       .slice(0, maxResults)
 
-  const handleOnSearch = React.useCallback(
-    inputDebounce > 0
-      ? debounce((keyword) => setSearchString(keyword), inputDebounce)
-      : (keyword) => setSearchString(keyword),
-    [items]
-  )
-
   const handleSetSearchString = ({ target }) => {
-    setDisplayString(target.value)
-    handleOnSearch(target.value)
+    const keyword = target.value
+    setSearchString(keyword)
+    handleOnSearch(keyword)
   }
 
   return (
@@ -84,7 +80,7 @@ export default function ReactSearchAutocomplete(props) {
       <StyledReactSearchAutocomplete>
         <div className="wrapper">
           <SearchInput
-            searchString={displayString}
+            searchString={searchString}
             setSearchString={handleSetSearchString}
             autoFocus={autoFocus}
             onBlur={() => setResults([])}
@@ -95,7 +91,7 @@ export default function ReactSearchAutocomplete(props) {
           <Results
             results={results}
             onClick={handleOnClick}
-            setDisplayString={setDisplayString}
+            setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
             resultStringKeyName={resultStringKeyName}

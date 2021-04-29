@@ -27,7 +27,8 @@ const defaultProps = {
   onClick: () => {},
   showIcon: true,
   maxResults: 10,
-  searchString: ''
+  searchString: '',
+  setSearchString: () => {}
 }
 
 afterEach(cleanup)

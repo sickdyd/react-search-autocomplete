@@ -1,6 +1,6 @@
 import React from 'react'
 import '@babel/polyfill'
-import { fireEvent, cleanup, render, act } from '@testing-library/react'
+import { fireEvent, cleanup, render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import ReactSearchAutocomplete, { DEFAULT_INPUT_DEBOUNCE } from './ReactSearchAutocomplete'
 
@@ -59,11 +59,9 @@ describe('<ReactSearchAutocomplete>', () => {
   })
 
   it('updates results if items change', async () => {
-    const { queryByPlaceholderText, container } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
-    )
+    const { rerender } = render(<ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />)
 
-    const inputElement = queryByPlaceholderText(/search/i)
+    const inputElement = screen.queryByPlaceholderText(/search/i)
 
     fireEvent.change(inputElement, { target: { value: 'value' } })
 
@@ -90,9 +88,9 @@ describe('<ReactSearchAutocomplete>', () => {
       }
     ]
 
-    render(<ReactSearchAutocomplete {...defaultProps} items={newItems} onSearch={onSearch} />, {
-      container
-    })
+    onSearch.mockClear()
+
+    rerender(<ReactSearchAutocomplete {...defaultProps} items={newItems} onSearch={onSearch} />)
 
     fireEvent.change(inputElement, { target: { value: 'another' } })
 
@@ -211,9 +209,6 @@ describe('<ReactSearchAutocomplete>', () => {
 
     liNode = container.querySelectorAll('[data-test="result"]')
     expect(liNode.length).toBe(0)
-
-    // expect(container.querySelector('li')).toBe(null)
-    // expect(container.querySelector('div')).not.toBe(null)
   })
 
   it('calls onFocus on input focus', () => {
