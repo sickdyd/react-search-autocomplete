@@ -2,12 +2,13 @@
   "name": "react-search-autocomplete",
   "author": "Reale Roberto Josef Antonio",
   "license": "MIT",
-  "version": "5.0.9",
+  "version": "5.1.0",
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --verbose --runInBand",
-    "build": "rm -rf ./dist/*.* && babel ./src --out-dir ./dist --ignore **/*.test.js && minify ./dist/ --out-dir ./dist/"
+    "build": "rm -rf ./dist/*.* && babel ./src --out-dir ./dist --ignore **/*.test.js && minify ./dist/ --out-dir ./dist/",
+    "build-watch": "rm -rf ./dist/*.* && babel ./src --out-dir ./dist --ignore **/*.test.js --watch && minify ./dist/ --out-dir ./dist/"
   },
   "repository": {
     "type": "git",
@@ -64,8 +65,8 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
     "babel-minify": "^0.5.1",
     "jest": "^26.6.3",
     "jest-localstorage-mock": "^2.4.6",

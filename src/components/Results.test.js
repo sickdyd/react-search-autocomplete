@@ -38,9 +38,8 @@ describe('<Results>', () => {
     const { container } = render(<Results {...defaultProps} />)
     expect(container.getElementsByClassName('line').length).toBe(1)
     expect(container.getElementsByTagName('li').length).toBe(4)
-    expect(container.getElementsByClassName('icon').length).toBe(4)
     expect(container.getElementsByClassName('ellipsis').length).toBe(4)
-    expect(container.getElementsByTagName('svg').length).toBe(4)
+    expect(container.querySelectorAll('.search-icon').length).toBe(4)
   })
 
   it('shows no results', () => {
@@ -64,8 +63,7 @@ describe('<Results>', () => {
   it('renders only 2 result', () => {
     const { container } = render(<Results {...defaultProps} maxResults={2} />)
     expect(container.getElementsByClassName('line').length).toBe(1)
-    expect(container.getElementsByClassName('icon').length).toBe(2)
     expect(container.getElementsByClassName('ellipsis').length).toBe(2)
-    expect(container.getElementsByTagName('svg').length).toBe(2)
+    expect(container.querySelectorAll('.search-icon').length).toBe(2)
   })
 })

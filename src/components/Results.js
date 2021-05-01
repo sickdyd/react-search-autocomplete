@@ -27,11 +27,7 @@ export default function Results(props) {
               onMouseDown={() => handleClick(result)}
               onClick={() => handleClick(result)}
             >
-              {showIcon && (
-                <div className="icon">
-                  <SearchIcon />
-                </div>
-              )}
+              <SearchIcon showIcon={showIcon} />
               <div className="ellipsis" title={result[resultStringKeyName]}>
                 {result[resultStringKeyName]}
               </div>
@@ -86,14 +82,6 @@ const StyledResults = styled.div`
       &:hover {
         background-color: ${(props) => props.theme.hoverBackgroundColor};
         cursor: default;
-      }
-
-      > .icon {
-        margin-left: 16px;
-
-        > svg {
-          fill: ${(props) => props.theme.iconColor};
-        }
       }
 
       > div {

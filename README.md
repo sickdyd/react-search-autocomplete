@@ -8,6 +8,18 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 [Demo source](https://github.com/sickdyd/react-search-autocomplete/tree/demo).
 
+## Release 5.1.0
+
+- added "clearIcon" option to display a clear icon in the search box
+- it's now possible to style the search icon and the clear icon margins by using the styling prop if the default values are not optimal:
+
+```js
+  styling={{
+    searchIconMargin: "10px 12px 0 11px",
+    clearIconMargin: "10px 0 8px 0"
+  }}
+```
+
 ## Multiple search boxes on the same website
 
 If you are using multiple search boxes set `useCaching` to `false` (default is `false`); the implementation for multiple cached search boxes is work in progress.
@@ -171,6 +183,8 @@ export default App
     // The callback function called when the user focuses the input.
     showIcon,
     // Default value: true. If set to false, the icon is hidden.
+    showClear,
+    // Default value: true. If set to false, the clear icon is hidden.
     maxResults,
     // Default value: 10. The max number of results to show at once.
     placeholder,
@@ -178,32 +192,34 @@ export default App
     autoFocus,
     // Default value: false. If set to true, automatically
     // set focus on the input.
-    styling
-  // The styling prop allows you to customize the
-  // look of the searchbox
-  // Default values:
-  // {
-  //   height: "44px",
-  //   border: "1px solid #dfe1e5",
-  //   borderRadius: "24px",
-  //   backgroundColor: "white",
-  //   boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
-  //   hoverBackgroundColor: "#eee",
-  //   color: "#212121",
-  //   fontSize: "16px",
-  //   fontFamily: "Arial",
-  //   iconColor: "grey",
-  //   lineColor: "rgb(232, 234, 237)",
-  //   placeholderColor: "grey",
-  // };
-  //
-  // For example, if you want to change the background
-  // color you can pass it in the props:
-  // styling={
-  //   {
-  //     backgroundColor: "black"
-  //   }
-  // }
+    styling,
+    // The styling prop allows you to customize the
+    // look of the searchbox
+    // Default values:
+    // {
+    //   height: "44px",
+    //   border: "1px solid #dfe1e5",
+    //   borderRadius: "24px",
+    //   backgroundColor: "white",
+    //   boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
+    //   hoverBackgroundColor: "#eee",
+    //   color: "#212121",
+    //   fontSize: "16px",
+    //   fontFamily: "Arial",
+    //   iconColor: "grey",
+    //   lineColor: "rgb(232, 234, 237)",
+    //   placeholderColor: "grey",
+    //   clearIconMargin: '3px 14px 0 0',
+    //   searchIconMargin: '0 0 0 16px'
+    // };
+    //
+    // For example, if you want to change the background
+    // color you can pass it in the props:
+    // styling={
+    //   {
+    //     backgroundColor: "black"
+    //   }
+    // }
 }
 ```
 

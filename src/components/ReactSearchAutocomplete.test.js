@@ -54,7 +54,7 @@ describe('<ReactSearchAutocomplete>', () => {
     const inputElement = queryByPlaceholderText(/search/i)
 
     expect(inputElement).toBeInTheDocument()
-    expect(container.getElementsByTagName('svg').length).toBe(1)
+    expect(container.querySelectorAll('.search-icon').length).toBe(1)
     expect(container.getElementsByClassName('wrapper').length).toBe(1)
   })
 
@@ -276,7 +276,7 @@ describe('<ReactSearchAutocomplete>', () => {
       // check that the input node is present
       expect(inputElement).toBeInTheDocument()
       // check that the icon is present
-      expect(container.getElementsByTagName('svg').length).toBe(1)
+      expect(container.querySelectorAll('.search-icon').length).toBe(1)
       // check that wrapper div is present
       expect(container.getElementsByClassName('wrapper').length).toBe(1)
     })
@@ -294,7 +294,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(4)
-      expect(ul.getElementsByTagName('svg').length).toBe(4)
+      expect(ul.querySelectorAll('.search-icon').length).toBe(4)
     })
 
     it('shows 1 matching item', () => {
@@ -311,7 +311,7 @@ describe('<ReactSearchAutocomplete>', () => {
       expect(queryAllByTitle('value0').length).toBe(1)
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(1)
-      expect(ul.getElementsByTagName('svg').length).toBe(1)
+      expect(ul.querySelectorAll('.search-icon').length).toBe(1)
     })
 
     it('shows 0 matching items', () => {
@@ -374,7 +374,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(4)
-      expect(ul.getElementsByTagName('svg').length).toBe(4)
+      expect(ul.querySelectorAll('.search-icon').length).toBe(4)
     })
 
     it('shows 1 matching item', () => {
@@ -391,7 +391,7 @@ describe('<ReactSearchAutocomplete>', () => {
       expect(queryAllByTitle('Dead Poets Society').length).toBe(1)
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(1)
-      expect(ul.getElementsByTagName('svg').length).toBe(1)
+      expect(ul.querySelectorAll('.search-icon').length).toBe(1)
     })
 
     it('shows 0 matching item', () => {
@@ -440,7 +440,69 @@ describe('<ReactSearchAutocomplete>', () => {
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(10)
-      expect(ul.getElementsByTagName('svg').length).toBe(10)
+      expect(ul.querySelectorAll('.search-icon').length).toBe(10)
+    })
+  })
+
+  describe('showClear', () => {
+    it('displays the showClear by default', () => {
+      const { queryByPlaceholderText, container } = render(
+        <ReactSearchAutocomplete {...defaultProps} />
+      )
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+      const clearIcon = container.querySelector('.clear-icon')
+      expect(clearIcon).toBeInTheDocument()
+    })
+
+    it('displays the clear icon when showClear is true', () => {
+      const { queryByPlaceholderText, container } = render(
+        <ReactSearchAutocomplete {...defaultProps} showClear={true} />
+      )
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+      const clearIcon = container.querySelector('.clear-icon')
+      expect(clearIcon).toBeInTheDocument()
+    })
+
+    it('hides the clear icon when showClear is false', () => {
+      const { queryByPlaceholderText, container } = render(
+        <ReactSearchAutocomplete {...defaultProps} showClear={false} />
+      )
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+      const clearIcon = container.querySelector('.clear-icon')
+      expect(clearIcon).not.toBeInTheDocument()
+    })
+
+    it('clears the text and sets focus when the clear icon is clicked', () => {
+      const { queryByPlaceholderText, container } = render(
+        <ReactSearchAutocomplete {...defaultProps} />
+      )
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+      expect(inputElement.value).toBe('something')
+
+      const clearIcon = container.querySelector('.clear-icon')
+      fireEvent.click(clearIcon)
+      expect(inputElement.value).toBe('')
+      expect(inputElement).toHaveFocus()
     })
   })
 })

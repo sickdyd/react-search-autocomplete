@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { SearchIcon } from './SearchIcon'
 import styled from 'styled-components'
+import { ClearIcon } from './ClearIcon'
 
-export default function SearchInput(props) {
-  const { searchString, setSearchString, autoFocus, onBlur, onFocus, placeholder, showIcon } = props
+export default function SearchInput({
+  searchString,
+  setSearchString,
+  autoFocus,
+  onBlur,
+  onFocus,
+  placeholder,
+  showIcon,
+  showClear
+}) {
+  const ref = useRef()
+
+  const setFocus = () => {
+    ref.current.focus()
+  }
 
   return (
     <StyledSearchInput>
-      {showIcon && <SearchIcon />}
+      <SearchIcon showIcon={showIcon} />
       <input
+        ref={ref}
         spellCheck={false}
         value={searchString}
         onChange={setSearchString}
@@ -18,12 +33,19 @@ export default function SearchInput(props) {
         placeholder={placeholder}
         autoFocus={autoFocus}
       />
+      <ClearIcon
+        showClear={showClear}
+        setSearchString={setSearchString}
+        searchString={searchString}
+        setFocus={setFocus}
+      />
     </StyledSearchInput>
   )
 }
 
 SearchInput.defaultProps = {
-  showIcon: true
+  showIcon: true,
+  showClear: true
 }
 
 SearchInput.propTypes = {
@@ -33,7 +55,8 @@ SearchInput.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
   placeholder: PropTypes.string,
-  showIcon: PropTypes.bool
+  showIcon: PropTypes.bool,
+  showClear: PropTypes.bool
 }
 
 const StyledSearchInput = styled.div`
@@ -72,11 +95,5 @@ const StyledSearchInput = styled.div`
       /* Microsoft Edge */
       color: ${(props) => props.theme.placeholderColor};
     }
-  }
-
-  > svg {
-    flex-shrink: 0;
-    margin-left: 16px;
-    fill: ${(props) => props.theme.iconColor};
   }
 `

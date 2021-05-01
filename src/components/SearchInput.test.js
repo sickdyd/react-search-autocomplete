@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, cleanup, render } from '@testing-library/react'
+import { fireEvent, cleanup, render, screen, waitForElement, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import SearchInput from './SearchInput'
 
@@ -19,7 +19,6 @@ describe('<SearchInput>', () => {
     const inputNode = queryByPlaceholderText(/search/i)
     expect(inputNode).toBeInTheDocument()
   })
-
   it('calls setSearchString on input change', () => {
     const setSearchString = jest.fn()
     const { queryByPlaceholderText } = render(
@@ -29,7 +28,6 @@ describe('<SearchInput>', () => {
     fireEvent.change(inputNode, { target: { value: 'Text' } })
     expect(setSearchString).toHaveBeenCalled()
   })
-
   it('calls onFocus when input is focused', () => {
     const onFocus = jest.fn()
     const { queryByPlaceholderText } = render(<SearchInput {...defaultProps} onFocus={onFocus} />)
@@ -37,7 +35,6 @@ describe('<SearchInput>', () => {
     fireEvent.focus(inputNode)
     expect(onFocus).toHaveBeenCalled()
   })
-
   it('calls onBlur when input loses focus', () => {
     const onBlur = jest.fn()
     const { queryByPlaceholderText } = render(<SearchInput {...defaultProps} onBlur={onBlur} />)
@@ -45,14 +42,12 @@ describe('<SearchInput>', () => {
     fireEvent.blur(inputNode)
     expect(onBlur).toHaveBeenCalled()
   })
-
   it('hides the icon when showIcon is false', () => {
     const { container } = render(<SearchInput {...defaultProps} showIcon={false} />)
-    expect(container.getElementsByTagName('svg').length).toBe(0)
+    expect(container.querySelectorAll('.search-icon').length).toBe(0)
   })
-
   it('displays an icon when showIcon is true', () => {
     const { container } = render(<SearchInput {...defaultProps} showIcon={true} />)
-    expect(container.getElementsByTagName('svg').length).toBe(1)
+    expect(container.querySelectorAll('.search-icon').length).toBe(1)
   })
 })
