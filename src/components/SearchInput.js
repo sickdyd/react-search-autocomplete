@@ -56,6 +56,22 @@ const StyledSearchInput = styled.div`
     font-family: inherit;
 
     color: ${(props) => props.theme.color};
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: ${(props) => props.theme.placeholderColor};
+      opacity: 1; /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: ${(props) => props.theme.placeholderColor};
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: ${(props) => props.theme.placeholderColor};
+    }
   }
 
   > svg {
