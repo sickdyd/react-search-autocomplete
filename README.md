@@ -83,6 +83,11 @@ function App() {
     console.log(string, results)
   }
 
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result)
+  }
+
   const handleOnSelect = (item) => {
     // the item selected
     console.log(item)
@@ -99,6 +104,7 @@ function App() {
           <ReactSearchAutocomplete
             items={items}
             onSearch={handleOnSearch}
+            onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             autoFocus
