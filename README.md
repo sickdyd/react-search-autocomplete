@@ -10,7 +10,8 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 ## Release 5.1.0
 
-- added "clearIcon" option to display a clear icon in the search box
+- added `onHover` prop that returns the result the user is hovering
+- added `clearIcon` prop to display a clear icon in the search box
 - it's now possible to style the search icon and the clear icon margins by using the styling prop if the default values are not optimal:
 
 ```js
@@ -176,6 +177,8 @@ export default App
     // calling onSearch wait this amount of ms.
     onSearch,
     // The callback function called when the user is searching
+    onHover,
+    // THe callback function called when the user hovers a result
     onSelect,
     // The callback function called when the user selects an item
     // from the filtered list.

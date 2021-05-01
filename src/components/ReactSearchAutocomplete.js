@@ -17,6 +17,7 @@ export default function ReactSearchAutocomplete(props) {
     fuseOptions,
     inputDebounce,
     onSearch,
+    onHover,
     onSelect,
     onFocus,
     showIcon,
@@ -93,6 +94,7 @@ export default function ReactSearchAutocomplete(props) {
           <Results
             results={results}
             onClick={handleOnClick}
+            onHover={onHover}
             setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
@@ -108,6 +110,7 @@ ReactSearchAutocomplete.defaultProps = {
   items: [],
   fuseOptions: defaultFuseOptions,
   onSearch: () => {},
+  onHover: () => {},
   onSelect: () => {},
   inputDebounce: DEFAULT_INPUT_DEBOUNCE,
   showIcon: true,
@@ -125,6 +128,7 @@ ReactSearchAutocomplete.propTypes = {
   fuseOptions: PropTypes.object,
   inputDebounce: PropTypes.number,
   onSearch: PropTypes.func,
+  onHover: PropTypes.func,
   onSelect: PropTypes.func,
   onFocus: PropTypes.func,
   showIcon: PropTypes.bool,

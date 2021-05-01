@@ -25,6 +25,7 @@ const results = [
 const defaultProps = {
   results,
   onClick: () => {},
+  onHover: () => {},
   showIcon: true,
   maxResults: 10,
   searchString: '',
@@ -65,5 +66,16 @@ describe('<Results>', () => {
     expect(container.getElementsByClassName('line').length).toBe(1)
     expect(container.getElementsByClassName('ellipsis').length).toBe(2)
     expect(container.querySelectorAll('.search-icon').length).toBe(2)
+  })
+
+  it('calls onHover when result is hovered', () => {
+    const onHover = jest.fn()
+
+    const { container } = render(<Results {...defaultProps} onHover={onHover} />)
+
+    const liTag = container.getElementsByTagName('li')[0]
+    fireEvent.mouseEnter(liTag)
+
+    expect(onHover).toHaveBeenCalledWith(results[0])
   })
 })

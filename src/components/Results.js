@@ -4,7 +4,15 @@ import { SearchIcon } from './SearchIcon'
 import styled from 'styled-components'
 
 export default function Results(props) {
-  const { results, onClick, setSearchString, showIcon, maxResults, resultStringKeyName } = props
+  const {
+    results,
+    onClick,
+    setSearchString,
+    showIcon,
+    maxResults,
+    resultStringKeyName,
+    onHover
+  } = props
 
   const handleClick = (result) => {
     onClick(result)
@@ -22,6 +30,7 @@ export default function Results(props) {
         {results.slice(0, maxResults).map((result) => {
           return (
             <li
+              onMouseEnter={() => onHover(result)}
               data-test="result"
               key={`rsa-result-${result.id}`}
               onMouseDown={() => handleClick(result)}
