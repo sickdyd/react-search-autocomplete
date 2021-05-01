@@ -61,6 +61,10 @@ function App() {
     console.log(string, results);
   };
 
+  const handleOnHover = (result) => {
+    console.log(result);
+  };
+
   const handleOnSelect = (item) => {
     console.log(item);
   };
@@ -82,6 +86,7 @@ function App() {
           <ReactSearchAutocomplete
             items={items}
             onSearch={handleOnSearch}
+            onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             styling={{ zIndex: 2 }} // To display it on top of the search box below
@@ -96,6 +101,7 @@ function App() {
             items={manyItems}
             maxResults={15}
             onSearch={handleOnSearch}
+            onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             fuseOptions={{ keys: ["name", "description"] }} // Search in the description text as well
@@ -111,6 +117,7 @@ function App() {
             fuseOptions={{ keys: ["title", "description"] }} // Search on both fields
             resultStringKeyName="title" // String to display in the results
             onSearch={handleOnSearch}
+            onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             showIcon={false}
@@ -127,6 +134,7 @@ function App() {
               iconColor: "green",
               lineColor: "lightgreen",
               placeholderColor: "darkgreen",
+              clearIconMargin: "3px 8px 0 0",
             }}
           />
           <div style={{ marginTop: 20 }}>This text will be covered!</div>
