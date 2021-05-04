@@ -2,19 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export const ClearIcon = ({
-  showClear,
-  setSearchString,
-  searchString,
-  setFocus,
-  onClear,
-  onSearch
-}) => {
+export const ClearIcon = ({ showClear, setSearchString, searchString, setFocus, onClear }) => {
   const handleClearSearchString = () => {
     setSearchString({ target: { value: '' } })
     setFocus()
     onClear()
-    onSearch('', [])
   }
 
   if (!showClear) {
