@@ -58,6 +58,28 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(container.getElementsByClassName('wrapper').length).toBe(1)
   })
 
+  it('uses inputSearchString prop', async () => {
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete {...defaultProps} inputSearchString="a string" />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    expect(inputElement).toHaveValue('a string')
+  })
+
+  it('updates the value if inputSearchString prop is updated', async () => {
+    const { rerender, queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete {...defaultProps} inputSearchString="a string" />
+    )
+
+    expect(queryByPlaceholderText(/search/i)).toHaveValue('a string')
+
+    rerender(<ReactSearchAutocomplete {...defaultProps} inputSearchString="a new string" />)
+
+    expect(queryByPlaceholderText(/search/i)).toHaveValue('a new string')
+  })
+
   it('updates results if items change', async () => {
     const { rerender } = render(<ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />)
 

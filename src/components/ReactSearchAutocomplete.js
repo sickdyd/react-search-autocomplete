@@ -27,7 +27,8 @@ export default function ReactSearchAutocomplete(props) {
     placeholder,
     autoFocus,
     styling,
-    resultStringKeyName
+    resultStringKeyName,
+    inputSearchString
   } = props
 
   const theme = { ...defaultTheme, ...styling }
@@ -36,7 +37,7 @@ export default function ReactSearchAutocomplete(props) {
   const fuse = new Fuse(items, options)
   fuse.setCollection(items)
 
-  const [searchString, setSearchString] = useState('')
+  const [searchString, setSearchString] = useState(inputSearchString)
   const [results, setResults] = useState()
 
   const callOnSearch = (keyword) => {
@@ -56,6 +57,10 @@ export default function ReactSearchAutocomplete(props) {
       : (keyword) => callOnSearch(keyword),
     [items]
   )
+
+  useEffect(() => {
+    setSearchString(inputSearchString)
+  }, [inputSearchString])
 
   useEffect(() => {
     searchString?.length > 0 && results?.length > 0 && setResults(fuseResults(searchString))
@@ -124,7 +129,8 @@ ReactSearchAutocomplete.defaultProps = {
   autoFocus: false,
   onFocus: () => {},
   styling: {},
-  resultStringKeyName: 'name'
+  resultStringKeyName: 'name',
+  inputSearchString: ''
 }
 
 ReactSearchAutocomplete.propTypes = {
@@ -142,7 +148,8 @@ ReactSearchAutocomplete.propTypes = {
   placeholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   styling: PropTypes.object,
-  resultStringKeyName: PropTypes.string
+  resultStringKeyName: PropTypes.string,
+  inputSearchString: PropTypes.string
 }
 
 const StyledReactSearchAutocomplete = styled.div`
