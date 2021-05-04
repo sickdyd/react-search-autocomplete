@@ -73,6 +73,10 @@ function App() {
     console.log("Focused");
   };
 
+  const handleOnClear = () => {
+    console.log("Cleared");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -89,6 +93,7 @@ function App() {
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
+            onClear={handleOnClear}
             styling={{ zIndex: 2 }} // To display it on top of the search box below
             autoFocus
           />
@@ -104,6 +109,7 @@ function App() {
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
+            onClear={handleOnClear}
             fuseOptions={{ keys: ["name", "description"] }} // Search in the description text as well
             styling={{ zIndex: 1 }} // To display it on top of the search box below
           />
@@ -120,6 +126,7 @@ function App() {
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
+            onClear={handleOnClear}
             showIcon={false}
             styling={{
               height: "34px",
