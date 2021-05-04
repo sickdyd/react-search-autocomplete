@@ -88,6 +88,7 @@ export default function ReactSearchAutocomplete(props) {
             autoFocus={autoFocus}
             onBlur={() => setResults([])}
             onFocus={onFocus}
+            onSearch={onSearch}
             onClear={onClear}
             placeholder={placeholder}
             showIcon={showIcon}
