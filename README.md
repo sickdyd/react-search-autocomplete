@@ -8,7 +8,12 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 [Demo source](https://github.com/sickdyd/react-search-autocomplete/tree/demo).
 
-## Release 5.1.0
+## 5.2.0
+
+- added `onClear` prop that is called when the user clears the search box
+- added `inputSearchString` prop that allows to set the search string in the input box
+
+## 5.1.0
 
 - added `onHover` prop that returns the result the user is hovering
 - added `clearIcon` prop to display a clear icon in the search box
@@ -178,6 +183,8 @@ export default App
     resultStringKeyName,
     // The key in `items` that contains the string to display in the
     // results
+    inputSearchString,
+    // By changing this prop, you can manually set the search string.
     inputDebounce,
     // Default value: 200. When the user is typing, before
     // calling onSearch wait this amount of ms.
@@ -190,6 +197,9 @@ export default App
     // from the filtered list.
     onFocus,
     // The callback function called when the user focuses the input.
+    onClear,
+    // The callback called when the user clears the input box by clicking
+    // on the clear icon.
     showIcon,
     // Default value: true. If set to false, the icon is hidden.
     showClear,
