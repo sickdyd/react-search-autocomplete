@@ -20,6 +20,7 @@ export default function ReactSearchAutocomplete(props) {
     onHover,
     onSelect,
     onFocus,
+    onClear,
     showIcon,
     showClear,
     maxResults,
@@ -87,6 +88,7 @@ export default function ReactSearchAutocomplete(props) {
             autoFocus={autoFocus}
             onBlur={() => setResults([])}
             onFocus={onFocus}
+            onClear={onClear}
             placeholder={placeholder}
             showIcon={showIcon}
             showClear={showClear}
@@ -112,6 +114,7 @@ ReactSearchAutocomplete.defaultProps = {
   onSearch: () => {},
   onHover: () => {},
   onSelect: () => {},
+  onClear: () => {},
   inputDebounce: DEFAULT_INPUT_DEBOUNCE,
   showIcon: true,
   showClear: true,
@@ -130,6 +133,7 @@ ReactSearchAutocomplete.propTypes = {
   onSearch: PropTypes.func,
   onHover: PropTypes.func,
   onSelect: PropTypes.func,
+  onClear: PropTypes.func,
   onFocus: PropTypes.func,
   showIcon: PropTypes.bool,
   showClear: PropTypes.bool,

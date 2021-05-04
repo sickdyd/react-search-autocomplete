@@ -487,9 +487,10 @@ describe('<ReactSearchAutocomplete>', () => {
       expect(clearIcon).not.toBeInTheDocument()
     })
 
-    it('clears the text and sets focus when the clear icon is clicked', () => {
+    it('clears the text, sets focus and calls onClear when the clear icon is clicked', () => {
+      const onClear = jest.fn()
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete {...defaultProps} onClear={onClear} />
       )
       const inputElement = queryByPlaceholderText(/search/i)
 
@@ -501,8 +502,10 @@ describe('<ReactSearchAutocomplete>', () => {
 
       const clearIcon = container.querySelector('.clear-icon')
       fireEvent.click(clearIcon)
+
       expect(inputElement.value).toBe('')
       expect(inputElement).toHaveFocus()
+      expect(onClear).toHaveBeenCalled()
     })
   })
 })

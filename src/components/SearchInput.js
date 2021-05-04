@@ -10,6 +10,7 @@ export default function SearchInput({
   autoFocus,
   onBlur,
   onFocus,
+  onClear,
   placeholder,
   showIcon,
   showClear
@@ -37,6 +38,7 @@ export default function SearchInput({
         showClear={showClear}
         setSearchString={setSearchString}
         searchString={searchString}
+        onClear={onClear}
         setFocus={setFocus}
       />
     </StyledSearchInput>
@@ -54,6 +56,7 @@ SearchInput.propTypes = {
   autoFocus: PropTypes.bool,
   onBlur: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
+  onClear: PropTypes.func,
   placeholder: PropTypes.string,
   showIcon: PropTypes.bool,
   showClear: PropTypes.bool

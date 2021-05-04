@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export const ClearIcon = ({ showClear, setSearchString, searchString, setFocus }) => {
+export const ClearIcon = ({ showClear, setSearchString, searchString, setFocus, onClear }) => {
   const handleClearSearchString = () => {
     setSearchString({ target: { value: '' } })
     setFocus()
+    onClear()
   }
 
   if (!showClear) {
@@ -47,5 +48,6 @@ ClearIcon.propTypes = {
   searchString: PropTypes.string.isRequired,
   setSearchString: PropTypes.func.isRequired,
   setFocus: PropTypes.func,
-  showClear: PropTypes.bool
+  showClear: PropTypes.bool,
+  onClear: PropTypes.func
 }
