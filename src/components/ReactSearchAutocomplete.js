@@ -28,7 +28,8 @@ export default function ReactSearchAutocomplete(props) {
     autoFocus,
     styling,
     resultStringKeyName,
-    inputSearchString
+    inputSearchString,
+    formatResult,
   } = props
 
   const theme = { ...defaultTheme, ...styling }
@@ -106,6 +107,7 @@ export default function ReactSearchAutocomplete(props) {
             showIcon={showIcon}
             maxResults={maxResults}
             resultStringKeyName={resultStringKeyName}
+            formatResult={formatResult}
           />
         </div>
       </StyledReactSearchAutocomplete>
@@ -129,7 +131,8 @@ ReactSearchAutocomplete.defaultProps = {
   onFocus: () => {},
   styling: {},
   resultStringKeyName: 'name',
-  inputSearchString: ''
+  inputSearchString: '',
+  formatResult: (val) => val,
 }
 
 ReactSearchAutocomplete.propTypes = {
@@ -148,7 +151,8 @@ ReactSearchAutocomplete.propTypes = {
   autoFocus: PropTypes.bool,
   styling: PropTypes.object,
   resultStringKeyName: PropTypes.string,
-  inputSearchString: PropTypes.string
+  inputSearchString: PropTypes.string,
+  formatResult: PropTypes.func,
 }
 
 const StyledReactSearchAutocomplete = styled.div`
