@@ -78,4 +78,23 @@ describe('<Results>', () => {
 
     expect(onHover).toHaveBeenCalledWith(results[0])
   })
+
+  it('calls formatResult when renders results', () => {
+    const formatResult = jest.fn()
+    const { container } = render(<Results {...defaultProps} formatResult={formatResult} />)
+    expect(formatResult).toHaveBeenCalledTimes(4)
+  })
+
+  it('call formatResult to update the renders results', () => {
+    const formatResult = (item) => {
+      return "something appended"+ item;
+    }
+    const { container } = render(<Results {...defaultProps} formatResult={formatResult} />)
+    expect(container.getElementsByClassName('ellipsis').length).toBe(4)
+    const items=container.getElementsByClassName('ellipsis')
+    for (let item of items) {
+      expect(item.innerHTML).toMatch(new RegExp(`^something appended?`));
+    }
+    })
+
 })

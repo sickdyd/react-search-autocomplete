@@ -102,6 +102,11 @@ function App() {
     console.log('Focused')
   }
 
+  const formatResult = (item) => {
+    return item;
+   // return (<p dangerouslySetInnerHTML={{__html: '<strong>'+item+'</strong>'}}></p>); //To format result as html
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -113,6 +118,7 @@ function App() {
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             autoFocus
+            formatResult={formatResult}
           />
         </div>
       </header>
@@ -239,6 +245,8 @@ export default App
     //     backgroundColor: "black"
     //   }
     // }
+     formatResult,
+    // The callback function is used to format the results.
 }
 ```
 

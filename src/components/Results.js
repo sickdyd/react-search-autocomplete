@@ -11,7 +11,8 @@ export default function Results(props) {
     showIcon,
     maxResults,
     resultStringKeyName,
-    onHover
+    onHover,
+    formatResult
   } = props
 
   const handleClick = (result) => {
@@ -38,7 +39,7 @@ export default function Results(props) {
             >
               <SearchIcon showIcon={showIcon} />
               <div className="ellipsis" title={result[resultStringKeyName]}>
-                {result[resultStringKeyName]}
+                {formatResult(result[resultStringKeyName])}
               </div>
             </li>
           )
@@ -51,7 +52,8 @@ export default function Results(props) {
 Results.defaultProps = {
   results: [],
   setDisplayString: () => {},
-  resultStringKeyName: 'name'
+  resultStringKeyName: 'name',
+  formatResult: (val) => val,
 }
 
 Results.propTypes = {
@@ -60,7 +62,9 @@ Results.propTypes = {
   setSearchString: PropTypes.func,
   showIcon: PropTypes.bool,
   maxResults: PropTypes.number,
-  resultStringKeyName: PropTypes.string
+  resultStringKeyName: PropTypes.string,
+  formatResult: PropTypes.func,
+
 }
 
 const StyledResults = styled.div`
