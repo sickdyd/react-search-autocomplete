@@ -40,6 +40,7 @@ export default function ReactSearchAutocomplete(props) {
 
   const [searchString, setSearchString] = useState(inputSearchString)
   const [results, setResults] = useState()
+  const [keyLocation, setKeyLocation] = useState(null)
 
   const callOnSearch = (keyword) => {
     let newResults = []
@@ -47,8 +48,10 @@ export default function ReactSearchAutocomplete(props) {
       newResults = fuseResults(keyword)
       setResults(newResults)
       onSearch(keyword, newResults)
+      setKeyLocation(null)
     } else {
       setResults(newResults)
+      setKeyLocation(null)
     }
   }
 
@@ -64,7 +67,7 @@ export default function ReactSearchAutocomplete(props) {
   }, [inputSearchString])
 
   useEffect(() => {
-    searchString?.length > 0 && results?.length > 0 && setResults(fuseResults(searchString))
+    searchString?.length > 0 && results?.length > 0 && setResults(fuseResults(searchString)) && setKeyLocation(null)
   }, [items])
 
   const handleOnClick = (result) => {
@@ -84,6 +87,23 @@ export default function ReactSearchAutocomplete(props) {
     handleOnSearch(keyword)
   }
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 38 && results?.length > 0) {
+      if(keyLocation !== null && keyLocation !== 0) {
+        setKeyLocation(keyLocation-1)
+      }
+    } else if (e.keyCode === 40 && results?.length > 0) {
+      if(keyLocation == null) {
+        setKeyLocation(0)
+      }else if (keyLocation < results.length-1) {
+        setKeyLocation(keyLocation+1)
+      }
+    } else if (e.keyCode === 13 && results?.length > 0){
+      handleOnClick(results[keyLocation])
+      setSearchString(results[keyLocation][resultStringKeyName])
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <StyledReactSearchAutocomplete>
@@ -98,6 +118,7 @@ export default function ReactSearchAutocomplete(props) {
             placeholder={placeholder}
             showIcon={showIcon}
             showClear={showClear}
+            onKeyDown={handleKeyDown}
           />
           <Results
             results={results}
@@ -108,6 +129,7 @@ export default function ReactSearchAutocomplete(props) {
             maxResults={maxResults}
             resultStringKeyName={resultStringKeyName}
             formatResult={formatResult}
+            keyLocation={keyLocation}
           />
         </div>
       </StyledReactSearchAutocomplete>

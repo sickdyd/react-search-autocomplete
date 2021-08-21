@@ -12,7 +12,8 @@ export default function Results(props) {
     maxResults,
     resultStringKeyName,
     onHover,
-    formatResult
+    formatResult,
+    keyLocation
   } = props
 
   const handleClick = (result) => {
@@ -28,7 +29,7 @@ export default function Results(props) {
     <StyledResults>
       <div className="line" />
       <ul>
-        {results.slice(0, maxResults).map((result) => {
+        {results.slice(0, maxResults).map((result, index) => {
           return (
             <li
               onMouseEnter={() => onHover(result)}
@@ -36,6 +37,7 @@ export default function Results(props) {
               key={`rsa-result-${result.id}`}
               onMouseDown={() => handleClick(result)}
               onClick={() => handleClick(result)}
+              className={index === keyLocation ? "keySelected" : ""}
             >
               <SearchIcon showIcon={showIcon} />
               <div className="ellipsis" title={result[resultStringKeyName]}>
@@ -89,6 +91,7 @@ const StyledResults = styled.div`
 
     > li {
       display: flex;
+      color: red;
       align-items: center;
       padding: 4px 0 4px 0;
 
@@ -101,6 +104,10 @@ const StyledResults = styled.div`
         margin-left: 13px;
       }
     }
+  }
+  .keySelected {
+    background-color: ${(props) => props.theme.hoverBackgroundColor};
+    cursor: default;
   }
   .ellipsis {
     white-space: nowrap;
