@@ -91,7 +91,6 @@ const StyledResults = styled.div`
 
     > li {
       display: flex;
-      color: red;
       align-items: center;
       padding: 4px 0 4px 0;
 
