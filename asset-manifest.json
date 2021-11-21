@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/react-search-autocomplete/static/css/main.9a74e65c.chunk.css",
-    "main.js": "/react-search-autocomplete/static/js/main.7d902b03.chunk.js",
-    "main.js.map": "/react-search-autocomplete/static/js/main.7d902b03.chunk.js.map",
+    "main.js": "/react-search-autocomplete/static/js/main.ad08a5cc.chunk.js",
+    "main.js.map": "/react-search-autocomplete/static/js/main.ad08a5cc.chunk.js.map",
     "runtime-main.js": "/react-search-autocomplete/static/js/runtime-main.de9a58a4.js",
     "runtime-main.js.map": "/react-search-autocomplete/static/js/runtime-main.de9a58a4.js.map",
-    "static/js/2.970f809b.chunk.js": "/react-search-autocomplete/static/js/2.970f809b.chunk.js",
-    "static/js/2.970f809b.chunk.js.map": "/react-search-autocomplete/static/js/2.970f809b.chunk.js.map",
+    "static/js/2.af2a733f.chunk.js": "/react-search-autocomplete/static/js/2.af2a733f.chunk.js",
+    "static/js/2.af2a733f.chunk.js.map": "/react-search-autocomplete/static/js/2.af2a733f.chunk.js.map",
     "index.html": "/react-search-autocomplete/index.html",
     "static/css/main.9a74e65c.chunk.css.map": "/react-search-autocomplete/static/css/main.9a74e65c.chunk.css.map",
-    "static/js/2.970f809b.chunk.js.LICENSE.txt": "/react-search-autocomplete/static/js/2.970f809b.chunk.js.LICENSE.txt",
+    "static/js/2.af2a733f.chunk.js.LICENSE.txt": "/react-search-autocomplete/static/js/2.af2a733f.chunk.js.LICENSE.txt",
     "static/media/sickdoodle.d7740801.png": "/react-search-autocomplete/static/media/sickdoodle.d7740801.png"
   },
   "entrypoints": [
     "static/js/runtime-main.de9a58a4.js",
-    "static/js/2.970f809b.chunk.js",
+    "static/js/2.af2a733f.chunk.js",
     "static/css/main.9a74e65c.chunk.css",
-    "static/js/main.7d902b03.chunk.js"
+    "static/js/main.ad08a5cc.chunk.js"
   ]
 }
