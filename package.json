@@ -11,7 +11,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "^4.0.1",
-    "react-search-autocomplete": "^5.4.3",
+    "react-search-autocomplete": "^5.4.4",
     "styled-components": "^4.4.1"
   },
   "scripts": {
