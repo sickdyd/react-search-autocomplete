@@ -8,24 +8,6 @@ A `<ReactSearchAutocomplete>` is a fully customizable search box where the user 
 
 [Demo source](https://github.com/sickdyd/react-search-autocomplete/tree/demo).
 
-## 5.2.0
-
-- added `onClear` prop that is called when the user clears the search box
-- added `inputSearchString` prop that allows to set the search string in the input box
-
-## 5.1.0
-
-- added `onHover` prop that returns the result the user is hovering
-- added `clearIcon` prop to display a clear icon in the search box
-- it's now possible to style the search icon and the clear icon margins by using the styling prop if the default values are not optimal:
-
-```js
-  styling={{
-    searchIconMargin: "10px 12px 0 11px",
-    clearIconMargin: "10px 0 8px 0"
-  }}
-```
-
 ## Multiple search boxes on the same website
 
 If you are using multiple search boxes set `useCaching` to `false` (default is `false`); the implementation for multiple cached search boxes is work in progress.
@@ -103,8 +85,8 @@ function App() {
   }
 
   const formatResult = (item) => {
-    return item;
-   // return (<p dangerouslySetInnerHTML={{__html: '<strong>'+item+'</strong>'}}></p>); //To format result as html
+    return item
+    // return (<p dangerouslySetInnerHTML={{__html: '<strong>'+item+'</strong>'}}></p>); //To format result as html
   }
 
   return (
