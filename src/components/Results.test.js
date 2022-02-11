@@ -1,6 +1,6 @@
-import React from 'react'
-import { fireEvent, cleanup, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
+import { cleanup, fireEvent, render } from '@testing-library/react'
+import React from 'react'
 import Results from './Results'
 
 const results = [
@@ -29,7 +29,8 @@ const defaultProps = {
   showIcon: true,
   maxResults: 10,
   searchString: '',
-  setSearchString: () => {}
+  setSearchString: () => {},
+  formatResult: null
 }
 
 afterEach(cleanup)
@@ -81,20 +82,24 @@ describe('<Results>', () => {
 
   it('calls formatResult when renders results', () => {
     const formatResult = jest.fn()
-    const { container } = render(<Results {...defaultProps} formatResult={formatResult} />)
+
+    render(<Results {...defaultProps} formatResult={formatResult} />)
+
     expect(formatResult).toHaveBeenCalledTimes(4)
   })
 
-  it('call formatResult to update the renders results', () => {
-    const formatResult = (item) => {
-      return "something appended"+ item;
-    }
-    const { container } = render(<Results {...defaultProps} formatResult={formatResult} />)
-    expect(container.getElementsByClassName('ellipsis').length).toBe(4)
-    const items=container.getElementsByClassName('ellipsis')
-    for (let item of items) {
-      expect(item.innerHTML).toMatch(new RegExp(`^something appended?`));
-    }
-    })
+  it('calls formatResult and render result appropriately', () => {
+    const formatResult = (item) => <span className="test-span">{item.name}</span>
 
+    const { container } = render(<Results {...defaultProps} formatResult={formatResult} />)
+
+    const items = container.getElementsByClassName('ellipsis')
+
+    expect(items.length).toBe(4)
+
+    expect(items[0].innerHTML).toMatch('<span class="test-span">value0</span>')
+    expect(items[1].innerHTML).toMatch('<span class="test-span">value1</span>')
+    expect(items[2].innerHTML).toMatch('<span class="test-span">value2</span>')
+    expect(items[3].innerHTML).toMatch('<span class="test-span">value3</span>')
+  })
 })

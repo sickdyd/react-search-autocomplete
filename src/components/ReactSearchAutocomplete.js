@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import Fuse from 'fuse.js'
-import { defaultTheme, defaultFuseOptions } from '../config/config'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import styled, { ThemeProvider } from 'styled-components'
+import { defaultFuseOptions, defaultTheme } from '../config/config'
+import { debounce } from '../utils/utils'
 import Results from './Results'
 import SearchInput from './SearchInput'
-import { ThemeProvider } from 'styled-components'
-import { debounce } from '../utils/utils'
-import styled from 'styled-components'
 
 export const DEFAULT_INPUT_DEBOUNCE = 200
 export const MAX_RESULTS = 10
@@ -29,7 +28,7 @@ export default function ReactSearchAutocomplete(props) {
     styling,
     resultStringKeyName,
     inputSearchString,
-    formatResult,
+    formatResult
   } = props
 
   const theme = { ...defaultTheme, ...styling }
@@ -132,7 +131,7 @@ ReactSearchAutocomplete.defaultProps = {
   styling: {},
   resultStringKeyName: 'name',
   inputSearchString: '',
-  formatResult: (val) => val,
+  formatResult: null
 }
 
 ReactSearchAutocomplete.propTypes = {
@@ -152,7 +151,7 @@ ReactSearchAutocomplete.propTypes = {
   styling: PropTypes.object,
   resultStringKeyName: PropTypes.string,
   inputSearchString: PropTypes.string,
-  formatResult: PropTypes.func,
+  formatResult: null || PropTypes.func
 }
 
 const StyledReactSearchAutocomplete = styled.div`

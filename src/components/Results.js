@@ -1,7 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { SearchIcon } from './SearchIcon'
+import React from 'react'
 import styled from 'styled-components'
+import { SearchIcon } from './SearchIcon'
 
 export default function Results(props) {
   const {
@@ -14,6 +14,8 @@ export default function Results(props) {
     onHover,
     formatResult
   } = props
+
+  const formatResultWithKey = formatResult ? formatResult : (val) => val[resultStringKeyName]
 
   const handleClick = (result) => {
     onClick(result)
@@ -28,22 +30,20 @@ export default function Results(props) {
     <StyledResults>
       <div className="line" />
       <ul>
-        {results.slice(0, maxResults).map((result) => {
-          return (
-            <li
-              onMouseEnter={() => onHover(result)}
-              data-test="result"
-              key={`rsa-result-${result.id}`}
-              onMouseDown={() => handleClick(result)}
-              onClick={() => handleClick(result)}
-            >
-              <SearchIcon showIcon={showIcon} />
-              <div className="ellipsis" title={result[resultStringKeyName]}>
-                {formatResult(result[resultStringKeyName])}
-              </div>
-            </li>
-          )
-        })}
+        {results.slice(0, maxResults).map((result) => (
+          <li
+            onMouseEnter={() => onHover(result)}
+            data-test="result"
+            key={`rsa-result-${result.id}`}
+            onMouseDown={() => handleClick(result)}
+            onClick={() => handleClick(result)}
+          >
+            <SearchIcon showIcon={showIcon} />
+            <div className="ellipsis" title={result[resultStringKeyName]}>
+              {formatResultWithKey(result)}
+            </div>
+          </li>
+        ))}
       </ul>
     </StyledResults>
   )
@@ -53,7 +53,7 @@ Results.defaultProps = {
   results: [],
   setDisplayString: () => {},
   resultStringKeyName: 'name',
-  formatResult: (val) => val,
+  formatResult: null
 }
 
 Results.propTypes = {
@@ -63,8 +63,7 @@ Results.propTypes = {
   showIcon: PropTypes.bool,
   maxResults: PropTypes.number,
   resultStringKeyName: PropTypes.string,
-  formatResult: PropTypes.func,
-
+  formatResult: null || PropTypes.func
 }
 
 const StyledResults = styled.div`
@@ -102,7 +101,9 @@ const StyledResults = styled.div`
       }
     }
   }
+
   .ellipsis {
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
