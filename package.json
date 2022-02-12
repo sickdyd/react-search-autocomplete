@@ -6,9 +6,11 @@
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --verbose --runInBand",
-    "build": "rm -rf ./dist/*.* && babel ./src --out-dir ./dist --ignore **/*.test.js && minify ./dist/ --out-dir ./dist/",
-    "build-watch": "rm -rf ./dist/*.* && babel ./src --out-dir ./dist --ignore **/*.test.js --watch && minify ./dist/ --out-dir ./dist/"
+    "test": "jest --verbose --runInBand --watchAll",
+    "coverage": "jest --coverage",
+    "deploy": "yarn build && npm publish",
+    "build": "babel src --out-dir dist --extensions '.ts' --ignore /**/*.test.ts --ignore /**/*.d.ts && tsc --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import React from 'react'
-import Results from './Results'
+import Results from '../src/components/Results'
 
 const results = [
   {

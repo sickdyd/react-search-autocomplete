@@ -3,3 +3,4 @@
 /build
 .eslintcache
 .DS_Store
+/coverage

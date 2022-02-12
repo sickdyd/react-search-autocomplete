@@ -1,8 +1,10 @@
-import React from 'react'
 import '@babel/polyfill'
-import { fireEvent, cleanup, render, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import ReactSearchAutocomplete, { DEFAULT_INPUT_DEBOUNCE } from './ReactSearchAutocomplete'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import React from 'react'
+import ReactSearchAutocomplete, {
+  DEFAULT_INPUT_DEBOUNCE
+} from '../src/components/ReactSearchAutocomplete'
 
 beforeEach(() => {
   localStorage.clear()
