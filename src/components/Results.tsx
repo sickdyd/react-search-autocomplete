@@ -1,23 +1,32 @@
-import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
 import { SearchIcon } from './SearchIcon'
 
-export default function Results(props) {
-  const {
-    results,
-    onClick,
-    setSearchString,
-    showIcon,
-    maxResults,
-    resultStringKeyName,
-    onHover,
-    formatResult
-  } = props
+export interface ResultsProps {
+  results: any[]
+  onClick: Function
+  setSearchString: Function
+  showIcon: boolean
+  maxResults: number
+  resultStringKeyName: string
+  onHover: Function
+  formatResult: Function | null
+}
 
-  const formatResultWithKey = formatResult ? formatResult : (val) => val[resultStringKeyName]
+export default function Results<T>({
+  results = [],
+  onClick,
+  setSearchString,
+  showIcon,
+  maxResults,
+  resultStringKeyName = 'name',
+  onHover,
+  formatResult = null
+}: ResultsProps) {
+  // TODO: fix any
+  const formatResultWithKey = formatResult ? formatResult : (val: any) => val[resultStringKeyName]
 
-  const handleClick = (result) => {
+  // TODO: fix any
+  const handleClick = (result: any) => {
     onClick(result)
     setSearchString(result[resultStringKeyName])
   }
@@ -47,23 +56,6 @@ export default function Results(props) {
       </ul>
     </StyledResults>
   )
-}
-
-Results.defaultProps = {
-  results: [],
-  setDisplayString: () => {},
-  resultStringKeyName: 'name',
-  formatResult: null
-}
-
-Results.propTypes = {
-  results: PropTypes.array,
-  onClick: PropTypes.func,
-  setSearchString: PropTypes.func,
-  showIcon: PropTypes.bool,
-  maxResults: PropTypes.number,
-  resultStringKeyName: PropTypes.string,
-  formatResult: null || PropTypes.func
 }
 
 const StyledResults = styled.div`

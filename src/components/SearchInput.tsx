@@ -1,8 +1,19 @@
-import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
-import { SearchIcon } from './SearchIcon'
+import { ChangeEventHandler, FocusEvent, FocusEventHandler, useRef } from 'react'
 import styled from 'styled-components'
 import { ClearIcon } from './ClearIcon'
+import { SearchIcon } from './SearchIcon'
+
+interface SearchInputProps {
+  searchString: string
+  setSearchString: ChangeEventHandler<HTMLInputElement>
+  autoFocus: boolean
+  onBlur: FocusEventHandler<HTMLInputElement>
+  onFocus: FocusEventHandler<HTMLInputElement>
+  onClear: Function
+  placeholder: string
+  showIcon: boolean
+  showClear: boolean
+}
 
 export default function SearchInput({
   searchString,
@@ -12,20 +23,21 @@ export default function SearchInput({
   onFocus,
   onClear,
   placeholder,
-  showIcon,
-  showClear
-}) {
-  const ref = useRef()
+  showIcon = true,
+  showClear = true
+}: SearchInputProps) {
+  const ref = useRef<HTMLInputElement>(null)
+
   let manualFocus = true
 
   const setFocus = () => {
     manualFocus = false
-    ref.current.focus()
+    ref?.current && ref.current.focus()
     manualFocus = true
   }
 
-  const handleOnFocus = () => {
-    manualFocus && onFocus()
+  const handleOnFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
+    manualFocus && onFocus(event)
   }
 
   return (
@@ -52,23 +64,6 @@ export default function SearchInput({
   )
 }
 
-SearchInput.defaultProps = {
-  showIcon: true,
-  showClear: true
-}
-
-SearchInput.propTypes = {
-  searchString: PropTypes.string.isRequired,
-  setSearchString: PropTypes.func.isRequired,
-  autoFocus: PropTypes.bool,
-  onBlur: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
-  onClear: PropTypes.func,
-  placeholder: PropTypes.string,
-  showIcon: PropTypes.bool,
-  showClear: PropTypes.bool
-}
-
 const StyledSearchInput = styled.div`
   min-height: ${(props) => props.theme.height};
   width: 100%;
@@ -91,18 +86,14 @@ const StyledSearchInput = styled.div`
     color: ${(props) => props.theme.color};
 
     ::placeholder {
-      /* Chrome, Firefox, Opera, Safari 10.1+ */
       color: ${(props) => props.theme.placeholderColor};
-      opacity: 1; /* Firefox */
-    }
+      opacity: 1;
 
     :-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
       color: ${(props) => props.theme.placeholderColor};
     }
 
     ::-ms-input-placeholder {
-      /* Microsoft Edge */
       color: ${(props) => props.theme.placeholderColor};
     }
   }

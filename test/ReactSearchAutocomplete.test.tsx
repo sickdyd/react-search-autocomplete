@@ -3,7 +3,8 @@ import '@testing-library/jest-dom/extend-expect'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import ReactSearchAutocomplete, {
-  DEFAULT_INPUT_DEBOUNCE
+  DEFAULT_INPUT_DEBOUNCE,
+  ReactSearchAutocompleteProps
 } from '../src/components/ReactSearchAutocomplete'
 
 beforeEach(() => {
@@ -14,6 +15,11 @@ afterEach(() => {
   cleanup()
   jest.clearAllMocks()
 })
+
+interface Item {
+  id: number
+  name: string
+}
 
 describe('<ReactSearchAutocomplete>', () => {
   let items = [
@@ -35,7 +41,7 @@ describe('<ReactSearchAutocomplete>', () => {
     }
   ]
 
-  let defaultProps = {
+  let defaultProps: ReactSearchAutocompleteProps<Item> = {
     items,
     placeholder: 'Search'
   }
@@ -202,9 +208,9 @@ describe('<ReactSearchAutocomplete>', () => {
 
     act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
-    let liNode = queryAllByTitle('value0')[0]
+    const liElement = queryAllByTitle('value0')[0]
 
-    fireEvent.mouseDown(liNode)
+    fireEvent.mouseDown(liElement)
 
     expect(onSelect).toHaveBeenCalled()
 
@@ -231,8 +237,9 @@ describe('<ReactSearchAutocomplete>', () => {
       container
     })
 
-    liNode = container.querySelectorAll('[data-test="result"]')
-    expect(liNode.length).toBe(0)
+    const liElements = container.querySelectorAll('[data-test="result"]')
+
+    expect(liElements.length).toBe(0)
   })
 
   it('calls onFocus on input focus', () => {
@@ -518,7 +525,7 @@ describe('<ReactSearchAutocomplete>', () => {
       const { queryByPlaceholderText, container } = render(
         <ReactSearchAutocomplete {...defaultProps} onClear={onClear} onFocus={onFocus} />
       )
-      const inputElement = queryByPlaceholderText(/search/i)
+      const inputElement = queryByPlaceholderText(/search/i) as HTMLInputElement
 
       fireEvent.change(inputElement, { target: { value: 'something' } })
 

@@ -1,8 +1,7 @@
-import Fuse from 'fuse.js'
-import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import { default as Fuse } from 'fuse.js'
+import React, { ChangeEvent, FocusEventHandler, useEffect, useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { defaultFuseOptions, defaultTheme } from '../config/config'
+import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
 import { debounce } from '../utils/utils'
 import Results from './Results'
 import SearchInput from './SearchInput'
@@ -10,27 +9,45 @@ import SearchInput from './SearchInput'
 export const DEFAULT_INPUT_DEBOUNCE = 200
 export const MAX_RESULTS = 10
 
-export default function ReactSearchAutocomplete(props) {
-  const {
-    items,
-    fuseOptions,
-    inputDebounce,
-    onSearch,
-    onHover,
-    onSelect,
-    onFocus,
-    onClear,
-    showIcon,
-    showClear,
-    maxResults,
-    placeholder,
-    autoFocus,
-    styling,
-    resultStringKeyName,
-    inputSearchString,
-    formatResult
-  } = props
+export interface ReactSearchAutocompleteProps<T> {
+  items: T[]
+  fuseOptions?: Fuse.IFuseOptions<T>
+  inputDebounce?: number
+  onSearch?: Function
+  onHover?: Function
+  onSelect?: Function
+  onFocus?: FocusEventHandler<HTMLInputElement>
+  onClear?: Function
+  showIcon?: boolean
+  showClear?: boolean
+  maxResults?: number
+  placeholder?: string
+  autoFocus?: boolean
+  styling?: DefaultTheme
+  resultStringKeyName?: string
+  inputSearchString?: string
+  formatResult?: Function | null
+}
 
+export default function ReactSearchAutocomplete<T>({
+  items = [],
+  fuseOptions = defaultFuseOptions,
+  inputDebounce = DEFAULT_INPUT_DEBOUNCE,
+  onSearch = () => {},
+  onHover = () => {},
+  onSelect = () => {},
+  onFocus = () => {},
+  onClear = () => {},
+  showIcon = true,
+  showClear = true,
+  maxResults = MAX_RESULTS,
+  placeholder = '',
+  autoFocus = false,
+  styling = {},
+  resultStringKeyName = 'name',
+  inputSearchString = '',
+  formatResult = null
+}: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
 
@@ -38,10 +55,11 @@ export default function ReactSearchAutocomplete(props) {
   fuse.setCollection(items)
 
   const [searchString, setSearchString] = useState(inputSearchString)
-  const [results, setResults] = useState()
+  const [results, setResults] = useState<any[]>([])
 
-  const callOnSearch = (keyword) => {
-    let newResults = []
+  const callOnSearch = (keyword: string) => {
+    let newResults: any[] = []
+
     if (keyword?.length > 0) {
       newResults = fuseResults(keyword)
       setResults(newResults)
@@ -53,7 +71,7 @@ export default function ReactSearchAutocomplete(props) {
 
   const handleOnSearch = React.useCallback(
     inputDebounce > 0
-      ? debounce((keyword) => callOnSearch(keyword), inputDebounce)
+      ? debounce((keyword: string) => callOnSearch(keyword), inputDebounce)
       : (keyword) => callOnSearch(keyword),
     [items]
   )
@@ -63,21 +81,24 @@ export default function ReactSearchAutocomplete(props) {
   }, [inputSearchString])
 
   useEffect(() => {
-    searchString?.length > 0 && results?.length > 0 && setResults(fuseResults(searchString))
+    searchString?.length > 0 &&
+      results &&
+      results?.length > 0 &&
+      setResults(fuseResults(searchString))
   }, [items])
 
-  const handleOnClick = (result) => {
+  const handleOnClick = (result: T) => {
     setResults([])
     onSelect(result)
   }
 
-  const fuseResults = (keyword) =>
+  const fuseResults = (keyword: string) =>
     fuse
       .search(keyword, { limit: maxResults })
       .map((result) => ({ ...result.item }))
       .slice(0, maxResults)
 
-  const handleSetSearchString = ({ target }) => {
+  const handleSetSearchString = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const keyword = target.value
     setSearchString(keyword)
     handleOnSearch(keyword)
@@ -112,46 +133,6 @@ export default function ReactSearchAutocomplete(props) {
       </StyledReactSearchAutocomplete>
     </ThemeProvider>
   )
-}
-
-ReactSearchAutocomplete.defaultProps = {
-  items: [],
-  fuseOptions: defaultFuseOptions,
-  onSearch: () => {},
-  onHover: () => {},
-  onSelect: () => {},
-  onClear: () => {},
-  inputDebounce: DEFAULT_INPUT_DEBOUNCE,
-  showIcon: true,
-  showClear: true,
-  maxResults: MAX_RESULTS,
-  placeholder: '',
-  autoFocus: false,
-  onFocus: () => {},
-  styling: {},
-  resultStringKeyName: 'name',
-  inputSearchString: '',
-  formatResult: null
-}
-
-ReactSearchAutocomplete.propTypes = {
-  items: PropTypes.array,
-  fuseOptions: PropTypes.object,
-  inputDebounce: PropTypes.number,
-  onSearch: PropTypes.func,
-  onHover: PropTypes.func,
-  onSelect: PropTypes.func,
-  onClear: PropTypes.func,
-  onFocus: PropTypes.func,
-  showIcon: PropTypes.bool,
-  showClear: PropTypes.bool,
-  maxResults: PropTypes.number,
-  placeholder: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  styling: PropTypes.object,
-  resultStringKeyName: PropTypes.string,
-  inputSearchString: PropTypes.string,
-  formatResult: null || PropTypes.func
 }
 
 const StyledReactSearchAutocomplete = styled.div`

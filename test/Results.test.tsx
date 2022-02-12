@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from '@testing-library/react'
-import React from 'react'
-import Results from '../src/components/Results'
+import Results, { ResultsProps } from '../src/components/Results'
 
 const results = [
   {
@@ -22,15 +21,15 @@ const results = [
   }
 ]
 
-const defaultProps = {
+const defaultProps: ResultsProps = {
   results,
   onClick: () => {},
   onHover: () => {},
   showIcon: true,
   maxResults: 10,
-  searchString: '',
   setSearchString: () => {},
-  formatResult: null
+  formatResult: null,
+  resultStringKeyName: 'name'
 }
 
 afterEach(cleanup)

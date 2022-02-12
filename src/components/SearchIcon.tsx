@@ -1,11 +1,5 @@
 import styled from 'styled-components'
 
-const StyledSearchIcon = styled.svg`
-  flex-shrink: 0;
-  margin: ${(props) => props.theme.searchIconMargin};
-  fill: ${(props) => props.theme.iconColor};
-`
-
 export const SearchIcon = ({ showIcon }: { showIcon: boolean }) => {
   if (!showIcon) {
     return null
@@ -24,3 +18,9 @@ export const SearchIcon = ({ showIcon }: { showIcon: boolean }) => {
     </StyledSearchIcon>
   )
 }
+
+const StyledSearchIcon = styled.svg`
+  flex-shrink: 0;
+  margin: ${(props) => props.theme.searchIconMargin};
+  fill: ${(props) => props.theme.iconColor};
+`

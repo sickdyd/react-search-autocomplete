@@ -6,11 +6,15 @@ import SearchInput from '../src/components/SearchInput'
 afterEach(cleanup)
 
 const defaultProps = {
+  autoFocus: false,
+  showIcon: true,
+  showClear: true,
   placeholder: 'Search',
   setSearchString: () => {},
   searchString: '',
   onFocus: () => {},
-  onBlur: () => {}
+  onBlur: () => {},
+  onClear: () => {}
 }
 
 describe('<SearchInput>', () => {
