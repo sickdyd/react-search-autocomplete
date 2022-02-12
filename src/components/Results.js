@@ -103,6 +103,7 @@ const StyledResults = styled.div`
   }
 
   .ellipsis {
+    text-align: left;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
