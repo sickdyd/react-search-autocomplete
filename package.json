@@ -9,7 +9,8 @@
     "test": "jest --verbose --runInBand --watchAll",
     "coverage": "jest --coverage",
     "deploy": "yarn build && npm publish",
-    "build": "babel src --out-dir dist --extensions '.ts' --ignore /**/*.test.ts --ignore /**/*.d.ts && tsc --emitDeclarationOnly",
+    "build": "rm -rf ./dist && babel src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx --ignore /**/*.d.ts && tsc --emitDeclarationOnly",
+    "build-watch": "rm -rf ./dist && babel --watch src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx --ignore /**/*.d.ts && tsc --emitDeclarationOnly",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
