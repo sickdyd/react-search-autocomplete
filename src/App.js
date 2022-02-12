@@ -1,7 +1,7 @@
 import React from "react";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import "./App.css";
 import logo from "./sickdoodle.png";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
 function App() {
   const items = [
@@ -77,6 +77,16 @@ function App() {
     console.log("Cleared");
   };
 
+  const formatResult = (item) => {
+    console.log(item);
+    return (
+      <div className="result-wrapper">
+        <span className="result-span">id: {item.id}</span>
+        <span className="result-span">name: {item.name}</span>
+      </div>
+    );
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -143,6 +153,22 @@ function App() {
               placeholderColor: "darkgreen",
               clearIconMargin: "3px 8px 0 0",
             }}
+          />
+          <div style={{ marginTop: 20 }}>This text will be covered!</div>
+        </div>
+        <div style={{ width: 300, margin: 20 }}>
+          <h2>With formatted results!</h2>
+          <div style={{ marginBottom: 20 }}>Try to type "JavaScript"</div>
+          <ReactSearchAutocomplete
+            items={items}
+            onSearch={handleOnSearch}
+            onHover={handleOnHover}
+            onSelect={handleOnSelect}
+            onFocus={handleOnFocus}
+            onClear={handleOnClear}
+            styling={{ zIndex: 2 }}
+            formatResult={formatResult}
+            autoFocus
           />
           <div style={{ marginTop: 20 }}>This text will be covered!</div>
         </div>

@@ -34,6 +34,21 @@ h2 {
   color: #61dafb;
 }
 
+.results-wrapper {
+  margin: 1rem 1rem 1rem 0;
+  padding: 0.5rem;
+}
+
+.result-span {
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: block;
+  padding: 0.5rem 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
