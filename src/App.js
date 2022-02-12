@@ -104,7 +104,7 @@ function App() {
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             onClear={handleOnClear}
-            styling={{ zIndex: 2 }} // To display it on top of the search box below
+            styling={{ zIndex: 4 }} // To display it on top of the search box below
             autoFocus
           />
           <div style={{ marginTop: 20 }}>This text will be covered!</div>
@@ -121,7 +121,7 @@ function App() {
             onFocus={handleOnFocus}
             onClear={handleOnClear}
             fuseOptions={{ keys: ["name", "description"] }} // Search in the description text as well
-            styling={{ zIndex: 1 }} // To display it on top of the search box below
+            styling={{ zIndex: 3 }} // To display it on top of the search box below
           />
           <div style={{ marginTop: 20 }}>This text will be covered!</div>
         </div>
@@ -152,6 +152,7 @@ function App() {
               lineColor: "lightgreen",
               placeholderColor: "darkgreen",
               clearIconMargin: "3px 8px 0 0",
+              zIndex: 2,
             }}
           />
           <div style={{ marginTop: 20 }}>This text will be covered!</div>
@@ -166,7 +167,7 @@ function App() {
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             onClear={handleOnClear}
-            styling={{ zIndex: 2 }}
+            styling={{ zIndex: 1 }}
             formatResult={formatResult}
             autoFocus
           />
