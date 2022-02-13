@@ -4,7 +4,7 @@ node_js:
   - stable
 
 install:
-  - travis_wait npm install
+  - travis_wait yarn install
 
 script:
-  - npm run test
+  - yarn run test

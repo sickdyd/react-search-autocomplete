@@ -6,7 +6,7 @@
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --verbose --runInBand --watchAll",
+    "test": "jest --verbose --runInBand",
     "coverage": "jest --coverage",
     "deploy": "yarn build && npm publish",
     "build": "rm -rf ./dist && tsc --emitDeclarationOnly && babel src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
