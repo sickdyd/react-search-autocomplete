@@ -1,23 +1,36 @@
-import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
 import { SearchIcon } from './SearchIcon'
 
-export default function Results(props) {
-  const {
-    results,
-    onClick,
-    setSearchString,
-    showIcon,
-    maxResults,
-    resultStringKeyName,
-    onHover,
-    formatResult
-  } = props
+type Item<T> = T & { [key: string]: unknown }
 
-  const formatResultWithKey = formatResult ? formatResult : (val) => val[resultStringKeyName]
+export interface ResultsProps<T> {
+  results: Item<T>[]
+  onClick: Function
+  onHover: (result: Item<T>) => void
+  setSearchString: Function
+  formatResult?: Function
+  showIcon: boolean
+  maxResults: number
+  resultStringKeyName: string
+}
 
-  const handleClick = (result) => {
+export default function Results<T>({
+  results = [] as any,
+  onClick,
+  setSearchString,
+  showIcon,
+  maxResults,
+  resultStringKeyName = 'name',
+  onHover,
+  formatResult
+}: ResultsProps<T>) {
+  type WithStringKeyName = T & Record<string, unknown>
+
+  const formatResultWithKey = formatResult
+    ? formatResult
+    : (item: WithStringKeyName) => item[resultStringKeyName]
+
+  const handleClick = (result: WithStringKeyName) => {
     onClick(result)
     setSearchString(result[resultStringKeyName])
   }
@@ -39,7 +52,7 @@ export default function Results(props) {
             onClick={() => handleClick(result)}
           >
             <SearchIcon showIcon={showIcon} />
-            <div className="ellipsis" title={result[resultStringKeyName]}>
+            <div className="ellipsis" title={result[resultStringKeyName] as string}>
               {formatResultWithKey(result)}
             </div>
           </li>
@@ -47,23 +60,6 @@ export default function Results(props) {
       </ul>
     </StyledResults>
   )
-}
-
-Results.defaultProps = {
-  results: [],
-  setDisplayString: () => {},
-  resultStringKeyName: 'name',
-  formatResult: null
-}
-
-Results.propTypes = {
-  results: PropTypes.array,
-  onClick: PropTypes.func,
-  setSearchString: PropTypes.func,
-  showIcon: PropTypes.bool,
-  maxResults: PropTypes.number,
-  resultStringKeyName: PropTypes.string,
-  formatResult: null || PropTypes.func
 }
 
 const StyledResults = styled.div`

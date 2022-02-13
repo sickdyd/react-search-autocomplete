@@ -1,8 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export const SearchIcon = ({ showIcon }) => {
+export const SearchIcon = ({ showIcon }: { showIcon: boolean }) => {
   if (!showIcon) {
     return null
   }
@@ -26,7 +24,3 @@ const StyledSearchIcon = styled.svg`
   margin: ${(props) => props.theme.searchIconMargin};
   fill: ${(props) => props.theme.iconColor};
 `
-
-SearchIcon.propTypes = {
-  showIcon: PropTypes.bool
-}

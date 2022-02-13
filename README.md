@@ -2,26 +2,18 @@
 
 ## `<ReactSearchAutocomplete>`
 
-A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results. It relies on [Fuse.js v6.4.4](https://fusejs.io/) for the fuzzy search. Check out their website to see the options (you can pass them to this component).
+A `<ReactSearchAutocomplete>` is a fully customizable search box where the user can type text and filter the results. It relies on [Fuse.js v6.5.3](https://fusejs.io/) for the fuzzy search. Check out their website to see the options (you can pass them to this component).
 
 [Click here to see a demo](https://sickdyd.github.io/react-search-autocomplete/).
 
 [Demo source](https://github.com/sickdyd/react-search-autocomplete/tree/demo).
 
-## Multiple search boxes on the same website
-
-If you are using multiple search boxes set `useCaching` to `false` (default is `false`); the implementation for multiple cached search boxes is work in progress.
-
 ### Installing
 
 ```bash
 $ npm install react-search-autocomplete
-```
-
-### With React 17
-
-```bash
-$ npm install react-search-autocomplete --legacy-peer-deps
+or
+$ yarn add react-search-autocomplete
 ```
 
 ### Exports
@@ -115,9 +107,20 @@ function App() {
 export default App
 ```
 
+#### With TypeScript
+
+```ts
+  type Item = {
+    id: number;
+    name: string;
+  }
+
+  <ReactSearchAutocomplete<Item> ... />
+```
+
 #### `<ReactSearchAutocomplete>` Props:
 
-```js
+```ts
 {
   items,
   // The list of items that can be filtered, it can be an array of
@@ -231,7 +234,7 @@ export default App
   //     backgroundColor: "black"
   //   }
   // }
-    formatResult,
+  formatResult,
   // The callback function used to format how the results are displayed.
 }
 ```

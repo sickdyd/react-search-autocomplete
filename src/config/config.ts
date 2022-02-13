@@ -1,4 +1,24 @@
-const defaultTheme = {
+import Fuse from 'fuse.js'
+
+export interface DefaultTheme {
+  height?: string
+  border?: string
+  borderRadius?: string
+  backgroundColor?: string
+  boxShadow?: string
+  hoverBackgroundColor?: string
+  color?: string
+  fontSize?: string
+  fontFamily?: string
+  iconColor?: string
+  lineColor?: string
+  placeholderColor?: string
+  zIndex?: number
+  clearIconMargin?: string
+  searchIconMargin?: string
+}
+
+const defaultTheme: DefaultTheme = {
   height: '44px',
   border: '1px solid #dfe1e5',
   borderRadius: '24px',
@@ -16,12 +36,11 @@ const defaultTheme = {
   searchIconMargin: '0 0 0 16px'
 }
 
-const defaultFuseOptions = {
+const defaultFuseOptions: Fuse.IFuseOptions<any> = {
   shouldSort: true,
   threshold: 0.6,
   location: 0,
   distance: 100,
-  maxPatternLength: 32,
   minMatchCharLength: 1,
   keys: ['name']
 }

@@ -1,16 +1,20 @@
-import React from 'react'
-import { fireEvent, cleanup, render, screen, waitForElement, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import SearchInput from './SearchInput'
+import { cleanup, fireEvent, render } from '@testing-library/react'
+import React from 'react'
+import SearchInput from '../src/components/SearchInput'
 
 afterEach(cleanup)
 
 const defaultProps = {
+  autoFocus: false,
+  showIcon: true,
+  showClear: true,
   placeholder: 'Search',
   setSearchString: () => {},
   searchString: '',
   onFocus: () => {},
-  onBlur: () => {}
+  onBlur: () => {},
+  onClear: () => {}
 }
 
 describe('<SearchInput>', () => {
