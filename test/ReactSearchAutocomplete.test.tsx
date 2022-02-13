@@ -21,6 +21,12 @@ interface Item {
   name: string
 }
 
+interface ItemWithDescription {
+  id: number
+  title: string
+  description: string
+}
+
 describe('<ReactSearchAutocomplete>', () => {
   let items = [
     {
@@ -56,7 +62,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('renders the search box', () => {
     const { queryByPlaceholderText, container } = render(
-      <ReactSearchAutocomplete {...defaultProps} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -68,7 +74,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('uses inputSearchString prop', async () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} inputSearchString="a string" />
+      <ReactSearchAutocomplete<Item> {...defaultProps} inputSearchString="a string" />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -78,18 +84,20 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('updates the value if inputSearchString prop is updated', async () => {
     const { rerender, queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} inputSearchString="a string" />
+      <ReactSearchAutocomplete<Item> {...defaultProps} inputSearchString="a string" />
     )
 
     expect(queryByPlaceholderText(/search/i)).toHaveValue('a string')
 
-    rerender(<ReactSearchAutocomplete {...defaultProps} inputSearchString="a new string" />)
+    rerender(<ReactSearchAutocomplete<Item> {...defaultProps} inputSearchString="a new string" />)
 
     expect(queryByPlaceholderText(/search/i)).toHaveValue('a new string')
   })
 
   it('updates results if items change', async () => {
-    const { rerender } = render(<ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />)
+    const { rerender } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
+    )
 
     const inputElement = screen.queryByPlaceholderText(/search/i)
 
@@ -120,7 +128,9 @@ describe('<ReactSearchAutocomplete>', () => {
 
     onSearch.mockClear()
 
-    rerender(<ReactSearchAutocomplete {...defaultProps} items={newItems} onSearch={onSearch} />)
+    rerender(
+      <ReactSearchAutocomplete<Item> {...defaultProps} items={newItems} onSearch={onSearch} />
+    )
 
     fireEvent.change(inputElement, { target: { value: 'another' } })
 
@@ -131,7 +141,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('returns an array of results', async () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -147,7 +157,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('returns an array of one result', async () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -163,7 +173,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('calls onSearch on change', async () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -175,11 +185,28 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(onSearch).toHaveBeenCalledWith('v', items)
   })
 
+  it('calls onSearch and delete results if text is empty', async () => {
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenNthCalledWith(1, 'v', items)
+
+    fireEvent.change(inputElement, { target: { value: '' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenNthCalledWith(2, '', [])
+  })
+
   it('calls onSelect on item selection', () => {
     const onSelect = jest.fn()
 
     const { queryByPlaceholderText, queryAllByTitle } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSelect={onSelect} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -199,7 +226,7 @@ describe('<ReactSearchAutocomplete>', () => {
     const onSelect = jest.fn()
 
     const { queryByPlaceholderText, queryAllByTitle, container } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSelect={onSelect} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -233,9 +260,12 @@ describe('<ReactSearchAutocomplete>', () => {
       }
     ]
 
-    render(<ReactSearchAutocomplete {...defaultProps} items={newItems} onSelect={onSelect} />, {
-      container
-    })
+    render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} items={newItems} onSelect={onSelect} />,
+      {
+        container
+      }
+    )
 
     const liElements = container.querySelectorAll('[data-test="result"]')
 
@@ -246,7 +276,7 @@ describe('<ReactSearchAutocomplete>', () => {
     const onFocus = jest.fn()
 
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onFocus={onFocus} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onFocus={onFocus} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -258,7 +288,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('sets focus if autoFocus is true', () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} autoFocus={true} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} autoFocus={true} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -268,7 +298,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it('uses debounce on search', () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
     )
 
     const inputElement = queryByPlaceholderText(/search/i)
@@ -284,7 +314,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
   it("doesn't use debounce if inputDebounce is 0", () => {
     const { queryByPlaceholderText } = render(
-      <ReactSearchAutocomplete {...defaultProps} onSearch={onSearch} inputDebounce={0} />
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} inputDebounce={0} />
     )
 
     onSearch.mockClear()
@@ -301,7 +331,7 @@ describe('<ReactSearchAutocomplete>', () => {
   describe('with items with name property', () => {
     it('renders the search box', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} />
       )
       const inputElement = queryByPlaceholderText(/search/i)
       // check that the input node is present
@@ -314,7 +344,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('shows 4 matching items', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -330,7 +360,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('shows 1 matching item', () => {
       const { queryByPlaceholderText, queryAllByTitle, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -347,7 +377,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('shows 0 matching items', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -394,7 +424,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('shows 4 matching items', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<ItemWithDescription> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -410,7 +440,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('shows 1 matching item', () => {
       const { queryByPlaceholderText, queryAllByTitle, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<ItemWithDescription> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -427,7 +457,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('shows 0 matching item', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<ItemWithDescription> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -460,7 +490,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('renders and display resulst', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<ItemWithDescription> {...defaultProps} />
       )
 
       const inputElement = queryByPlaceholderText(/search/i)
@@ -478,7 +508,7 @@ describe('<ReactSearchAutocomplete>', () => {
   describe('showClear', () => {
     it('displays the showClear by default', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} />
       )
       const inputElement = queryByPlaceholderText(/search/i)
 
@@ -492,7 +522,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('displays the clear icon when showClear is true', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} showClear={true} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} showClear={true} />
       )
       const inputElement = queryByPlaceholderText(/search/i)
 
@@ -506,7 +536,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     it('hides the clear icon when showClear is false', () => {
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} showClear={false} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} showClear={false} />
       )
       const inputElement = queryByPlaceholderText(/search/i)
 
@@ -523,7 +553,7 @@ describe('<ReactSearchAutocomplete>', () => {
       const onFocus = jest.fn()
 
       const { queryByPlaceholderText, container } = render(
-        <ReactSearchAutocomplete {...defaultProps} onClear={onClear} onFocus={onFocus} />
+        <ReactSearchAutocomplete<Item> {...defaultProps} onClear={onClear} onFocus={onFocus} />
       )
       const inputElement = queryByPlaceholderText(/search/i) as HTMLInputElement
 

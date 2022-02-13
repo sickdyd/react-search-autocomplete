@@ -58,15 +58,12 @@ export default function ReactSearchAutocomplete<T>({
   const [results, setResults] = useState<any[]>([])
 
   const callOnSearch = (keyword: string) => {
-    let newResults: any[] = []
+    let newResults: T[] = []
 
-    if (keyword?.length > 0) {
-      newResults = fuseResults(keyword)
-      setResults(newResults)
-      onSearch(keyword, newResults)
-    } else {
-      setResults(newResults)
-    }
+    keyword?.length > 0 && (newResults = fuseResults(keyword))
+
+    setResults(newResults)
+    onSearch(keyword, newResults)
   }
 
   const handleOnSearch = React.useCallback(
