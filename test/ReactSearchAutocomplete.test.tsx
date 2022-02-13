@@ -150,8 +150,6 @@ describe('<ReactSearchAutocomplete>', () => {
 
     act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
-    expect(sessionStorage.getItem).not.toHaveBeenCalled()
-    expect(sessionStorage.setItem).not.toHaveBeenCalled()
     expect(onSearch).toHaveBeenCalledWith('value', items)
   })
 
@@ -166,8 +164,6 @@ describe('<ReactSearchAutocomplete>', () => {
 
     act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
-    expect(sessionStorage.getItem).not.toHaveBeenCalled()
-    expect(sessionStorage.setItem).not.toHaveBeenCalled()
     expect(onSearch).toHaveBeenCalledWith('0', [{ id: 0, name: 'value0' }])
   })
 
