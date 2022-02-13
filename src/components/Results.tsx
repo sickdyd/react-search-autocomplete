@@ -1,32 +1,36 @@
 import styled from 'styled-components'
 import { SearchIcon } from './SearchIcon'
 
-export interface ResultsProps {
-  results: any[]
+type Item<T> = T & { [key: string]: unknown }
+
+export interface ResultsProps<T> {
+  results: Item<T>[]
   onClick: Function
+  onHover: (result: Item<T>) => void
   setSearchString: Function
+  formatResult?: Function
   showIcon: boolean
   maxResults: number
   resultStringKeyName: string
-  onHover: Function
-  formatResult: Function | null
 }
 
 export default function Results<T>({
-  results = [],
+  results = [] as any,
   onClick,
   setSearchString,
   showIcon,
   maxResults,
   resultStringKeyName = 'name',
   onHover,
-  formatResult = null
-}: ResultsProps) {
-  // TODO: fix any
-  const formatResultWithKey = formatResult ? formatResult : (val: any) => val[resultStringKeyName]
+  formatResult
+}: ResultsProps<T>) {
+  type WithStringKeyName = T & Record<string, unknown>
 
-  // TODO: fix any
-  const handleClick = (result: any) => {
+  const formatResultWithKey = formatResult
+    ? formatResult
+    : (item: WithStringKeyName) => item[resultStringKeyName]
+
+  const handleClick = (result: WithStringKeyName) => {
     onClick(result)
     setSearchString(result[resultStringKeyName])
   }
@@ -48,7 +52,7 @@ export default function Results<T>({
             onClick={() => handleClick(result)}
           >
             <SearchIcon showIcon={showIcon} />
-            <div className="ellipsis" title={result[resultStringKeyName]}>
+            <div className="ellipsis" title={result[resultStringKeyName] as string}>
               {formatResultWithKey(result)}
             </div>
           </li>

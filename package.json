@@ -9,8 +9,8 @@
     "test": "jest --verbose --runInBand --watchAll",
     "coverage": "jest --coverage",
     "deploy": "yarn build && npm publish",
-    "build": "rm -rf ./dist && babel src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx --ignore /**/*.d.ts && tsc --emitDeclarationOnly",
-    "build-watch": "rm -rf ./dist && babel --watch src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx --ignore /**/*.d.ts && tsc --emitDeclarationOnly",
+    "build": "rm -rf ./dist && tsc --emitDeclarationOnly && babel src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
+    "build-watch": "rm -rf ./dist && tsc --emitDeclarationOnly && babel --watch src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
@@ -60,8 +60,8 @@
     "styled-components": "^5.3.3"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^17.0.2 || ^16.0.2",
+    "react-dom": "^17.0.2 || ^16.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

@@ -13,9 +13,9 @@ export interface ReactSearchAutocompleteProps<T> {
   items: T[]
   fuseOptions?: Fuse.IFuseOptions<T>
   inputDebounce?: number
-  onSearch?: Function
-  onHover?: Function
-  onSelect?: Function
+  onSearch?: (keyword: string, results: T[]) => void
+  onHover?: (result: T) => void
+  onSelect?: (result: T) => void
   onFocus?: FocusEventHandler<HTMLInputElement>
   onClear?: Function
   showIcon?: boolean
@@ -26,7 +26,7 @@ export interface ReactSearchAutocompleteProps<T> {
   styling?: DefaultTheme
   resultStringKeyName?: string
   inputSearchString?: string
-  formatResult?: Function | null
+  formatResult?: Function
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -46,7 +46,7 @@ export default function ReactSearchAutocomplete<T>({
   styling = {},
   resultStringKeyName = 'name',
   inputSearchString = '',
-  formatResult = null
+  formatResult
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
