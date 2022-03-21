@@ -72,7 +72,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
-    "@types/styled-components": "^5.1.22",
+    "@types/styled-components": "^5.1.24",
     "babel-minify": "^0.5.1",
     "jest": "^27.5.1",
     "jest-localstorage-mock": "^2.4.6",
