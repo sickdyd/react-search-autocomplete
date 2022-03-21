@@ -88,6 +88,7 @@ export default function ReactSearchAutocomplete<T>({
   const handleOnClick = (result: T) => {
     setResults([])
     onSelect(result)
+    setHighlightedItem(0)
   }
 
   const fuseResults = (keyword: string) =>
@@ -109,30 +110,28 @@ export default function ReactSearchAutocomplete<T>({
     index?: number
     event?: KeyboardEvent<HTMLInputElement>
   }) => {
-    const setValues = (hoveredItem: number) => {
-      onHover(results[hoveredItem])
-      setSearchString(results[hoveredItem][resultStringKeyName])
-    }
-
     let itemIndex = 0
+
+    const setValues = (index: number) => {
+      setHighlightedItem(index)
+      onHover(results[index])
+    }
 
     if (index !== undefined) {
       setHighlightedItem(index)
-      setValues(index)
     } else if (event) {
       switch (event.key) {
         case 'Enter':
           setResults([])
           onSelect(results[highlightedItem])
+          setHighlightedItem(0)
           break
         case 'ArrowUp':
           itemIndex = highlightedItem > 0 ? highlightedItem - 1 : results.length - 1
-          setHighlightedItem(itemIndex)
           setValues(itemIndex)
           break
         case 'ArrowDown':
           itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : 0
-          setHighlightedItem(itemIndex)
           setValues(itemIndex)
           break
         default:
