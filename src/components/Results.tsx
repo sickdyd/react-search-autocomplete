@@ -7,6 +7,8 @@ export interface ResultsProps<T> {
   results: Item<T>[]
   onClick: Function
   onHover: (result: Item<T>) => void
+  highlightedItem: number
+  setHighlightedItem: Function
   setSearchString: Function
   formatResult?: Function
   showIcon: boolean
@@ -21,7 +23,8 @@ export default function Results<T>({
   showIcon,
   maxResults,
   resultStringKeyName = 'name',
-  onHover,
+  highlightedItem,
+  setHighlightedItem,
   formatResult
 }: ResultsProps<T>) {
   type WithStringKeyName = T & Record<string, unknown>
@@ -43,9 +46,10 @@ export default function Results<T>({
     <StyledResults>
       <div className="line" />
       <ul>
-        {results.slice(0, maxResults).map((result) => (
+        {results.slice(0, maxResults).map((result, index) => (
           <li
-            onMouseEnter={() => onHover(result)}
+            className={highlightedItem === index ? 'selected' : ''}
+            onMouseEnter={() => setHighlightedItem({ index })}
             data-test="result"
             key={`rsa-result-${result.id}`}
             onMouseDown={() => handleClick(result)}
@@ -87,11 +91,6 @@ const StyledResults = styled.div`
       align-items: center;
       padding: 4px 0 4px 0;
 
-      &:hover {
-        background-color: ${(props) => props.theme.hoverBackgroundColor};
-        cursor: default;
-      }
-
       > div {
         margin-left: 13px;
       }
@@ -104,5 +103,9 @@ const StyledResults = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .selected {
+    background-color: ${(props) => props.theme.hoverBackgroundColor};
   }
 `

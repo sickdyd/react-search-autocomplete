@@ -1,5 +1,5 @@
 import { default as Fuse } from 'fuse.js'
-import React, { ChangeEvent, FocusEventHandler, useEffect, useState } from 'react'
+import React, { ChangeEvent, FocusEventHandler, KeyboardEvent, useEffect, useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
 import { debounce } from '../utils/utils'
@@ -54,8 +54,9 @@ export default function ReactSearchAutocomplete<T>({
   const fuse = new Fuse(items, options)
   fuse.setCollection(items)
 
-  const [searchString, setSearchString] = useState(inputSearchString)
+  const [searchString, setSearchString] = useState<string>(inputSearchString)
   const [results, setResults] = useState<any[]>([])
+  const [highlightedItem, setHighlightedItem] = useState<number>(0)
 
   const callOnSearch = (keyword: string) => {
     let newResults: T[] = []
@@ -101,6 +102,45 @@ export default function ReactSearchAutocomplete<T>({
     handleOnSearch(keyword)
   }
 
+  const handleSetHighligthedItem = ({
+    index,
+    event
+  }: {
+    index?: number
+    event?: KeyboardEvent<HTMLInputElement>
+  }) => {
+    const setValues = (hoveredItem: number) => {
+      onHover(results[hoveredItem])
+      setSearchString(results[hoveredItem][resultStringKeyName])
+    }
+
+    let itemIndex = 0
+
+    if (index !== undefined) {
+      setHighlightedItem(index)
+      setValues(index)
+    } else if (event) {
+      switch (event.key) {
+        case 'Enter':
+          setResults([])
+          onSelect(results[highlightedItem])
+          break
+        case 'ArrowUp':
+          itemIndex = highlightedItem > 0 ? highlightedItem - 1 : results.length - 1
+          setHighlightedItem(itemIndex)
+          setValues(itemIndex)
+          break
+        case 'ArrowDown':
+          itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : 0
+          setHighlightedItem(itemIndex)
+          setValues(itemIndex)
+          break
+        default:
+          break
+      }
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <StyledReactSearchAutocomplete>
@@ -115,6 +155,7 @@ export default function ReactSearchAutocomplete<T>({
             placeholder={placeholder}
             showIcon={showIcon}
             showClear={showClear}
+            setHighlightedItem={handleSetHighligthedItem}
           />
           <Results
             results={results}
@@ -125,6 +166,8 @@ export default function ReactSearchAutocomplete<T>({
             maxResults={maxResults}
             resultStringKeyName={resultStringKeyName}
             formatResult={formatResult}
+            highlightedItem={highlightedItem}
+            setHighlightedItem={handleSetHighligthedItem}
           />
         </div>
       </StyledReactSearchAutocomplete>
