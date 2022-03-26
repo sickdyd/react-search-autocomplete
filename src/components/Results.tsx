@@ -6,7 +6,6 @@ type Item<T> = T & { [key: string]: unknown }
 export interface ResultsProps<T> {
   results: Item<T>[]
   onClick: Function
-  onHover: (result: Item<T>) => void
   highlightedItem: number
   setHighlightedItem: Function
   setSearchString: Function

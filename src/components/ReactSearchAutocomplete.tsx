@@ -119,6 +119,7 @@ export default function ReactSearchAutocomplete<T>({
 
     if (index !== undefined) {
       setHighlightedItem(index)
+      onHover(results[index])
     } else if (event) {
       switch (event.key) {
         case 'Enter':
@@ -127,10 +128,12 @@ export default function ReactSearchAutocomplete<T>({
           setHighlightedItem(0)
           break
         case 'ArrowUp':
+          event.preventDefault()
           itemIndex = highlightedItem > 0 ? highlightedItem - 1 : results.length - 1
           setValues(itemIndex)
           break
         case 'ArrowDown':
+          event.preventDefault()
           itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : 0
           setValues(itemIndex)
           break
@@ -159,7 +162,6 @@ export default function ReactSearchAutocomplete<T>({
           <Results
             results={results}
             onClick={handleOnClick}
-            onHover={onHover}
             setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
