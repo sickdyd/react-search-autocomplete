@@ -243,7 +243,72 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(liTag1).toHaveClass('selected')
   })
 
-  it('calls onSelect on item selection', () => {
+  it('calls onSelect when key navigating down and pressing return', () => {
+    const onSelect = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.keyDown(inputElement, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
+    })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      charCode: 13
+    })
+
+    expect(onSelect).toHaveBeenCalledWith(items[1])
+  })
+
+  it('calls onSelect when ciclying and pressing return', () => {
+    const onSelect = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    for (let i = 0; i < items.length; i++) {
+      fireEvent.keyDown(inputElement, {
+        key: 'ArrowDown',
+        code: 'ArrowDown',
+        keyCode: 40,
+        charCode: 40
+      })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+    }
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      charCode: 13
+    })
+
+    expect(onSelect).toHaveBeenCalledWith(items[0])
+  })
+
+  it('calls onSelect when clicking on item', () => {
     const onSelect = jest.fn()
 
     const { queryByPlaceholderText, queryAllByTitle } = render(
