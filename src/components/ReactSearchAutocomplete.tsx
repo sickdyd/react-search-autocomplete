@@ -1,5 +1,5 @@
 import { default as Fuse } from 'fuse.js'
-import React, { ChangeEvent, FocusEventHandler, useEffect, useState } from 'react'
+import React, { ChangeEvent, FocusEventHandler, KeyboardEvent, useEffect, useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
 import { debounce } from '../utils/utils'
@@ -54,8 +54,9 @@ export default function ReactSearchAutocomplete<T>({
   const fuse = new Fuse(items, options)
   fuse.setCollection(items)
 
-  const [searchString, setSearchString] = useState(inputSearchString)
+  const [searchString, setSearchString] = useState<string>(inputSearchString)
   const [results, setResults] = useState<any[]>([])
+  const [highlightedItem, setHighlightedItem] = useState<number>(0)
 
   const callOnSearch = (keyword: string) => {
     let newResults: T[] = []
@@ -87,6 +88,7 @@ export default function ReactSearchAutocomplete<T>({
   const handleOnClick = (result: T) => {
     setResults([])
     onSelect(result)
+    setHighlightedItem(0)
   }
 
   const fuseResults = (keyword: string) =>
@@ -99,6 +101,46 @@ export default function ReactSearchAutocomplete<T>({
     const keyword = target.value
     setSearchString(keyword)
     handleOnSearch(keyword)
+  }
+
+  const handleSetHighligthedItem = ({
+    index,
+    event
+  }: {
+    index?: number
+    event?: KeyboardEvent<HTMLInputElement>
+  }) => {
+    let itemIndex = 0
+
+    const setValues = (index: number) => {
+      setHighlightedItem(index)
+      onHover(results[index])
+    }
+
+    if (index !== undefined) {
+      setHighlightedItem(index)
+      onHover(results[index])
+    } else if (event) {
+      switch (event.key) {
+        case 'Enter':
+          setResults([])
+          onSelect(results[highlightedItem])
+          setHighlightedItem(0)
+          break
+        case 'ArrowUp':
+          event.preventDefault()
+          itemIndex = highlightedItem > 0 ? highlightedItem - 1 : results.length - 1
+          setValues(itemIndex)
+          break
+        case 'ArrowDown':
+          event.preventDefault()
+          itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : 0
+          setValues(itemIndex)
+          break
+        default:
+          break
+      }
+    }
   }
 
   return (
@@ -115,16 +157,18 @@ export default function ReactSearchAutocomplete<T>({
             placeholder={placeholder}
             showIcon={showIcon}
             showClear={showClear}
+            setHighlightedItem={handleSetHighligthedItem}
           />
           <Results
             results={results}
             onClick={handleOnClick}
-            onHover={onHover}
             setSearchString={setSearchString}
             showIcon={showIcon}
             maxResults={maxResults}
             resultStringKeyName={resultStringKeyName}
             formatResult={formatResult}
+            highlightedItem={highlightedItem}
+            setHighlightedItem={handleSetHighligthedItem}
           />
         </div>
       </StyledReactSearchAutocomplete>

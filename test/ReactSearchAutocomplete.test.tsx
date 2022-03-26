@@ -198,7 +198,117 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(onSearch).toHaveBeenNthCalledWith(2, '', [])
   })
 
-  it('calls onSelect on item selection', () => {
+  it('calls onHover when result is hovered', () => {
+    const onHover = jest.fn()
+
+    const { container, queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onHover={onHover} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    const liTag = container.getElementsByTagName('li')[0]
+    fireEvent.mouseEnter(liTag)
+
+    expect(onHover).toHaveBeenCalledWith(items[0])
+  })
+
+  it('change selected element when ArrowDown is pressed', () => {
+    const onHover = jest.fn()
+
+    const { container, queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onHover={onHover} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    const liTag0 = container.getElementsByTagName('li')[0]
+    expect(liTag0).toHaveClass('selected')
+
+    fireEvent.keyDown(inputElement, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
+    })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+    expect(liTag0).not.toHaveClass('selected')
+
+    const liTag1 = container.getElementsByTagName('li')[1]
+    expect(liTag1).toHaveClass('selected')
+  })
+
+  it('calls onSelect when key navigating down and pressing return', () => {
+    const onSelect = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.keyDown(inputElement, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
+    })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      charCode: 13
+    })
+
+    expect(onSelect).toHaveBeenCalledWith(items[1])
+  })
+
+  it('calls onSelect when ciclying and pressing return', () => {
+    const onSelect = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    for (let i = 0; i < items.length; i++) {
+      fireEvent.keyDown(inputElement, {
+        key: 'ArrowDown',
+        code: 'ArrowDown',
+        keyCode: 40,
+        charCode: 40
+      })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+    }
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      charCode: 13
+    })
+
+    expect(onSelect).toHaveBeenCalledWith(items[0])
+  })
+
+  it('calls onSelect when clicking on item', () => {
     const onSelect = jest.fn()
 
     const { queryByPlaceholderText, queryAllByTitle } = render(

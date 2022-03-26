@@ -10,6 +10,7 @@ const defaultProps = {
   showIcon: true,
   showClear: true,
   placeholder: 'Search',
+  setHighlightedItem: () => {},
   setSearchString: () => {},
   searchString: '',
   onFocus: () => {},

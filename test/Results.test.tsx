@@ -2,6 +2,11 @@ import '@testing-library/jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import Results, { ResultsProps } from '../src/components/Results'
 
+type Item = {
+  id: number
+  name: string
+}
+
 const results = [
   {
     id: 0,
@@ -21,10 +26,11 @@ const results = [
   }
 ]
 
-const defaultProps: ResultsProps = {
+const defaultProps: ResultsProps<Item> = {
   results,
   onClick: () => {},
-  onHover: () => {},
+  highlightedItem: 0,
+  setHighlightedItem: () => {},
   showIcon: true,
   maxResults: 10,
   setSearchString: () => {},
@@ -68,15 +74,17 @@ describe('<Results>', () => {
     expect(container.querySelectorAll('.search-icon').length).toBe(2)
   })
 
-  it('calls onHover when result is hovered', () => {
-    const onHover = jest.fn()
+  it('calls setHighlightedItem when result is hovered', () => {
+    const setHighlightedItem = jest.fn()
 
-    const { container } = render(<Results {...defaultProps} onHover={onHover} />)
+    const { container } = render(
+      <Results {...defaultProps} setHighlightedItem={setHighlightedItem} />
+    )
 
     const liTag = container.getElementsByTagName('li')[0]
     fireEvent.mouseEnter(liTag)
 
-    expect(onHover).toHaveBeenCalledWith(results[0])
+    expect(setHighlightedItem).toHaveBeenCalledWith({ index: 0 })
   })
 
   it('calls formatResult when renders results', () => {

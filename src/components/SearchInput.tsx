@@ -6,6 +6,7 @@ import { SearchIcon } from './SearchIcon'
 interface SearchInputProps {
   searchString: string
   setSearchString: ChangeEventHandler<HTMLInputElement>
+  setHighlightedItem: Function
   autoFocus: boolean
   onBlur: FocusEventHandler<HTMLInputElement>
   onFocus: FocusEventHandler<HTMLInputElement>
@@ -18,6 +19,7 @@ interface SearchInputProps {
 export default function SearchInput({
   searchString,
   setSearchString,
+  setHighlightedItem,
   autoFocus,
   onBlur,
   onFocus,
@@ -52,6 +54,7 @@ export default function SearchInput({
         onFocus={handleOnFocus}
         placeholder={placeholder}
         autoFocus={autoFocus}
+        onKeyDown={(event) => setHighlightedItem({ event })}
       />
       <ClearIcon
         showClear={showClear}
