@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { SearchIcon } from './SearchIcon'
 
-type Item<T> = T & { [key: string]: unknown }
+export type Item<T> = T & { [key: string]: any }
 
 export interface ResultsProps<T> {
   results: Item<T>[]

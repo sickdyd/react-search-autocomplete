@@ -3,7 +3,7 @@ import React, { ChangeEvent, FocusEventHandler, KeyboardEvent, useEffect, useSta
 import styled, { ThemeProvider } from 'styled-components'
 import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
 import { debounce } from '../utils/utils'
-import Results from './Results'
+import Results, { Item } from './Results'
 import SearchInput from './SearchInput'
 
 export const DEFAULT_INPUT_DEBOUNCE = 200
@@ -85,9 +85,10 @@ export default function ReactSearchAutocomplete<T>({
       setResults(fuseResults(searchString))
   }, [items])
 
-  const handleOnClick = (result: T) => {
+  const handleOnClick = (result: Item<T>) => {
     setResults([])
     onSelect(result)
+    setSearchString(result[resultStringKeyName])
     setHighlightedItem(0)
   }
 
@@ -125,6 +126,7 @@ export default function ReactSearchAutocomplete<T>({
         case 'Enter':
           setResults([])
           onSelect(results[highlightedItem])
+          setSearchString(results[highlightedItem][resultStringKeyName])
           setHighlightedItem(0)
           break
         case 'ArrowUp':

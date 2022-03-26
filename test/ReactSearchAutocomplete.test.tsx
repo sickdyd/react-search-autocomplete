@@ -275,6 +275,49 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(onSelect).toHaveBeenCalledWith(items[1])
   })
 
+  it('sets the value of the input to the selected item when pressing return', () => {
+    const { queryByPlaceholderText } = render(<ReactSearchAutocomplete<Item> {...defaultProps} />)
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.keyDown(inputElement, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
+    })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      charCode: 13
+    })
+
+    expect(inputElement).toHaveDisplayValue(items[1].name)
+  })
+
+  it('sets the value of the input to the selected item when clicking on it', () => {
+    const { container, queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+    fireEvent.change(inputElement, { target: { value: 'v' } })
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    const liTag = container.getElementsByTagName('li')[0]
+    fireEvent.click(liTag)
+
+    expect(inputElement).toHaveDisplayValue(items[0].name)
+  })
+
   it('calls onSelect when ciclying and pressing return', () => {
     const onSelect = jest.fn()
 
