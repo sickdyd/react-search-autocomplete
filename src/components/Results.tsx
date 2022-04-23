@@ -51,7 +51,6 @@ export default function Results<T>({
             onMouseEnter={() => setHighlightedItem({ index })}
             data-test="result"
             key={`rsa-result-${result.id}`}
-            onMouseDown={() => handleClick(result)}
             onClick={() => handleClick(result)}
           >
             <SearchIcon showIcon={showIcon} />
