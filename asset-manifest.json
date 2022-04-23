@@ -5,16 +5,16 @@
     "main.js.map": "/react-search-autocomplete/static/js/main.67aacfd5.chunk.js.map",
     "runtime-main.js": "/react-search-autocomplete/static/js/runtime-main.de9a58a4.js",
     "runtime-main.js.map": "/react-search-autocomplete/static/js/runtime-main.de9a58a4.js.map",
-    "static/js/2.3f2b2ce9.chunk.js": "/react-search-autocomplete/static/js/2.3f2b2ce9.chunk.js",
-    "static/js/2.3f2b2ce9.chunk.js.map": "/react-search-autocomplete/static/js/2.3f2b2ce9.chunk.js.map",
+    "static/js/2.d4a16444.chunk.js": "/react-search-autocomplete/static/js/2.d4a16444.chunk.js",
+    "static/js/2.d4a16444.chunk.js.map": "/react-search-autocomplete/static/js/2.d4a16444.chunk.js.map",
     "index.html": "/react-search-autocomplete/index.html",
     "static/css/main.94debb1e.chunk.css.map": "/react-search-autocomplete/static/css/main.94debb1e.chunk.css.map",
-    "static/js/2.3f2b2ce9.chunk.js.LICENSE.txt": "/react-search-autocomplete/static/js/2.3f2b2ce9.chunk.js.LICENSE.txt",
+    "static/js/2.d4a16444.chunk.js.LICENSE.txt": "/react-search-autocomplete/static/js/2.d4a16444.chunk.js.LICENSE.txt",
     "static/media/sickdoodle.d7740801.png": "/react-search-autocomplete/static/media/sickdoodle.d7740801.png"
   },
   "entrypoints": [
     "static/js/runtime-main.de9a58a4.js",
-    "static/js/2.3f2b2ce9.chunk.js",
+    "static/js/2.d4a16444.chunk.js",
     "static/css/main.94debb1e.chunk.css",
     "static/js/main.67aacfd5.chunk.js"
   ]
