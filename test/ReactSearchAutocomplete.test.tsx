@@ -366,7 +366,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const liNode = queryAllByTitle('value0')[0]
 
-    fireEvent.click(liNode)
+    fireEvent.mouseDown(liNode)
 
     expect(onSelect).toHaveBeenCalled()
   })
@@ -386,7 +386,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const liElement = queryAllByTitle('value0')[0]
 
-    fireEvent.click(liElement)
+    fireEvent.mouseDown(liElement)
 
     expect(onSelect).toHaveBeenCalled()
 
