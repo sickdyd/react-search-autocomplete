@@ -104,7 +104,7 @@ export default function ReactSearchAutocomplete<T>({
     handleOnSearch(keyword)
   }
 
-  const handleSetHighligthedItem = ({
+  const handleSetHighlightedItem = ({
     index,
     event
   }: {
@@ -161,7 +161,7 @@ export default function ReactSearchAutocomplete<T>({
             placeholder={placeholder}
             showIcon={showIcon}
             showClear={showClear}
-            setHighlightedItem={handleSetHighligthedItem}
+            setHighlightedItem={handleSetHighlightedItem}
           />
           <Results
             results={results}
