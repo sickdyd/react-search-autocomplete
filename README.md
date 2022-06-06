@@ -33,6 +33,7 @@ import './App.css'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 function App() {
+  // note: the id field is mandatory
   const items = [
     {
       id: 0,
@@ -124,7 +125,8 @@ export default App
 {
   items,
   // The list of items that can be filtered, it can be an array of
-  // any type of object. By default the search will be done on the
+  // any type of object. Note: the id field is mandatory.
+  // By default the search will be done on the
   // property "name", to change this behaviour, change the `fuseOptions`
   // prop. Remember that the component uses the key "name" in your
   // items list to display the result. If your list of items does not
