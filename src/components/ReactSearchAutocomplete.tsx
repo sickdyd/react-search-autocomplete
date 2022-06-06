@@ -172,7 +172,7 @@ export default function ReactSearchAutocomplete<T>({
             resultStringKeyName={resultStringKeyName}
             formatResult={formatResult}
             highlightedItem={highlightedItem}
-            setHighlightedItem={handleSetHighligthedItem}
+            setHighlightedItem={handleSetHighlightedItem}
           />
         </div>
       </StyledReactSearchAutocomplete>
