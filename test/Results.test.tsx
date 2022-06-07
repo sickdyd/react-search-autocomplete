@@ -35,7 +35,8 @@ const defaultProps: ResultsProps<Item> = {
   maxResults: 10,
   setSearchString: () => {},
   formatResult: undefined,
-  resultStringKeyName: 'name'
+  resultStringKeyName: 'name',
+  showNoResultsFlag: false
 }
 
 afterEach(cleanup)

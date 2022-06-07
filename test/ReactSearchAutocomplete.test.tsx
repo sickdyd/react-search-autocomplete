@@ -524,7 +524,7 @@ describe('<ReactSearchAutocomplete>', () => {
       expect(ul.querySelectorAll('.search-icon').length).toBe(1)
     })
 
-    it('shows 0 matching items', () => {
+    it('by default shows no results message if there are no matching items', () => {
       const { queryByPlaceholderText, container } = render(
         <ReactSearchAutocomplete<Item> {...defaultProps} />
       )
@@ -535,7 +535,58 @@ describe('<ReactSearchAutocomplete>', () => {
 
       act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
-      expect(container.getElementsByTagName('ul').length).toBe(0)
+      let liElements = container.querySelectorAll('[data-test="result"]')
+
+      expect(liElements.length).toBe(0)
+
+      liElements = container.querySelectorAll('[data-test="no-results-message"]')
+
+      expect(liElements.length).toBe(1)
+      expect(liElements[0].textContent).toBe('No results')
+    })
+
+    it('shows nothing if showNoResults is false', () => {
+      const { queryByPlaceholderText, container } = render(
+        <ReactSearchAutocomplete<Item> {...defaultProps} showNoResults={false} />
+      )
+
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement!, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+      let liElements = container.querySelectorAll('[data-test="result"]')
+
+      expect(liElements.length).toBe(0)
+
+      liElements = container.querySelectorAll('[data-test="no-results-message"]')
+
+      expect(liElements.length).toBe(0)
+    })
+
+    it('shows custom no results message if no results are found', () => {
+      const { queryByPlaceholderText, container } = render(
+        <ReactSearchAutocomplete<Item>
+          {...defaultProps}
+          showNoResultsText="We could not find any matching items"
+        />
+      )
+
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement!, { target: { value: 'something' } })
+
+      act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+      let liElements = container.querySelectorAll('[data-test="result"]')
+
+      expect(liElements.length).toBe(0)
+
+      liElements = container.querySelectorAll('[data-test="no-results-message"]')
+
+      expect(liElements.length).toBe(1)
+      expect(liElements[0].textContent).toBe('We could not find any matching items')
     })
   })
 
@@ -615,7 +666,13 @@ describe('<ReactSearchAutocomplete>', () => {
 
       act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
 
-      expect(container.getElementsByTagName('ul').length).toBe(0)
+      let liElements = container.querySelectorAll('[data-test="result"]')
+
+      expect(liElements.length).toBe(0)
+
+      liElements = container.querySelectorAll('[data-test="no-results-message"]')
+
+      expect(liElements.length).toBe(1)
     })
   })
 

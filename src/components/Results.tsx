@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { SearchIcon } from './SearchIcon'
 
@@ -13,6 +14,8 @@ export interface ResultsProps<T> {
   showIcon: boolean
   maxResults: number
   resultStringKeyName: string
+  showNoResultsFlag?: boolean
+  showNoResultsText?: string
 }
 
 export default function Results<T>({
@@ -24,7 +27,9 @@ export default function Results<T>({
   resultStringKeyName = 'name',
   highlightedItem,
   setHighlightedItem,
-  formatResult
+  formatResult,
+  showNoResultsFlag = true,
+  showNoResultsText = 'No results'
 }: ResultsProps<T>) {
   type WithStringKeyName = T & Record<string, unknown>
 
@@ -37,30 +42,47 @@ export default function Results<T>({
     setSearchString(result[resultStringKeyName])
   }
 
-  if (results?.length <= 0) {
+  if (showNoResultsFlag) {
+    return (
+      <ResultsWrapper>
+        <li data-test="no-results-message">
+          <SearchIcon showIcon={showIcon} />
+          <div className="ellipsis">{showNoResultsText}</div>
+        </li>
+      </ResultsWrapper>
+    )
+  }
+
+  if (results?.length <= 0 && !showNoResultsFlag) {
     return null
   }
 
   return (
+    <ResultsWrapper>
+      {results.slice(0, maxResults).map((result, index) => (
+        <li
+          className={highlightedItem === index ? 'selected' : ''}
+          onMouseEnter={() => setHighlightedItem({ index })}
+          data-test="result"
+          key={`rsa-result-${result.id}`}
+          onMouseDown={() => handleClick(result)}
+          onClick={() => handleClick(result)}
+        >
+          <SearchIcon showIcon={showIcon} />
+          <div className="ellipsis" title={result[resultStringKeyName] as string}>
+            {formatResultWithKey(result)}
+          </div>
+        </li>
+      ))}
+    </ResultsWrapper>
+  )
+}
+
+const ResultsWrapper = ({ children }: { children: ReactNode }) => {
+  return (
     <StyledResults>
       <div className="line" />
-      <ul>
-        {results.slice(0, maxResults).map((result, index) => (
-          <li
-            className={highlightedItem === index ? 'selected' : ''}
-            onMouseEnter={() => setHighlightedItem({ index })}
-            data-test="result"
-            key={`rsa-result-${result.id}`}
-            onMouseDown={() => handleClick(result)}
-            onClick={() => handleClick(result)}
-          >
-            <SearchIcon showIcon={showIcon} />
-            <div className="ellipsis" title={result[resultStringKeyName] as string}>
-              {formatResultWithKey(result)}
-            </div>
-          </li>
-        ))}
-      </ul>
+      <ul>{children}</ul>
     </StyledResults>
   )
 }

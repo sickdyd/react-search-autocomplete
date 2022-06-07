@@ -238,6 +238,12 @@ export default App
   // }
   formatResult,
   // The callback function used to format how the results are displayed.
+  showNoResults,
+  // Optional, default value: true, it will display "No results" or showNoResultsText
+  // if no results are found
+  showNoResultsText,
+  // Optional, default value: "No results", the text to display when no results
+  // are found
 }
 ```
 

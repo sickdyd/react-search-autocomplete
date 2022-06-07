@@ -27,6 +27,8 @@ export interface ReactSearchAutocompleteProps<T> {
   resultStringKeyName?: string
   inputSearchString?: string
   formatResult?: Function
+  showNoResults?: boolean
+  showNoResultsText?: string
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -46,7 +48,9 @@ export default function ReactSearchAutocomplete<T>({
   styling = {},
   resultStringKeyName = 'name',
   inputSearchString = '',
-  formatResult
+  formatResult,
+  showNoResults = true,
+  showNoResultsText = 'No results'
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
@@ -57,6 +61,9 @@ export default function ReactSearchAutocomplete<T>({
   const [searchString, setSearchString] = useState<string>(inputSearchString)
   const [results, setResults] = useState<any[]>([])
   const [highlightedItem, setHighlightedItem] = useState<number>(0)
+  const [isSearchComplete, setIsSearchComplete] = useState<boolean>(false)
+  const [isTyping, setIsTyping] = useState<boolean>(false)
+  const [showNoResultsFlag, setShowNoResultsFlag] = useState<boolean>(false)
 
   const callOnSearch = (keyword: string) => {
     let newResults: T[] = []
@@ -65,6 +72,7 @@ export default function ReactSearchAutocomplete<T>({
 
     setResults(newResults)
     onSearch(keyword, newResults)
+    setIsTyping(false)
   }
 
   const handleOnSearch = React.useCallback(
@@ -85,8 +93,22 @@ export default function ReactSearchAutocomplete<T>({
       setResults(fuseResults(searchString))
   }, [items])
 
+  useEffect(() => {
+    if (
+      showNoResults &&
+      searchString.length > 0 &&
+      !isTyping &&
+      results.length === 0 &&
+      !isSearchComplete
+    ) {
+      setShowNoResultsFlag(true)
+    } else {
+      setShowNoResultsFlag(false)
+    }
+  }, [isTyping, showNoResults, isSearchComplete, searchString, results])
+
   const handleOnClick = (result: Item<T>) => {
-    setResults([])
+    eraseResult()
     onSelect(result)
     setSearchString(result[resultStringKeyName])
     setHighlightedItem(0)
@@ -100,8 +122,19 @@ export default function ReactSearchAutocomplete<T>({
 
   const handleSetSearchString = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const keyword = target.value
+
     setSearchString(keyword)
     handleOnSearch(keyword)
+    setIsTyping(true)
+
+    if (isSearchComplete) {
+      setIsSearchComplete(false)
+    }
+  }
+
+  const eraseResult = () => {
+    setResults([])
+    setIsSearchComplete(true)
   }
 
   const handleSetHighlightedItem = ({
@@ -129,7 +162,7 @@ export default function ReactSearchAutocomplete<T>({
             setSearchString(results[highlightedItem][resultStringKeyName])
             setHighlightedItem(0)
           }
-          setResults([])
+          eraseResult()
           break
         case 'ArrowUp':
           event.preventDefault()
@@ -155,7 +188,7 @@ export default function ReactSearchAutocomplete<T>({
             searchString={searchString}
             setSearchString={handleSetSearchString}
             autoFocus={autoFocus}
-            onBlur={() => setResults([])}
+            onBlur={() => eraseResult()}
             onFocus={onFocus}
             onClear={onClear}
             placeholder={placeholder}
@@ -173,6 +206,8 @@ export default function ReactSearchAutocomplete<T>({
             formatResult={formatResult}
             highlightedItem={highlightedItem}
             setHighlightedItem={handleSetHighlightedItem}
+            showNoResultsFlag={showNoResultsFlag}
+            showNoResultsText={showNoResultsText}
           />
         </div>
       </StyledReactSearchAutocomplete>
