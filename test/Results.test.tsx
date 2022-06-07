@@ -7,7 +7,7 @@ type Item = {
   name: string
 }
 
-const results = [
+const results: Item[] = [
   {
     id: 0,
     name: 'value0'
@@ -34,7 +34,7 @@ const defaultProps: ResultsProps<Item> = {
   showIcon: true,
   maxResults: 10,
   setSearchString: () => {},
-  formatResult: null,
+  formatResult: undefined,
   resultStringKeyName: 'name'
 }
 
@@ -96,7 +96,7 @@ describe('<Results>', () => {
   })
 
   it('calls formatResult and render result appropriately', () => {
-    const formatResult = (item) => <span className="test-span">{item.name}</span>
+    const formatResult = (item: Item) => <span className="test-span">{item.name}</span>
 
     const { container } = render(<Results {...defaultProps} formatResult={formatResult} />)
 
