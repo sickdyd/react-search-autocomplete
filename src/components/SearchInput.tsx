@@ -92,12 +92,13 @@ const StyledSearchInput = styled.div`
       color: ${(props) => props.theme.placeholderColor};
       opacity: 1;
 
-    :-ms-input-placeholder {
-      color: ${(props) => props.theme.placeholderColor};
-    }
+      :-ms-input-placeholder {
+        color: ${(props) => props.theme.placeholderColor};
+      }
 
-    ::-ms-input-placeholder {
-      color: ${(props) => props.theme.placeholderColor};
+      ::-ms-input-placeholder {
+        color: ${(props) => props.theme.placeholderColor};
+      }
     }
   }
 `
