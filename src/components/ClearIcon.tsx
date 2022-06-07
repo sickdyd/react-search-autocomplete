@@ -23,7 +23,7 @@ export const ClearIcon = ({
     return null
   }
 
-  if (searchString.length <= 0) {
+  if (!searchString || searchString?.length <= 0) {
     return null
   }
 
