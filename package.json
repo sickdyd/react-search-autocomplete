@@ -6,8 +6,8 @@
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --verbose --runInBand",
-    "coverage": "jest --coverage",
+    "test": "jest --config=jest.config.js --verbose --runInBand ",
+    "coverage": "jest --config=jest.config.js --coverage",
     "deploy": "yarn build && npm publish",
     "build": "rm -rf ./dist && tsc --emitDeclarationOnly && babel src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
     "build-watch": "rm -rf ./dist && tsc --emitDeclarationOnly && babel --watch src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
@@ -44,11 +44,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "setupFiles": [
-      "jest-localstorage-mock"
     ]
   },
   "bugs": {
