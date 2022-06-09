@@ -424,11 +424,11 @@ describe('<ReactSearchAutocomplete>', () => {
   it('calls onSelect when clicking on item', () => {
     const onSelect = jest.fn()
 
-    const { queryByPlaceholderText, queryAllByTitle } = render(
+    const { queryByPlaceholderText, queryAllByTitle, queryByText, container } = render(
       <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
     )
 
-    const inputElement = queryByPlaceholderText(/search/i)
+    let inputElement = queryByPlaceholderText(/search/i) as HTMLInputElement
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
@@ -436,9 +436,11 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const liNode = queryAllByTitle('value0')[0]
 
-    fireEvent.mouseDown(liNode)
+    fireEvent.click(liNode)
 
-    expect(onSelect).toHaveBeenCalled()
+    expect(onSelect).toHaveBeenCalledWith({ id: 0, name: 'value0' })
+
+    expect(inputElement!.value).toBe('value0')
   })
 
   it('does not display results again after selection if items changes', () => {
@@ -448,7 +450,7 @@ describe('<ReactSearchAutocomplete>', () => {
       <ReactSearchAutocomplete<Item> {...defaultProps} onSelect={onSelect} />
     )
 
-    const inputElement = queryByPlaceholderText(/search/i)
+    const inputElement = queryByPlaceholderText(/search/i) as HTMLInputElement
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
@@ -456,9 +458,11 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const liElement = queryAllByTitle('value0')[0]
 
-    fireEvent.mouseDown(liElement)
+    fireEvent.click(liElement)
 
-    expect(onSelect).toHaveBeenCalled()
+    expect(onSelect).toHaveBeenCalledWith({ id: 0, name: 'value0' })
+
+    expect(inputElement!.value).toBe('value0')
 
     const newItems = [
       {

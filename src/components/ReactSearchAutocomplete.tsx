@@ -106,14 +106,20 @@ export default function ReactSearchAutocomplete<T>({
     }
   }, [showItemsOnFocus, results, searchString, hasFocus])
 
+  useEffect(() => {
+    const handleDocumentClick = (event: Event) => {
+      eraseResults()
+      setHasFocus(false)
+    }
+
+    document.addEventListener('click', handleDocumentClick)
+
+    return () => document.removeEventListener('click', handleDocumentClick)
+  }, [])
+
   const handleOnFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
     onFocus(event)
     setHasFocus(true)
-  }
-
-  const handleOnBlur = () => {
-    eraseResults()
-    setHasFocus(false)
   }
 
   const callOnSearch = (keyword: string) => {
@@ -214,7 +220,6 @@ export default function ReactSearchAutocomplete<T>({
             searchString={searchString}
             setSearchString={handleSetSearchString}
             autoFocus={autoFocus}
-            onBlur={handleOnBlur}
             onFocus={handleOnFocus}
             onClear={onClear}
             placeholder={placeholder}

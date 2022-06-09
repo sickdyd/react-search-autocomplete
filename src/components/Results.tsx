@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { MouseEvent, ReactNode } from 'react'
 import styled from 'styled-components'
 import { SearchIcon } from './SearchIcon'
 
@@ -42,6 +42,19 @@ export default function Results<T>({
     setSearchString(result[resultStringKeyName])
   }
 
+  const handleMouseDown = ({
+    event,
+    result
+  }: {
+    event: MouseEvent<HTMLLIElement>
+    result: WithStringKeyName
+  }) => {
+    if (event.button === 0) {
+      event.preventDefault()
+      handleClick(result)
+    }
+  }
+
   if (showNoResultsFlag) {
     return (
       <ResultsWrapper>
@@ -65,7 +78,7 @@ export default function Results<T>({
           onMouseEnter={() => setHighlightedItem({ index })}
           data-test="result"
           key={`rsa-result-${result.id}`}
-          onMouseDown={() => handleClick(result)}
+          onMouseDown={(event) => handleMouseDown({ event, result })}
           onClick={() => handleClick(result)}
         >
           <SearchIcon showIcon={showIcon} />

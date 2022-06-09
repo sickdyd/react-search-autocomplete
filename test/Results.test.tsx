@@ -59,7 +59,9 @@ describe('<Results>', () => {
     const onClick = jest.fn()
     const { container } = render(<Results {...defaultProps} onClick={onClick} />)
     const liTag = container.getElementsByTagName('li')[0]
-    fireEvent.mouseDown(liTag)
+
+    fireEvent.click(liTag)
+
     expect(onClick).toHaveBeenCalled()
   })
 
