@@ -1,5 +1,12 @@
 import { default as Fuse } from 'fuse.js'
-import React, { ChangeEvent, FocusEventHandler, KeyboardEvent, useEffect, useState } from 'react'
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  FocusEventHandler,
+  KeyboardEvent,
+  useEffect,
+  useState
+} from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
 import { debounce } from '../utils/utils'
@@ -29,6 +36,7 @@ export interface ReactSearchAutocompleteProps<T> {
   formatResult?: Function
   showNoResults?: boolean
   showNoResultsText?: string
+  showItemsOnFocus?: boolean
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -50,7 +58,8 @@ export default function ReactSearchAutocomplete<T>({
   inputSearchString = '',
   formatResult,
   showNoResults = true,
-  showNoResultsText = 'No results'
+  showNoResultsText = 'No results',
+  showItemsOnFocus = false
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
@@ -64,23 +73,7 @@ export default function ReactSearchAutocomplete<T>({
   const [isSearchComplete, setIsSearchComplete] = useState<boolean>(false)
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [showNoResultsFlag, setShowNoResultsFlag] = useState<boolean>(false)
-
-  const callOnSearch = (keyword: string) => {
-    let newResults: T[] = []
-
-    keyword?.length > 0 && (newResults = fuseResults(keyword))
-
-    setResults(newResults)
-    onSearch(keyword, newResults)
-    setIsTyping(false)
-  }
-
-  const handleOnSearch = React.useCallback(
-    inputDebounce > 0
-      ? debounce((keyword: string) => callOnSearch(keyword), inputDebounce)
-      : (keyword) => callOnSearch(keyword),
-    [items]
-  )
+  const [hasFocus, setHasFocus] = useState<boolean>(false)
 
   useEffect(() => {
     setSearchString(inputSearchString)
@@ -107,8 +100,41 @@ export default function ReactSearchAutocomplete<T>({
     }
   }, [isTyping, showNoResults, isSearchComplete, searchString, results])
 
+  useEffect(() => {
+    if (showItemsOnFocus && results.length === 0 && searchString.length === 0 && hasFocus) {
+      setResults(items)
+    }
+  }, [showItemsOnFocus, results, searchString, hasFocus])
+
+  const handleOnFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
+    onFocus(event)
+    setHasFocus(true)
+  }
+
+  const handleOnBlur = () => {
+    eraseResults()
+    setHasFocus(false)
+  }
+
+  const callOnSearch = (keyword: string) => {
+    let newResults: T[] = []
+
+    keyword?.length > 0 && (newResults = fuseResults(keyword))
+
+    setResults(newResults)
+    onSearch(keyword, newResults)
+    setIsTyping(false)
+  }
+
+  const handleOnSearch = React.useCallback(
+    inputDebounce > 0
+      ? debounce((keyword: string) => callOnSearch(keyword), inputDebounce)
+      : (keyword) => callOnSearch(keyword),
+    [items]
+  )
+
   const handleOnClick = (result: Item<T>) => {
-    eraseResult()
+    eraseResults()
     onSelect(result)
     setSearchString(result[resultStringKeyName])
     setHighlightedItem(0)
@@ -132,7 +158,7 @@ export default function ReactSearchAutocomplete<T>({
     }
   }
 
-  const eraseResult = () => {
+  const eraseResults = () => {
     setResults([])
     setIsSearchComplete(true)
   }
@@ -162,7 +188,7 @@ export default function ReactSearchAutocomplete<T>({
             setSearchString(results[highlightedItem][resultStringKeyName])
             setHighlightedItem(0)
           }
-          eraseResult()
+          eraseResults()
           break
         case 'ArrowUp':
           event.preventDefault()
@@ -188,8 +214,8 @@ export default function ReactSearchAutocomplete<T>({
             searchString={searchString}
             setSearchString={handleSetSearchString}
             autoFocus={autoFocus}
-            onBlur={() => eraseResult()}
-            onFocus={onFocus}
+            onBlur={handleOnBlur}
+            onFocus={handleOnFocus}
             onClear={onClear}
             placeholder={placeholder}
             showIcon={showIcon}

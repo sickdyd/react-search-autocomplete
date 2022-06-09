@@ -153,6 +153,76 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(onSearch).toHaveBeenCalledWith('value', items)
   })
 
+  it('returns the items on focus if showItemsOnFocus is true', async () => {
+    const { queryByPlaceholderText, container } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} showItemsOnFocus={true} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.focusIn(inputElement!)
+
+    const liTags = container.getElementsByTagName('li')
+
+    expect(liTags.length).toBe(4)
+  })
+
+  it('returns by default the list of items after clearing the input box if showItemsOnFocus is true', async () => {
+    const newItems = [
+      {
+        id: 0,
+        name: 'aaa'
+      },
+      {
+        id: 1,
+        name: 'bbb'
+      },
+      {
+        id: 2,
+        name: 'ccc'
+      },
+      {
+        id: 3,
+        name: 'ddd'
+      }
+    ]
+
+    const { queryByPlaceholderText, container } = render(
+      <ReactSearchAutocomplete<Item>
+        {...defaultProps}
+        onSearch={onSearch}
+        showItemsOnFocus={true}
+        items={newItems}
+      />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.focusIn(inputElement!)
+
+    let liTags = container.getElementsByTagName('li')
+
+    expect(liTags.length).toBe(4)
+
+    fireEvent.change(inputElement!, { target: { value: 'aaa' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    expect(onSearch).toHaveBeenCalledWith('aaa', [{ id: 0, name: 'aaa' }])
+
+    liTags = container.getElementsByTagName('li')
+
+    expect(liTags.length).toBe(1)
+
+    fireEvent.change(inputElement!, { target: { value: '' } })
+
+    act(() => jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE))
+
+    liTags = container.getElementsByTagName('li')
+
+    expect(liTags.length).toBe(4)
+  })
+
   it('returns an array of one result', async () => {
     const { queryByPlaceholderText } = render(
       <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
