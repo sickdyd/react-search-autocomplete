@@ -243,7 +243,10 @@ export default App
   // if no results are found
   showNoResultsText,
   // Optional, default value: "No results", the text to display when no results
-  // are found
+  // are found,
+  showItemsOnFocus,
+  // Optional, default value: false, it will automatically show N (maxResults) number of items
+  // when focusing the input element
 }
 ```
 

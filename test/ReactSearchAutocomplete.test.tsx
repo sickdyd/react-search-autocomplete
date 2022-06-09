@@ -167,6 +167,20 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(liTags.length).toBe(4)
   })
 
+  it('limits the items on focus if showItemsOnFocus is true to maxResults', async () => {
+    const { queryByPlaceholderText, container } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} showItemsOnFocus={true} maxResults={2} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    fireEvent.focusIn(inputElement!)
+
+    const liTags = container.getElementsByTagName('li')
+
+    expect(liTags.length).toBe(2)
+  })
+
   it('returns by default the list of items after clearing the input box if showItemsOnFocus is true', async () => {
     const newItems = [
       {

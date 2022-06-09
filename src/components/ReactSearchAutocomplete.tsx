@@ -102,12 +102,12 @@ export default function ReactSearchAutocomplete<T>({
 
   useEffect(() => {
     if (showItemsOnFocus && results.length === 0 && searchString.length === 0 && hasFocus) {
-      setResults(items)
+      setResults(items.slice(0, maxResults))
     }
   }, [showItemsOnFocus, results, searchString, hasFocus])
 
   useEffect(() => {
-    const handleDocumentClick = (event: Event) => {
+    const handleDocumentClick = () => {
       eraseResults()
       setHasFocus(false)
     }
