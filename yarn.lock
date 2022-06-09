@@ -9604,10 +9604,10 @@ react-scripts@^4.0.1:
   optionalDependencies:
     fsevents "^2.1.3"
 
-react-search-autocomplete@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/react-search-autocomplete/-/react-search-autocomplete-7.1.0.tgz#e912d744518ec3656d4e23c2d000f5ebfd8dd5d7"
-  integrity sha512-3YYbPmndn0UD4r4SbbNOJOCi6wkk/Tm4IeBMrpIdxJTgo4B7x63WmaXFNuBJwnU7VOnm1hwND117br7KXzX0jQ==
+react-search-autocomplete@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/react-search-autocomplete/-/react-search-autocomplete-7.2.0.tgz#fe0a085442ae29d5e4fd1ec1122cf11ee66330be"
+  integrity sha512-qsw/x0UiNiVr49o9P63+4PqjomHId/rkFIlhX4NyZN273YFReqUi+N4HkczgZzKbIy7M5xrUTMjjpgEiRK2Gsw==
   dependencies:
     fuse.js "^6.5.3"
     styled-components "^5.3.3"
