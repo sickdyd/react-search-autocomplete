@@ -2,15 +2,15 @@
   "name": "react-search-autocomplete",
   "author": "Reale Roberto Josef Antonio",
   "license": "MIT",
-  "version": "7.2.1",
+  "version": "7.2.2",
   "description": "A search box for React",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --config=jest.config.js --verbose --runInBand ",
     "coverage": "jest --config=jest.config.js --coverage",
     "deploy": "yarn build && npm publish",
-    "build": "rm -rf ./dist && tsc --emitDeclarationOnly && babel src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
-    "build-watch": "rm -rf ./dist && tsc --emitDeclarationOnly && babel --watch src --out-dir dist --extensions '.ts,.tsx,.js' --ignore /**/*.test.tsx",
+    "build": "rm -rf ./dist && tsc",
+    "build-watch": "rm -rf ./dist && tsc --watch",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
@@ -76,6 +76,7 @@
     "react-test-renderer": "^16.14.0"
   },
   "files": [
-    "dist/*"
+    "dist/*",
+    "index.d.ts"
   ]
 }
