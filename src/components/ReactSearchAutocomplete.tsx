@@ -37,6 +37,7 @@ export interface ReactSearchAutocompleteProps<T> {
   showNoResults?: boolean
   showNoResultsText?: string
   showItemsOnFocus?: boolean
+  isEnterEnabled?: boolean
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -59,7 +60,8 @@ export default function ReactSearchAutocomplete<T>({
   formatResult,
   showNoResults = true,
   showNoResultsText = 'No results',
-  showItemsOnFocus = false
+  showItemsOnFocus = false,
+  isEnterEnabled = true
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
@@ -135,7 +137,7 @@ export default function ReactSearchAutocomplete<T>({
   const handleOnSearch = React.useCallback(
     inputDebounce > 0
       ? debounce((keyword: string) => callOnSearch(keyword), inputDebounce)
-      : (keyword) => callOnSearch(keyword),
+      : (keyword: string) => callOnSearch(keyword),
     [items]
   )
 
@@ -189,12 +191,14 @@ export default function ReactSearchAutocomplete<T>({
     } else if (event) {
       switch (event.key) {
         case 'Enter':
-          if (results.length > 0) {
-            onSelect(results[highlightedItem])
-            setSearchString(results[highlightedItem][resultStringKeyName])
-            setHighlightedItem(0)
+          if (isEnterEnabled) {
+            if (results.length > 0) {
+              onSelect(results[highlightedItem])
+              setSearchString(results[highlightedItem][resultStringKeyName])
+              setHighlightedItem(0)
+            }
+            eraseResults()
           }
-          eraseResults()
           break
         case 'ArrowUp':
           event.preventDefault()
