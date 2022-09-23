@@ -93,6 +93,30 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(queryByPlaceholderText(/search/i)).toHaveValue('a new string')
   })
 
+  it('display results if inputSearchString prop changes', async () => {
+    const { queryByPlaceholderText, queryAllByText } = render(
+      <ReactSearchAutocomplete<Item>
+        {...defaultProps}
+        items={[...items, { id: 4, name: 'some other' }]}
+        inputSearchString="value0"
+      />
+    )
+
+    act(() => {
+      jest.advanceTimersByTime(1)
+    })
+
+    expect(queryByPlaceholderText(/search/i)).toHaveValue('value0')
+
+    const results = queryAllByText('value0')
+
+    expect(results.length).toBe(1)
+
+    const notDisplayedResults = queryAllByText('some other')
+
+    expect(notDisplayedResults.length).toBe(0)
+  })
+
   it('updates results if items change', async () => {
     const { rerender } = render(
       <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
