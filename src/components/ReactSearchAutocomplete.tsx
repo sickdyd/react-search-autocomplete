@@ -190,6 +190,7 @@ export default function ReactSearchAutocomplete<T>({
       switch (event.key) {
         case 'Enter':
           if (results.length > 0) {
+            event.preventDefault()
             onSelect(results[highlightedItem])
             setSearchString(results[highlightedItem][resultStringKeyName])
             setHighlightedItem(0)
