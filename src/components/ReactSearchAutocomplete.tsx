@@ -117,7 +117,7 @@ export default function ReactSearchAutocomplete<T>({
     return () => document.removeEventListener('click', handleDocumentClick)
   }, [])
 
-  const handleOnFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
+  const handleOnFocus = (event: FocusEvent<HTMLInputElement>) => {
     onFocus(event)
     setHasFocus(true)
   }
