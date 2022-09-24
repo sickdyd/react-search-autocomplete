@@ -43,13 +43,13 @@ export const ClearIcon = ({
 }
 
 const StyledClearIcon = styled.div`
-  margin: ${(props) => props.theme.clearIconMargin};
+  margin: ${(props: any) => props.theme.clearIconMargin};
 
   &:hover {
     cursor: pointer;
   }
 
   > svg {
-    fill: ${(props) => props.theme.iconColor};
+    fill: ${(props: any) => props.theme.iconColor};
   }
 `

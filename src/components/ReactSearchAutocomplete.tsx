@@ -253,7 +253,7 @@ export default function ReactSearchAutocomplete<T>({
 const StyledReactSearchAutocomplete = styled.div`
   position: relative;
 
-  height: ${(props) => parseInt(props.theme.height) + 2 + 'px'};
+  height: ${(props: any) => parseInt(props.theme.height) + 2 + 'px'};
 
   > .wrapper {
     position: absolute;
@@ -261,25 +261,25 @@ const StyledReactSearchAutocomplete = styled.div`
     flex-direction: column;
     width: 100%;
 
-    border: ${(props) => props.theme.border};
-    border-radius: ${(props) => props.theme.borderRadius};
+    border: ${(props: any) => props.theme.border};
+    border-radius: ${(props: any) => props.theme.borderRadius};
 
-    background-color: ${(props) => props.theme.backgroundColor};
-    color: ${(props) => props.theme.color};
+    background-color: ${(props: any) => props.theme.backgroundColor};
+    color: ${(props: any) => props.theme.color};
 
-    font-size: ${(props) => props.theme.fontSize};
-    font-family: ${(props) => props.theme.fontFamily};
+    font-size: ${(props: any) => props.theme.fontSize};
+    font-family: ${(props: any) => props.theme.fontFamily};
 
-    z-index: ${(props) => props.theme.zIndex};
+    z-index: ${(props: any) => props.theme.zIndex};
 
     &:hover {
-      box-shadow: ${(props) => props.theme.boxShadow};
+      box-shadow: ${(props: any) => props.theme.boxShadow};
     }
     &:active {
-      box-shadow: ${(props) => props.theme.boxShadow};
+      box-shadow: ${(props: any) => props.theme.boxShadow};
     }
     &:focus-within {
-      box-shadow: ${(props) => props.theme.boxShadow};
+      box-shadow: ${(props: any) => props.theme.boxShadow};
     }
   }
 `
