@@ -69,7 +69,7 @@ export default function ReactSearchAutocomplete<T>({
 
   const [searchString, setSearchString] = useState<string>(inputSearchString)
   const [results, setResults] = useState<any[]>([])
-  const [highlightedItem, setHighlightedItem] = useState<number>(0)
+  const [highlightedItem, setHighlightedItem] = useState<number>(-1)
   const [isSearchComplete, setIsSearchComplete] = useState<boolean>(false)
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [showNoResultsFlag, setShowNoResultsFlag] = useState<boolean>(false)
@@ -138,7 +138,7 @@ export default function ReactSearchAutocomplete<T>({
   const handleOnSearch = React.useCallback(
     inputDebounce > 0
       ? debounce((keyword: string) => callOnSearch(keyword), inputDebounce)
-      : (keyword) => callOnSearch(keyword),
+      : (keyword: string) => callOnSearch(keyword),
     [items]
   )
 
@@ -179,7 +179,7 @@ export default function ReactSearchAutocomplete<T>({
     index?: number
     event?: KeyboardEvent<HTMLInputElement>
   }) => {
-    let itemIndex = 0
+    let itemIndex = -1
 
     const setValues = (index: number) => {
       setHighlightedItem(index)
@@ -192,22 +192,25 @@ export default function ReactSearchAutocomplete<T>({
     } else if (event) {
       switch (event.key) {
         case 'Enter':
-          if (results.length > 0) {
+          if (results.length > 0 && results[highlightedItem]) {
             event.preventDefault()
             onSelect(results[highlightedItem])
             setSearchString(results[highlightedItem][resultStringKeyName])
-            setHighlightedItem(0)
+            onSearch(results[highlightedItem][resultStringKeyName], results)
+          } else {
+            onSearch(searchString, results)
           }
+          setHighlightedItem(-1)
           eraseResults()
           break
         case 'ArrowUp':
           event.preventDefault()
-          itemIndex = highlightedItem > 0 ? highlightedItem - 1 : results.length - 1
+          itemIndex = highlightedItem > -1 ? highlightedItem - 1 : results.length - 1
           setValues(itemIndex)
           break
         case 'ArrowDown':
           event.preventDefault()
-          itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : 0
+          itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : -1
           setValues(itemIndex)
           break
         default:
