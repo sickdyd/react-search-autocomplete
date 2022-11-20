@@ -344,6 +344,31 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(onHover).toHaveBeenCalledWith(items[0])
   })
 
+  it('does not call onHover when using arrows and no results are visible', () => {
+    const onHover = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onHover={onHover} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    for (let i = 0; i < 10; i++) {
+      fireEvent.keyDown(inputElement!, {
+        key: 'ArrowDown',
+        code: 'ArrowDown',
+        keyCode: 40,
+        charCode: 40
+      })
+
+      act(() => {
+        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+      })
+
+      expect(onHover).not.toHaveBeenCalled()
+    }
+  })
+
   it('change selected element when ArrowDown is pressed', () => {
     const onHover = jest.fn()
 

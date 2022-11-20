@@ -183,12 +183,12 @@ export default function ReactSearchAutocomplete<T>({
 
     const setValues = (index: number) => {
       setHighlightedItem(index)
-      onHover(results[index])
+      results?.[index] && onHover(results[index])
     }
 
     if (index !== undefined) {
       setHighlightedItem(index)
-      onHover(results[index])
+      results?.[index] && onHover(results[index])
     } else if (event) {
       switch (event.key) {
         case 'Enter':
