@@ -1,6 +1,6 @@
 import { default as Fuse } from 'fuse.js'
 import React, {
-  ChangeEvent,
+  ChangeEvent, ChangeEventHandler,
   FocusEvent,
   FocusEventHandler, ForwardedRef, forwardRef,
   KeyboardEvent,
@@ -24,6 +24,7 @@ export interface ReactSearchAutocompleteProps<T> {
   onHover?: (result: T) => void
   onSelect?: (result: T) => void
   onFocus?: FocusEventHandler<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   onClear?: Function
   showIcon?: boolean
   showClear?: boolean
@@ -48,6 +49,7 @@ function ReactSearchAutocomplete<T>({
   onSelect = () => {},
   onFocus = () => {},
   onClear = () => {},
+  onChange = () => {},
   showIcon = true,
   showClear = true,
   maxResults = MAX_RESULTS,
@@ -155,7 +157,10 @@ function ReactSearchAutocomplete<T>({
       .map((result) => ({ ...result.item }))
       .slice(0, maxResults)
 
-  const handleSetSearchString = ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const handleSetSearchString = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e)
+
+    const { target } = e
     const keyword = target.value
 
     setSearchString(keyword)
