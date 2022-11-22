@@ -249,7 +249,6 @@ export default App
   // when focusing the input element
   ref
   // Optional
-  // when focusing the input element
 }
 ```
 
