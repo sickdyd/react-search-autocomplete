@@ -1,4 +1,10 @@
-import { ChangeEventHandler, FocusEvent, FocusEventHandler, useRef } from 'react'
+import {
+  ChangeEventHandler,
+  FocusEvent,
+  FocusEventHandler,
+  forwardRef,
+  ForwardedRef, createRef, useRef, useImperativeHandle, useMemo
+} from 'react'
 import styled from 'styled-components'
 import { ClearIcon } from './ClearIcon'
 import { SearchIcon } from './SearchIcon'
@@ -15,24 +21,26 @@ interface SearchInputProps {
   showClear: boolean
 }
 
-export default function SearchInput({
-  searchString,
-  setSearchString,
-  setHighlightedItem,
-  autoFocus,
-  onFocus,
-  onClear,
-  placeholder,
-  showIcon = true,
-  showClear = true
-}: SearchInputProps) {
-  const ref = useRef<HTMLInputElement>(null)
+const SearchInput = ({searchString,
+                       setSearchString,
+                       setHighlightedItem,
+                       autoFocus,
+                       onFocus,
+                       onClear,
+                       placeholder,
+                       showIcon = true,
+                       showClear = true
+                     }: SearchInputProps, forwardedRef: ForwardedRef<HTMLInputElement>) => {
+  const fallbackRef = useRef<HTMLInputElement>(null)
+  const ref = useMemo(() => forwardedRef || fallbackRef, [forwardedRef, fallbackRef])
 
   let manualFocus = true
 
   const setFocus = () => {
     manualFocus = false
-    ref?.current && ref.current.focus()
+    if (ref != null && typeof ref !== 'function') {
+      ref?.current && ref.current.focus()
+    }
     manualFocus = true
   }
 
@@ -100,3 +108,5 @@ const StyledSearchInput = styled.div`
     }
   }
 `
+
+export default forwardRef<HTMLInputElement, SearchInputProps>(SearchInput)
