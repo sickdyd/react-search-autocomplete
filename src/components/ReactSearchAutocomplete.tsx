@@ -37,7 +37,6 @@ export interface ReactSearchAutocompleteProps<T> {
   showNoResults?: boolean
   showNoResultsText?: string
   showItemsOnFocus?: boolean
-  ref?: ForwardedRef<HTMLInputElement>
 }
 
 function ReactSearchAutocomplete<T>({
