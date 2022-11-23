@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import SearchInput from '../src/components/SearchInput'
+import { createRef, useRef } from 'react'
 
 afterEach(cleanup)
 
@@ -57,5 +58,22 @@ describe('<SearchInput>', () => {
     const { container } = render(<SearchInput {...defaultProps} showIcon={true} />)
 
     expect(container.querySelectorAll('.search-icon').length).toBe(1)
+  })
+
+  it('tests using ref', () => {
+    const Wrapper = () => {
+      const ref = useRef<HTMLInputElement>(null)
+      return (
+        <>
+          <SearchInput {...defaultProps} ref={ref}/>
+          <button onClick={() => {
+            ref.current.focus()
+          }}>Focus</button>
+        </>
+      )
+    }
+
+    render(<Wrapper />)
+    screen.getByText('Focus').click()
   })
 })

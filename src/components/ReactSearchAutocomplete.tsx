@@ -1,8 +1,8 @@
 import { default as Fuse } from 'fuse.js'
 import React, {
-  ChangeEvent,
+  ChangeEvent, ChangeEventHandler,
   FocusEvent,
-  FocusEventHandler,
+  FocusEventHandler, ForwardedRef, forwardRef,
   KeyboardEvent,
   useEffect,
   useState
@@ -24,6 +24,7 @@ export interface ReactSearchAutocompleteProps<T> {
   onHover?: (result: T) => void
   onSelect?: (result: T) => void
   onFocus?: FocusEventHandler<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   onClear?: Function
   showIcon?: boolean
   showClear?: boolean
@@ -39,7 +40,7 @@ export interface ReactSearchAutocompleteProps<T> {
   showItemsOnFocus?: boolean
 }
 
-export default function ReactSearchAutocomplete<T>({
+function ReactSearchAutocomplete<T>({
   items = [],
   fuseOptions = defaultFuseOptions,
   inputDebounce = DEFAULT_INPUT_DEBOUNCE,
@@ -48,6 +49,7 @@ export default function ReactSearchAutocomplete<T>({
   onSelect = () => {},
   onFocus = () => {},
   onClear = () => {},
+  onChange = () => {},
   showIcon = true,
   showClear = true,
   maxResults = MAX_RESULTS,
@@ -59,8 +61,8 @@ export default function ReactSearchAutocomplete<T>({
   formatResult,
   showNoResults = true,
   showNoResultsText = 'No results',
-  showItemsOnFocus = false
-}: ReactSearchAutocompleteProps<T>) {
+  showItemsOnFocus = false,
+}: ReactSearchAutocompleteProps<T>,   ref: ForwardedRef<HTMLInputElement>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
 
@@ -155,7 +157,10 @@ export default function ReactSearchAutocomplete<T>({
       .map((result) => ({ ...result.item }))
       .slice(0, maxResults)
 
-  const handleSetSearchString = ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const handleSetSearchString = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e)
+
+    const { target } = e
     const keyword = target.value
 
     setSearchString(keyword)
@@ -233,6 +238,7 @@ export default function ReactSearchAutocomplete<T>({
             showIcon={showIcon}
             showClear={showClear}
             setHighlightedItem={handleSetHighlightedItem}
+            ref={ref}
           />
           <Results
             results={results}
@@ -286,3 +292,13 @@ const StyledReactSearchAutocomplete = styled.div`
     }
   }
 `
+
+declare module 'react' {
+  function forwardRef<T, P = {}>(
+    render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+  ): (props: P & React.RefAttributes<T>) => React.ReactElement | null;
+}
+
+export default forwardRef(ReactSearchAutocomplete) as <T>(
+  props: ReactSearchAutocompleteProps<T> & { ref?: React.ForwardedRef<HTMLUListElement> }
+) => ReturnType<typeof ReactSearchAutocomplete>;
