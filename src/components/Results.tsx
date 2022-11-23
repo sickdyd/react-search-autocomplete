@@ -102,7 +102,7 @@ const ResultsWrapper = ({ children }: { children: ReactNode }) => {
 
 const StyledResults = styled.div`
   > div.line {
-    border-top-color: ${(props) => props.theme.lineColor};
+    border-top-color: ${(props: any) => props.theme.lineColor};
     border-top-style: solid;
     border-top-width: 1px;
 
@@ -118,7 +118,7 @@ const StyledResults = styled.div`
     list-style-type: none;
     margin: 0;
     padding: 0px 0 16px 0;
-    max-height: ${(props) => props.theme.maxHeight};
+    max-height: ${(props: any) => props.theme.maxHeight};
 
     > li {
       display: flex;
@@ -140,6 +140,6 @@ const StyledResults = styled.div`
   }
 
   .selected {
-    background-color: ${(props) => props.theme.hoverBackgroundColor};
+    background-color: ${(props: any) => props.theme.hoverBackgroundColor};
   }
 `

@@ -21,6 +21,6 @@ export const SearchIcon = ({ showIcon }: { showIcon: boolean }) => {
 
 const StyledSearchIcon = styled.svg`
   flex-shrink: 0;
-  margin: ${(props) => props.theme.searchIconMargin};
-  fill: ${(props) => props.theme.iconColor};
+  margin: ${(props: any) => props.theme.searchIconMargin};
+  fill: ${(props: any) => props.theme.iconColor};
 `

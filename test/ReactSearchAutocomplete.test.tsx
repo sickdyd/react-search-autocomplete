@@ -1,3 +1,4 @@
+import React from 'react'
 import '@babel/polyfill'
 import '@testing-library/jest-dom/extend-expect'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
@@ -91,6 +92,30 @@ describe('<ReactSearchAutocomplete>', () => {
     rerender(<ReactSearchAutocomplete<Item> {...defaultProps} inputSearchString="a new string" />)
 
     expect(queryByPlaceholderText(/search/i)).toHaveValue('a new string')
+  })
+
+  it('display results if inputSearchString prop changes', async () => {
+    const { queryByPlaceholderText, queryAllByText } = render(
+      <ReactSearchAutocomplete<Item>
+        {...defaultProps}
+        items={[...items, { id: 4, name: 'some other' }]}
+        inputSearchString="value0"
+      />
+    )
+
+    act(() => {
+      jest.advanceTimersByTime(1)
+    })
+
+    expect(queryByPlaceholderText(/search/i)).toHaveValue('value0')
+
+    const results = queryAllByText('value0')
+
+    expect(results.length).toBe(1)
+
+    const notDisplayedResults = queryAllByText('some other')
+
+    expect(notDisplayedResults.length).toBe(0)
   })
 
   it('updates results if items change', async () => {
@@ -313,9 +338,35 @@ describe('<ReactSearchAutocomplete>', () => {
     })
 
     const liTag = container.getElementsByTagName('li')[0]
+
     fireEvent.mouseEnter(liTag)
 
     expect(onHover).toHaveBeenCalledWith(items[0])
+  })
+
+  it('does not call onHover when using arrows and no results are visible', () => {
+    const onHover = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onHover={onHover} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    for (let i = 0; i < 10; i++) {
+      fireEvent.keyDown(inputElement!, {
+        key: 'ArrowDown',
+        code: 'ArrowDown',
+        keyCode: 40,
+        charCode: 40
+      })
+
+      act(() => {
+        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+      })
+
+      expect(onHover).not.toHaveBeenCalled()
+    }
   })
 
   it('change selected element when ArrowDown is pressed', () => {
@@ -329,6 +380,13 @@ describe('<ReactSearchAutocomplete>', () => {
     fireEvent.change(inputElement!, { target: { value: 'v' } })
     act(() => {
       jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+    })
+
+    fireEvent.keyDown(inputElement!, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
     })
 
     const liTag0 = container.getElementsByTagName('li')[0]
@@ -372,6 +430,13 @@ describe('<ReactSearchAutocomplete>', () => {
       charCode: 40
     })
 
+    fireEvent.keyDown(inputElement!, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
+    })
+
     act(() => {
       jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
     })
@@ -386,6 +451,50 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(onSelect).toHaveBeenCalledWith(items[1])
   })
 
+  it('calls onSearch when key navigating and pressing return when no eleemnt is highlighted', () => {
+    const onSearch = jest.fn()
+
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} onSearch={onSearch} />
+    )
+
+    const inputElement = queryByPlaceholderText(/search/i)
+
+    const searchString = 'val'
+
+    fireEvent.change(inputElement!, { target: { value: searchString } })
+
+    act(() => {
+      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+    })
+
+    for (let i = 0; i < items.length + 1; i++) {
+      fireEvent.keyDown(inputElement!, {
+        key: 'ArrowDown',
+        code: 'ArrowDown',
+        keyCode: 40,
+        charCode: 40
+      })
+
+      act(() => {
+        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+      })
+    }
+
+    act(() => {
+      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+    })
+
+    fireEvent.keyDown(inputElement!, {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      charCode: 13
+    })
+
+    expect(onSearch).toHaveBeenCalledWith(searchString, defaultProps.items)
+  })
+
   it('sets the value of the input to the selected item when pressing return', () => {
     const { queryByPlaceholderText } = render(<ReactSearchAutocomplete<Item> {...defaultProps} />)
 
@@ -395,6 +504,13 @@ describe('<ReactSearchAutocomplete>', () => {
 
     act(() => {
       jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+    })
+
+    fireEvent.keyDown(inputElement!, {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      charCode: 40
     })
 
     fireEvent.keyDown(inputElement!, {
@@ -449,7 +565,7 @@ describe('<ReactSearchAutocomplete>', () => {
       jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
     })
 
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length + 2; i++) {
       fireEvent.keyDown(inputElement!, {
         key: 'ArrowDown',
         code: 'ArrowDown',

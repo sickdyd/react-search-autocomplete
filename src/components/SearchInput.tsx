@@ -36,7 +36,7 @@ export default function SearchInput({
     manualFocus = true
   }
 
-  const handleOnFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
+  const handleOnFocus = (event: FocusEvent<HTMLInputElement>) => {
     manualFocus && onFocus(event)
   }
 
@@ -66,7 +66,7 @@ export default function SearchInput({
 }
 
 const StyledSearchInput = styled.div`
-  min-height: ${(props) => props.theme.height};
+  min-height: ${(props: any) => props.theme.height};
   width: 100%;
 
   display: flex;
@@ -84,18 +84,18 @@ const StyledSearchInput = styled.div`
     font-size: inherit;
     font-family: inherit;
 
-    color: ${(props) => props.theme.color};
+    color: ${(props: any) => props.theme.color};
 
     ::placeholder {
-      color: ${(props) => props.theme.placeholderColor};
+      color: ${(props: any) => props.theme.placeholderColor};
       opacity: 1;
 
       :-ms-input-placeholder {
-        color: ${(props) => props.theme.placeholderColor};
+        color: ${(props: any) => props.theme.placeholderColor};
       }
 
       ::-ms-input-placeholder {
-        color: ${(props) => props.theme.placeholderColor};
+        color: ${(props: any) => props.theme.placeholderColor};
       }
     }
   }

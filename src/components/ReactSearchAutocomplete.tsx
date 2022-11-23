@@ -69,7 +69,7 @@ export default function ReactSearchAutocomplete<T>({
 
   const [searchString, setSearchString] = useState<string>(inputSearchString)
   const [results, setResults] = useState<any[]>([])
-  const [highlightedItem, setHighlightedItem] = useState<number>(0)
+  const [highlightedItem, setHighlightedItem] = useState<number>(-1)
   const [isSearchComplete, setIsSearchComplete] = useState<boolean>(false)
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [showNoResultsFlag, setShowNoResultsFlag] = useState<boolean>(false)
@@ -77,6 +77,9 @@ export default function ReactSearchAutocomplete<T>({
 
   useEffect(() => {
     setSearchString(inputSearchString)
+    const timeoutId = setTimeout(() => setResults(fuseResults(inputSearchString)), 0)
+
+    return () => clearTimeout(timeoutId)
   }, [inputSearchString])
 
   useEffect(() => {
@@ -117,7 +120,7 @@ export default function ReactSearchAutocomplete<T>({
     return () => document.removeEventListener('click', handleDocumentClick)
   }, [])
 
-  const handleOnFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
+  const handleOnFocus = (event: FocusEvent<HTMLInputElement>) => {
     onFocus(event)
     setHasFocus(true)
   }
@@ -135,7 +138,7 @@ export default function ReactSearchAutocomplete<T>({
   const handleOnSearch = React.useCallback(
     inputDebounce > 0
       ? debounce((keyword: string) => callOnSearch(keyword), inputDebounce)
-      : (keyword) => callOnSearch(keyword),
+      : (keyword: string) => callOnSearch(keyword),
     [items]
   )
 
@@ -176,34 +179,38 @@ export default function ReactSearchAutocomplete<T>({
     index?: number
     event?: KeyboardEvent<HTMLInputElement>
   }) => {
-    let itemIndex = 0
+    let itemIndex = -1
 
     const setValues = (index: number) => {
       setHighlightedItem(index)
-      onHover(results[index])
+      results?.[index] && onHover(results[index])
     }
 
     if (index !== undefined) {
       setHighlightedItem(index)
-      onHover(results[index])
+      results?.[index] && onHover(results[index])
     } else if (event) {
       switch (event.key) {
         case 'Enter':
-          if (results.length > 0) {
+          if (results.length > 0 && results[highlightedItem]) {
+            event.preventDefault()
             onSelect(results[highlightedItem])
             setSearchString(results[highlightedItem][resultStringKeyName])
-            setHighlightedItem(0)
+            onSearch(results[highlightedItem][resultStringKeyName], results)
+          } else {
+            onSearch(searchString, results)
           }
+          setHighlightedItem(-1)
           eraseResults()
           break
         case 'ArrowUp':
           event.preventDefault()
-          itemIndex = highlightedItem > 0 ? highlightedItem - 1 : results.length - 1
+          itemIndex = highlightedItem > -1 ? highlightedItem - 1 : results.length - 1
           setValues(itemIndex)
           break
         case 'ArrowDown':
           event.preventDefault()
-          itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : 0
+          itemIndex = highlightedItem < results.length - 1 ? highlightedItem + 1 : -1
           setValues(itemIndex)
           break
         default:
@@ -249,7 +256,7 @@ export default function ReactSearchAutocomplete<T>({
 const StyledReactSearchAutocomplete = styled.div`
   position: relative;
 
-  height: ${(props) => parseInt(props.theme.height) + 2 + 'px'};
+  height: ${(props: any) => parseInt(props.theme.height) + 2 + 'px'};
 
   > .wrapper {
     position: absolute;
@@ -257,25 +264,25 @@ const StyledReactSearchAutocomplete = styled.div`
     flex-direction: column;
     width: 100%;
 
-    border: ${(props) => props.theme.border};
-    border-radius: ${(props) => props.theme.borderRadius};
+    border: ${(props: any) => props.theme.border};
+    border-radius: ${(props: any) => props.theme.borderRadius};
 
-    background-color: ${(props) => props.theme.backgroundColor};
-    color: ${(props) => props.theme.color};
+    background-color: ${(props: any) => props.theme.backgroundColor};
+    color: ${(props: any) => props.theme.color};
 
-    font-size: ${(props) => props.theme.fontSize};
-    font-family: ${(props) => props.theme.fontFamily};
+    font-size: ${(props: any) => props.theme.fontSize};
+    font-family: ${(props: any) => props.theme.fontFamily};
 
-    z-index: ${(props) => props.theme.zIndex};
+    z-index: ${(props: any) => props.theme.zIndex};
 
     &:hover {
-      box-shadow: ${(props) => props.theme.boxShadow};
+      box-shadow: ${(props: any) => props.theme.boxShadow};
     }
     &:active {
-      box-shadow: ${(props) => props.theme.boxShadow};
+      box-shadow: ${(props: any) => props.theme.boxShadow};
     }
     &:focus-within {
-      box-shadow: ${(props) => props.theme.boxShadow};
+      box-shadow: ${(props: any) => props.theme.boxShadow};
     }
   }
 `
