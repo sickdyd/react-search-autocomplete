@@ -1,6 +1,8 @@
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import React from 'react'
+import { cleanup, fireEvent, render, waitFor } from '@testing-library/react'
 import SearchInput from '../src/components/SearchInput'
+import 'regenerator-runtime/runtime'
 
 afterEach(cleanup)
 
@@ -14,10 +16,13 @@ const defaultProps = {
   searchString: '',
   onFocus: () => {},
   onBlur: () => {},
-  onClear: () => {}
+  onClear: () => {},
+  maxLength: 0
 }
 
 describe('<SearchInput>', () => {
+  jest.useFakeTimers()
+
   it('renders the input box', () => {
     const { queryByPlaceholderText } = render(<SearchInput {...defaultProps} />)
     const inputNode = queryByPlaceholderText(/search/i)

@@ -13,6 +13,7 @@ interface SearchInputProps {
   placeholder: string
   showIcon: boolean
   showClear: boolean
+  maxLength: number
 }
 
 export default function SearchInput({
@@ -24,7 +25,8 @@ export default function SearchInput({
   onClear,
   placeholder,
   showIcon = true,
-  showClear = true
+  showClear = true,
+  maxLength
 }: SearchInputProps) {
   const ref = useRef<HTMLInputElement>(null)
 
@@ -40,10 +42,13 @@ export default function SearchInput({
     manualFocus && onFocus(event)
   }
 
+  const maxLengthProperty = maxLength ? { maxLength } : {}
+
   return (
     <StyledSearchInput>
       <SearchIcon showIcon={showIcon} />
       <input
+        type="text"
         ref={ref}
         spellCheck={false}
         value={searchString}
@@ -53,6 +58,7 @@ export default function SearchInput({
         autoFocus={autoFocus}
         onKeyDown={(event) => setHighlightedItem({ event })}
         data-test="search-input"
+        {...maxLengthProperty}
       />
       <ClearIcon
         showClear={showClear}

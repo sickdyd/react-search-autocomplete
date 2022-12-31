@@ -60,6 +60,12 @@ describe('<ReactSearchAutocomplete>', () => {
     jest.clearAllMocks()
   })
 
+  function proceed() {
+    act(() => {
+      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
+    })
+  }
+
   it('renders the search box', () => {
     const { queryByPlaceholderText, container } = render(
       <ReactSearchAutocomplete<Item> {...defaultProps} />
@@ -103,9 +109,7 @@ describe('<ReactSearchAutocomplete>', () => {
       />
     )
 
-    act(() => {
-      jest.advanceTimersByTime(1)
-    })
+    proceed()
 
     expect(queryByPlaceholderText(/search/i)).toHaveValue('value0')
 
@@ -127,9 +131,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'value' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenCalledWith('value', items)
 
@@ -160,9 +162,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'another' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenCalledWith('another', newItems)
   })
@@ -176,9 +176,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'value' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenCalledWith('value', items)
   })
@@ -250,9 +248,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'aaa' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenCalledWith('aaa', [{ id: 0, name: 'aaa' }])
 
@@ -262,9 +258,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: '' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     liTags = container.getElementsByTagName('li')
 
@@ -280,9 +274,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: '0' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenCalledWith('0', [{ id: 0, name: 'value0' }])
   })
@@ -296,9 +288,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenCalledWith('v', items)
   })
@@ -310,16 +300,12 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const inputElement = queryByPlaceholderText(/search/i)
     fireEvent.change(inputElement!, { target: { value: 'v' } })
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenNthCalledWith(1, 'v', items)
 
     fireEvent.change(inputElement!, { target: { value: '' } })
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toHaveBeenNthCalledWith(2, '', [])
   })
@@ -333,9 +319,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const inputElement = queryByPlaceholderText(/search/i)
     fireEvent.change(inputElement!, { target: { value: 'v' } })
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     const liTag = container.getElementsByTagName('li')[0]
 
@@ -361,9 +345,7 @@ describe('<ReactSearchAutocomplete>', () => {
         charCode: 40
       })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       expect(onHover).not.toHaveBeenCalled()
     }
@@ -378,9 +360,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const inputElement = queryByPlaceholderText(/search/i)
     fireEvent.change(inputElement!, { target: { value: 'v' } })
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     fireEvent.keyDown(inputElement!, {
       key: 'ArrowDown',
@@ -399,9 +379,7 @@ describe('<ReactSearchAutocomplete>', () => {
       charCode: 40
     })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
     expect(liTag0).not.toHaveClass('selected')
 
     const liTag1 = container.getElementsByTagName('li')[1]
@@ -419,9 +397,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     fireEvent.keyDown(inputElement!, {
       key: 'ArrowDown',
@@ -437,9 +413,7 @@ describe('<ReactSearchAutocomplete>', () => {
       charCode: 40
     })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     fireEvent.keyDown(inputElement!, {
       key: 'Enter',
@@ -464,9 +438,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: searchString } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     for (let i = 0; i < items.length + 1; i++) {
       fireEvent.keyDown(inputElement!, {
@@ -476,14 +448,10 @@ describe('<ReactSearchAutocomplete>', () => {
         charCode: 40
       })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
     }
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     fireEvent.keyDown(inputElement!, {
       key: 'Enter',
@@ -502,9 +470,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     fireEvent.keyDown(inputElement!, {
       key: 'ArrowDown',
@@ -520,9 +486,7 @@ describe('<ReactSearchAutocomplete>', () => {
       charCode: 40
     })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     fireEvent.keyDown(inputElement!, {
       key: 'Enter',
@@ -541,9 +505,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     const inputElement = queryByPlaceholderText(/search/i)
     fireEvent.change(inputElement!, { target: { value: 'v' } })
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     const liTag = container.getElementsByTagName('li')[0]
     fireEvent.click(liTag)
@@ -561,9 +523,7 @@ describe('<ReactSearchAutocomplete>', () => {
     const inputElement = queryByPlaceholderText(/search/i)
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     for (let i = 0; i < items.length + 2; i++) {
       fireEvent.keyDown(inputElement!, {
@@ -573,9 +533,7 @@ describe('<ReactSearchAutocomplete>', () => {
         charCode: 40
       })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
     }
 
     fireEvent.keyDown(inputElement!, {
@@ -599,9 +557,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     const liNode = queryAllByTitle('value0')[0]
 
@@ -623,9 +579,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
     fireEvent.change(inputElement!, { target: { value: 'v' } })
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     const liElement = queryAllByTitle('value0')[0]
 
@@ -701,9 +655,7 @@ describe('<ReactSearchAutocomplete>', () => {
       fireEvent.change(inputElement!, { target: { value: Math.random() } })
     }
 
-    act(() => {
-      jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-    })
+    proceed()
 
     expect(onSearch).toBeCalledTimes(1)
   })
@@ -747,9 +699,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'v' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(4)
@@ -765,9 +715,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: '0' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       expect(queryAllByTitle('value0').length).toBe(1)
       const ul = container.getElementsByTagName('ul')[0]
@@ -784,9 +732,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       let liElements = container.querySelectorAll('[data-test="result"]')
 
@@ -807,9 +753,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       let liElements = container.querySelectorAll('[data-test="result"]')
 
@@ -832,9 +776,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       let liElements = container.querySelectorAll('[data-test="result"]')
 
@@ -888,9 +830,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'a' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(4)
@@ -906,9 +846,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'dead' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       expect(queryAllByTitle('Dead Poets Society').length).toBe(1)
       const ul = container.getElementsByTagName('ul')[0]
@@ -925,9 +863,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'despaira' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       let liElements = container.querySelectorAll('[data-test="result"]')
 
@@ -966,9 +902,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       const ul = container.getElementsByTagName('ul')[0]
       expect(ul.getElementsByTagName('li').length).toBe(10)
@@ -985,9 +919,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       const clearIcon = container.querySelector('.clear-icon')
       expect(clearIcon).toBeInTheDocument()
@@ -1001,9 +933,7 @@ describe('<ReactSearchAutocomplete>', () => {
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
 
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       const clearIcon = container.querySelector('.clear-icon')
       expect(clearIcon).toBeInTheDocument()
@@ -1016,10 +946,7 @@ describe('<ReactSearchAutocomplete>', () => {
       const inputElement = queryByPlaceholderText(/search/i)
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
-
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       const clearIcon = container.querySelector('.clear-icon')
       expect(clearIcon).not.toBeInTheDocument()
@@ -1035,10 +962,7 @@ describe('<ReactSearchAutocomplete>', () => {
       const inputElement = queryByPlaceholderText(/search/i) as HTMLInputElement
 
       fireEvent.change(inputElement!, { target: { value: 'something' } })
-
-      act(() => {
-        jest.advanceTimersByTime(DEFAULT_INPUT_DEBOUNCE)
-      })
+      proceed()
 
       expect(inputElement!.value).toBe('something')
 
@@ -1051,5 +975,30 @@ describe('<ReactSearchAutocomplete>', () => {
       expect(onFocus).not.toHaveBeenCalled()
       expect(onClear).toHaveBeenCalled()
     })
+  })
+
+  it('limits number of inputtable characters', () => {
+    const onSearch = jest.fn()
+    const { queryByPlaceholderText } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} maxLength={2} onSearch={onSearch} />
+    )
+    const inputElement = queryByPlaceholderText(/search/i) as HTMLInputElement
+
+    fireEvent.change(inputElement, { target: { value: '1' } })
+    proceed()
+    expect(onSearch).toHaveBeenCalledTimes(1)
+
+    fireEvent.change(inputElement, { target: { value: '12' } })
+    proceed()
+    expect(onSearch).toHaveBeenCalledTimes(2)
+
+    fireEvent.change(inputElement, { target: { value: '123' } })
+    proceed()
+    expect(onSearch).not.toHaveBeenCalledTimes(2)
+
+    expect(inputElement).toHaveAttribute('maxLength', '2')
+
+    // maxLenght is ignored by fireEvent.change therefore cannot test input value length
+    // https://github.com/testing-library/user-event/issues/591
   })
 })

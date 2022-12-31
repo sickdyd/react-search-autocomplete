@@ -37,6 +37,7 @@ export interface ReactSearchAutocompleteProps<T> {
   showNoResults?: boolean
   showNoResultsText?: string
   showItemsOnFocus?: boolean
+  maxLength?: number
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -59,7 +60,8 @@ export default function ReactSearchAutocomplete<T>({
   formatResult,
   showNoResults = true,
   showNoResultsText = 'No results',
-  showItemsOnFocus = false
+  showItemsOnFocus = false,
+  maxLength = 0
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
@@ -233,6 +235,7 @@ export default function ReactSearchAutocomplete<T>({
             showIcon={showIcon}
             showClear={showClear}
             setHighlightedItem={handleSetHighlightedItem}
+            maxLength={maxLength}
           />
           <Results
             results={results}
