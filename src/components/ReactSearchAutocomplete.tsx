@@ -228,6 +228,7 @@ export default function ReactSearchAutocomplete<T>({
           <SearchInput
             searchString={searchString}
             setSearchString={handleSetSearchString}
+            eraseResults={eraseResults}
             autoFocus={autoFocus}
             onFocus={handleOnFocus}
             onClear={onClear}

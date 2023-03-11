@@ -787,6 +787,31 @@ describe('<ReactSearchAutocomplete>', () => {
       expect(liElements.length).toBe(1)
       expect(liElements[0].textContent).toBe('We could not find any matching items')
     })
+
+    it('hides results when input loses focus', () => {
+      const { queryByPlaceholderText, container } = render(
+        <>
+          <input type="text" placeholder="anotherInput" />
+          <ReactSearchAutocomplete<Item> {...defaultProps} />
+        </>
+      )
+
+      const inputElement = queryByPlaceholderText(/search/i)
+
+      fireEvent.change(inputElement!, { target: { value: 'v' } })
+
+      proceed()
+
+      let ul = container.getElementsByTagName('ul')[0]
+      expect(ul.getElementsByTagName('li').length).toBe(4)
+      expect(ul.querySelectorAll('.search-icon').length).toBe(4)
+
+      const anotherInput = queryByPlaceholderText(/anotherInput/i)
+
+      fireEvent.click(anotherInput!)
+
+      expect(container.getElementsByTagName('ul').length).toBe(0)
+    })
   })
 
   describe('with items with custom properties property', () => {

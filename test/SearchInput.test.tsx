@@ -13,6 +13,7 @@ const defaultProps = {
   placeholder: 'Search',
   setHighlightedItem: () => {},
   setSearchString: () => {},
+  eraseResults: () => {},
   searchString: '',
   onFocus: () => {},
   onBlur: () => {},

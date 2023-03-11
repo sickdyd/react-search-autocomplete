@@ -1,3 +1,4 @@
+import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import Results, { ResultsProps } from '../src/components/Results'

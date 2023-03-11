@@ -7,6 +7,7 @@ interface SearchInputProps {
   searchString: string
   setSearchString: ChangeEventHandler<HTMLInputElement>
   setHighlightedItem: Function
+  eraseResults: Function
   autoFocus: boolean
   onFocus: FocusEventHandler<HTMLInputElement>
   onClear: Function
@@ -20,6 +21,7 @@ export default function SearchInput({
   searchString,
   setSearchString,
   setHighlightedItem,
+  eraseResults,
   autoFocus,
   onFocus,
   onClear,
@@ -56,6 +58,7 @@ export default function SearchInput({
         onFocus={handleOnFocus}
         placeholder={placeholder}
         autoFocus={autoFocus}
+        onBlur={() => eraseResults()}
         onKeyDown={(event) => setHighlightedItem({ event })}
         data-test="search-input"
         {...maxLengthProperty}
