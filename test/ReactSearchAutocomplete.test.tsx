@@ -1,7 +1,7 @@
-import React from 'react'
 import '@babel/polyfill'
 import '@testing-library/jest-dom/extend-expect'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import React from 'react'
 import ReactSearchAutocomplete, {
   DEFAULT_INPUT_DEBOUNCE,
   ReactSearchAutocompleteProps
@@ -76,6 +76,14 @@ describe('<ReactSearchAutocomplete>', () => {
     expect(inputElement!).toBeInTheDocument()
     expect(container.querySelectorAll('.search-icon').length).toBe(1)
     expect(container.getElementsByClassName('wrapper').length).toBe(1)
+  })
+
+  it('applies the custom class to the component', () => {
+    const { container } = render(
+      <ReactSearchAutocomplete<Item> {...defaultProps} className="search" />
+    )
+
+    expect(container.getElementsByClassName('search')[0]).not.toBeNull()
   })
 
   it('uses inputSearchString prop', async () => {

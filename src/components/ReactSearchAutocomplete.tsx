@@ -8,7 +8,7 @@ import React, {
   useState
 } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
+import { DefaultTheme, defaultFuseOptions, defaultTheme } from '../config/config'
 import { debounce } from '../utils/utils'
 import Results, { Item } from './Results'
 import SearchInput from './SearchInput'
@@ -38,6 +38,7 @@ export interface ReactSearchAutocompleteProps<T> {
   showNoResultsText?: string
   showItemsOnFocus?: boolean
   maxLength?: number
+  className?: string
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -61,7 +62,8 @@ export default function ReactSearchAutocomplete<T>({
   showNoResults = true,
   showNoResultsText = 'No results',
   showItemsOnFocus = false,
-  maxLength = 0
+  maxLength = 0,
+  className
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
   const options = { ...defaultFuseOptions, ...fuseOptions }
@@ -223,7 +225,7 @@ export default function ReactSearchAutocomplete<T>({
 
   return (
     <ThemeProvider theme={theme}>
-      <StyledReactSearchAutocomplete>
+      <StyledReactSearchAutocomplete className={className}>
         <div className="wrapper">
           <SearchInput
             searchString={searchString}
@@ -262,7 +264,7 @@ const StyledReactSearchAutocomplete = styled.div`
 
   height: ${(props: any) => parseInt(props.theme.height) + 2 + 'px'};
 
-  > .wrapper {
+  .wrapper {
     position: absolute;
     display: flex;
     flex-direction: column;

@@ -249,6 +249,8 @@ export default App
   // when focusing the input element
   maxLength,
   // Optional: limits the number of characters that can be typed in the input
+  className,
+  // Optional: allows using a custom class to customize CSS on all contained elements
 }
 ```
 
