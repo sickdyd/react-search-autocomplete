@@ -173,6 +173,41 @@ function App() {
           />
           <div style={{ marginTop: 20 }}>This text will be covered!</div>
         </div>
+        <div style={{ width: 300, margin: 20 }}>
+          <h2>With a custom CSS class!</h2>
+          <div style={{ marginBottom: 20 }}>Try to type "JavaScript"</div>
+          <ReactSearchAutocomplete
+            items={items}
+            onSearch={handleOnSearch}
+            onHover={handleOnHover}
+            onSelect={handleOnSelect}
+            onFocus={handleOnFocus}
+            onClear={handleOnClear}
+            styling={{ zIndex: 1 }}
+            formatResult={formatResult}
+            className="search"
+            autoFocus
+          />
+          <div style={{ marginTop: 20 }}>This text will be covered!</div>
+          <pre style={{ textAlign: "left" }}>
+            {`
+// to target the search icon
+.search .wrapper:first-child svg {
+  border: 4px solid blue !important;
+}
+
+// to target the input element
+.search .wrapper:first-child input {
+  border: 4px solid red !important;
+}
+
+// to target the wrapper element
+.search .wrapper:first-child {
+  border: 4px solid orange;
+}
+            `}
+          </pre>
+        </div>
       </header>
     </div>
   );

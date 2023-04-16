@@ -11,11 +11,11 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "^4.0.1",
-    "react-search-autocomplete": "^8.3.2",
+    "react-search-autocomplete": "^8.5.2",
     "styled-components": "^4.4.1"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --verbose --watch-all --coverage",
     "eject": "react-scripts eject",

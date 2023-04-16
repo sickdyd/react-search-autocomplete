@@ -49,6 +49,18 @@ h2 {
   text-overflow: ellipsis;
 }
 
+.search .wrapper:first-child svg {
+  border: 4px solid blue !important;
+}
+
+.search .wrapper:first-child input {
+  border: 4px solid red !important;
+}
+
+.search .wrapper:first-child {
+  border: 4px solid orange;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
