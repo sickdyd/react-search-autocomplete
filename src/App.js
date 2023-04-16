@@ -183,7 +183,7 @@ function App() {
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             onClear={handleOnClear}
-            styling={{ zIndex: 1 }}
+            styling={{ zIndex: 0 }}
             formatResult={formatResult}
             className="search"
             autoFocus
