@@ -247,6 +247,8 @@ export default App
   showItemsOnFocus,
   // Optional, default value: false, it will automatically show N (maxResults) number of items
   // when focusing the input element
+  maxLength,
+  // Optional: limits the number of characters that can be typed in the input
 }
 ```
 
